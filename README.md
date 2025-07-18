@@ -1,179 +1,92 @@
-# Suppliers Management API
+# TABISON SUPPLIERS
 
-A comprehensive REST API for managing suppliers, products, and orders with modern features and robust error handling.
+A comprehensive supplier management system for military, safety, and official footwear products.
+
+## Company Overview
+
+Tabison Suppliers specializes in manufacturing and supplying high-quality boots for:
+- Military applications
+- Safety and industrial use
+- Official and formal wear
+
+## Product Catalog
+
+### Military Boots (Long) - 22cm Height, 8 Inches
+
+#### PVC Material, 10 Eyelets
+- **Wholesale Price**: KSh 1,800
+- **Retail Price**: KSh 2,000
+
+#### Rubber Material, 10 Eyelets
+- **Wholesale Price**: KSh 2,000
+- **Retail Price**: KSh 2,200
+
+### Safety Boots
+- **Factory Price**: KSh 1,500 - 1,800
+- **Wholesale Price**: KSh 2,100
+- **Retail Price**: KSh 2,500
+
+### Official Men Permanent Shine
+- **Factory Price**: KSh 1,250 - 1,600
+- **Wholesale Price**: KSh 1,800
+- **Retail Price**: KSh 2,000
+
+### Military Boots (Short) - 14cm Height, 6 Inches
+
+#### PVC, 7 Eyelets (Without Thread)
+- **Wholesale Price**: KSh 1,200
+- **Retail Price**: KSh 1,300
+
+#### PVC, 7 Eyelets (With Thread)
+- **Wholesale Price**: KSh 1,300
+- **Retail Price**: KSh 1,400
+
+#### Rubber, 7 Eyelets (With Thread)
+- **Wholesale Price**: KSh 1,400 - 1,450
+- **Retail Price**: KSh 1,500
+
+#### Rubber, 7 Eyelets (No Thread)
+- **Wholesale Price**: KSh 1,400
+- **Retail Price**: KSh 1,500
+
+### Military Boots (Long) - 22cm Height, 8 Inches, Folded
+
+#### PVC, Hooks
+- **Wholesale Price**: KSh 2,200
+- **Retail Price**: KSh 2,400
+
+#### Rubber, Eyelets
+- **Wholesale Price**: KSh 2,300
+- **Retail Price**: KSh 2,500
+
+#### PVC, Hooks, P-Shine
+- **Wholesale Price**: KSh 2,200
+- **Retail Price**: KSh 2,400
 
 ## Features
 
-- **Supplier Management**: CRUD operations for suppliers with contact information and ratings
-- **Product Management**: Complete product catalog with inventory tracking
-- **Order Management**: Purchase order system with status tracking
-- **Advanced Filtering**: Search, pagination, and sorting capabilities
-- **Data Validation**: Input validation using express-validator
-- **Error Handling**: Comprehensive error handling and logging
-- **Statistics**: Analytics and reporting endpoints
+- Comprehensive product management
+- Supplier information system
+- Order tracking and management
+- Inventory management
+- Price management (wholesale/retail)
+- Product categorization
 
-## Tech Stack
+## Technology Stack
 
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - Database
-- **Mongoose** - ODM for MongoDB
-- **Express-validator** - Input validation
-- **CORS** - Cross-origin resource sharing
+- Frontend: React with TypeScript
+- Backend: Node.js with Express
+- Database: MongoDB with Mongoose
+- Styling: Tailwind CSS
+- State Management: React Context/Redux
 
-## Installation
+## Getting Started
 
 1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+2. Install dependencies: `npm install`
+3. Set up environment variables
+4. Start the development server: `npm run dev`
 
-3. Create a `.env` file in the root directory:
-   ```env
-   MONGO_URI=mongodb://localhost:27017/suppliers-db
-   PORT=5000
-   NODE_ENV=development
-   ```
+## Contact
 
-4. Start the server:
-   ```bash
-   # Development mode
-   npm run dev
-   
-   # Production mode
-   npm start
-   ```
-
-## API Endpoints
-
-### Products
-
-- `GET /api/products` - Get all products with filtering
-- `GET /api/products/:id` - Get single product
-- `POST /api/products` - Create new product
-- `PUT /api/products/:id` - Update product
-- `DELETE /api/products/:id` - Delete product
-- `GET /api/products/stats/overview` - Get product statistics
-
-### Suppliers
-
-- `GET /api/suppliers` - Get all suppliers with filtering
-- `GET /api/suppliers/:id` - Get single supplier
-- `POST /api/suppliers` - Create new supplier
-- `PUT /api/suppliers/:id` - Update supplier
-- `DELETE /api/suppliers/:id` - Delete supplier
-- `GET /api/suppliers/stats/overview` - Get supplier statistics
-
-### Orders
-
-- `GET /api/orders` - Get all orders with filtering
-- `GET /api/orders/:id` - Get single order
-- `POST /api/orders` - Create new order
-- `PUT /api/orders/:id` - Update order
-- `DELETE /api/orders/:id` - Delete order
-- `PATCH /api/orders/:id/status` - Update order status
-- `GET /api/orders/stats/overview` - Get order statistics
-
-### Health Check
-
-- `GET /api/health` - API health status
-
-## Query Parameters
-
-### Common Parameters
-- `page` - Page number (default: 1)
-- `limit` - Items per page (default: 10)
-- `search` - Search term
-- `sortBy` - Sort field
-- `sortOrder` - Sort direction (asc/desc)
-
-### Product Filters
-- `category` - Filter by category
-- `type` - Filter by product type
-- `status` - Filter by status
-- `supplier` - Filter by supplier ID
-
-### Supplier Filters
-- `status` - Filter by status
-- `category` - Filter by category
-
-### Order Filters
-- `status` - Filter by order status
-- `supplier` - Filter by supplier ID
-- `paymentStatus` - Filter by payment status
-
-## Data Models
-
-### Product
-```javascript
-{
-  name: String,
-  type: String (Shoes|Bags|Accessories|Clothing),
-  sku: String,
-  wholesalePrice: Number,
-  retailPrice: Number,
-  stockQuantity: Number,
-  supplier: ObjectId,
-  status: String (Active|Inactive|Discontinued),
-  // ... other fields
-}
-```
-
-### Supplier
-```javascript
-{
-  name: String,
-  email: String,
-  phone: String,
-  address: Object,
-  contactPerson: Object,
-  status: String (Active|Inactive|Pending),
-  rating: Number (1-5),
-  // ... other fields
-}
-```
-
-### Order
-```javascript
-{
-  orderNumber: String,
-  supplier: ObjectId,
-  items: Array,
-  totalAmount: Number,
-  status: String (Pending|Confirmed|Shipped|Delivered|Cancelled),
-  // ... other fields
-}
-```
-
-## Error Handling
-
-The API returns consistent error responses:
-
-```javascript
-{
-  "message": "Error description",
-  "errors": [] // Validation errors if applicable
-}
-```
-
-## Development
-
-### Running Tests
-```bash
-npm test
-```
-
-### Code Formatting
-```bash
-npm run format
-```
-
-### Linting
-```bash
-npm run lint
-```
-
-## License
-
-MIT License 
+For more information about our products and services, please contact Tabison Suppliers.
