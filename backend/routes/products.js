@@ -1,6 +1,6 @@
-const express = require('express');
-const Product = require('../models/Product');
-const { authenticate, isAdmin } = require('../server');
+import express from 'express';
+import Product from '../models/Product.js';
+import { authenticate, isAdmin } from '../middleware/auth.js';
 const router = express.Router();
 
 // GET all products
@@ -49,4 +49,4 @@ router.delete('/:id', authenticate, isAdmin, async (req, res) => {
   }
 });
 
-module.exports = router; 
+export default router; 

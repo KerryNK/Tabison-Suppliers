@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const supplierSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -9,4 +9,4 @@ const supplierSchema = new mongoose.Schema({
   rating: { type: Number, min: 1, max: 5 },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Supplier', supplierSchema); 
+export default mongoose.model('Supplier', supplierSchema); 

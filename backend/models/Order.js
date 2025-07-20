@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const orderItemSchema = new mongoose.Schema({
   product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
@@ -17,4 +17,4 @@ const orderSchema = new mongoose.Schema({
   paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Partial'], default: 'Pending' },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Order', orderSchema); 
+export default mongoose.model('Order', orderSchema); 
