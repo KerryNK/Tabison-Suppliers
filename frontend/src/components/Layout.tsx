@@ -10,6 +10,9 @@ const navItems = [
   { label: "Products", path: "/products" },
   { label: "Orders", path: "/orders" },
   { label: "Cart", path: "/cart" },
+  { label: "About", path: "/about" },
+  { label: "FAQ", path: "/faq" },
+  { label: "Testimonials", path: "/testimonials" },
 ];
 
 const drawerWidth = 220;

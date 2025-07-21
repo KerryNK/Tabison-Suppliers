@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Alert } from '@mui/material';
+import { useApi } from '../api/client';
 
 const ContactPage: React.FC = () => {
+  const api = useApi();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<{ [k: string]: string }>({});
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [serverMsg, setServerMsg] = useState('');
 
   const validate = () => {
     const errs: { [k: string]: string } = {};
@@ -25,11 +28,18 @@ const ContactPage: React.FC = () => {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    setTimeout(() => {
+    setServerMsg('');
+    try {
+      const res = await api.post('/contact', form);
+      setServerMsg(res.message || 'Message sent!');
       setSuccess(true);
-      setSubmitting(false);
       setForm({ name: '', email: '', message: '' });
-    }, 1200);
+    } catch (err: any) {
+      setServerMsg(err.message || 'Failed to send message');
+      setSuccess(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -75,7 +85,7 @@ const ContactPage: React.FC = () => {
       <Dialog open={success} onClose={() => setSuccess(false)}>
         <DialogTitle>Message Sent</DialogTitle>
         <DialogContent>
-          <Alert severity="success">Thank you for contacting us! We will get back to you soon.</Alert>
+          <Alert severity={serverMsg === 'Message received' || serverMsg === 'Message sent!' ? 'success' : 'error'}>{serverMsg}</Alert>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setSuccess(false)} color="primary">Close</Button>

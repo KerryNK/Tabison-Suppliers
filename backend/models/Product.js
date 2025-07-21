@@ -12,6 +12,8 @@ const productSchema = new mongoose.Schema({
   description: { type: String },
   costBreakdown: { type: Array, default: [] }, // Array of { item, unit, cost }
   images: { type: [String], default: [] },
+  category: { type: String, default: 'General', index: true },
+  tags: { type: [String], default: [] },
 }, { timestamps: true });
 
 export default mongoose.model('Product', productSchema); 
