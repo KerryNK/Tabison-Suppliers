@@ -1,0 +1,4779 @@
+{
+  "filename": "TABISON SUPPLIERS.pdf",
+  "page_data": [
+    {
+      "page": 0,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-1.jpeg?ik-s=4ec713e849c0cde1896774d56a53831b02f6cdb5&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "TABISON",
+          "xmin": 442,
+          "ymin": 865,
+          "xmax": 1337,
+          "ymax": 1001
+        },
+        {
+          "text": "SUPPLIERS",
+          "xmin": 1306,
+          "ymin": 865,
+          "xmax": 2559,
+          "ymax": 1008
+        },
+        {
+          "text": "Delivering",
+          "xmin": 722,
+          "ymin": 1324,
+          "xmax": 1271,
+          "ymax": 1437
+        },
+        {
+          "text": "Tomorrow,",
+          "xmin": 1305,
+          "ymin": 1331,
+          "xmax": 1896,
+          "ymax": 1436
+        },
+        {
+          "text": "Today.",
+          "xmin": 1931,
+          "ymin": 1325,
+          "xmax": 2280,
+          "ymax": 1441
+        },
+        {
+          "text": "TABISON",
+          "xmin": 1313,
+          "ymin": 1758,
+          "xmax": 1465,
+          "ymax": 1831
+        },
+        {
+          "text": "M",
+          "xmin": 1389,
+          "ymin": 1686,
+          "xmax": 1460,
+          "ymax": 1761
+        },
+        {
+          "text": "E",
+          "xmin": 1489,
+          "ymin": 1713,
+          "xmax": 1557,
+          "ymax": 1783
+        },
+        {
+          "text": "6",
+          "xmin": 1541,
+          "ymin": 1701,
+          "xmax": 1619,
+          "ymax": 1783
+        },
+        {
+          "text": "SuPPlIeRs",
+          "xmin": 1313,
+          "ymin": 1796,
+          "xmax": 1710,
+          "ymax": 1842
+        },
+        {
+          "text": "Delivering",
+          "xmin": 1359,
+          "ymin": 1856,
+          "xmax": 1449,
+          "ymax": 1868
+        },
+        {
+          "text": "Tomorrow.",
+          "xmin": 1457,
+          "ymin": 1856,
+          "xmax": 1547,
+          "ymax": 1863
+        },
+        {
+          "text": "Today",
+          "xmin": 1557,
+          "ymin": 1856,
+          "xmax": 1608,
+          "ymax": 1866
+        },
+        {
+          "text": "a",
+          "xmin": 1822,
+          "ymin": 2014,
+          "xmax": 1835,
+          "ymax": 2027
+        }
+      ],
+      "raw_text": "TABISON SUPPLIERS Delivering Tomorrow, Today. TABISON M E 6 SuPPlIeRs Delivering Tomorrow. Today a "
+    },
+    {
+      "page": 1,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-2.jpeg?ik-s=033ecddb1c573c09ea3ab2bd1e5967bedbdda705&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "PRODUCTDESCREPTION",
+          "xmin": 507,
+          "ymin": 209,
+          "xmax": 2490,
+          "ymax": 348
+        },
+        {
+          "text": "o",
+          "xmin": 187,
+          "ymin": 601,
+          "xmax": 221,
+          "ymax": 630
+        },
+        {
+          "text": "Made",
+          "xmin": 303,
+          "ymin": 574,
+          "xmax": 604,
+          "ymax": 667
+        },
+        {
+          "text": "from",
+          "xmin": 639,
+          "ymin": 573,
+          "xmax": 891,
+          "ymax": 667
+        },
+        {
+          "text": "pure",
+          "xmin": 939,
+          "ymin": 601,
+          "xmax": 1176,
+          "ymax": 681
+        },
+        {
+          "text": "genuine",
+          "xmin": 1215,
+          "ymin": 578,
+          "xmax": 1642,
+          "ymax": 689
+        },
+        {
+          "text": "leather",
+          "xmin": 1686,
+          "ymin": 573,
+          "xmax": 2063,
+          "ymax": 666
+        },
+        {
+          "text": "A",
+          "xmin": 187,
+          "ymin": 792,
+          "xmax": 214,
+          "ymax": 815
+        },
+        {
+          "text": "Soft",
+          "xmin": 297,
+          "ymin": 764,
+          "xmax": 506,
+          "ymax": 856
+        },
+        {
+          "text": "foot",
+          "xmin": 542,
+          "ymin": 764,
+          "xmax": 759,
+          "ymax": 858
+        },
+        {
+          "text": "pad",
+          "xmin": 802,
+          "ymin": 765,
+          "xmax": 987,
+          "ymax": 875
+        },
+        {
+          "text": "4",
+          "xmin": 187,
+          "ymin": 987,
+          "xmax": 212,
+          "ymax": 1004
+        },
+        {
+          "text": "Durable",
+          "xmin": 303,
+          "ymin": 959,
+          "xmax": 716,
+          "ymax": 1051
+        },
+        {
+          "text": "smart",
+          "xmin": 753,
+          "ymin": 971,
+          "xmax": 1062,
+          "ymax": 1052
+        },
+        {
+          "text": "soles",
+          "xmin": 1100,
+          "ymin": 958,
+          "xmax": 1362,
+          "ymax": 1052
+        },
+        {
+          "text": "High",
+          "xmin": 303,
+          "ymin": 1149,
+          "xmax": 532,
+          "ymax": 1262
+        },
+        {
+          "text": "Qual",
+          "xmin": 577,
+          "ymin": 1149,
+          "xmax": 809,
+          "ymax": 1245
+        },
+        {
+          "text": "lity",
+          "xmin": 782,
+          "ymin": 1149,
+          "xmax": 960,
+          "ymax": 1263
+        },
+        {
+          "text": "Comfortable",
+          "xmin": 298,
+          "ymin": 1343,
+          "xmax": 963,
+          "ymax": 1437
+        }
+      ],
+      "raw_text": "PRODUCTDESCREPTION o Made from pure genuine leather A Soft foot pad 4 Durable smart soles High Qual lity Comfortable "
+    },
+    {
+      "page": 2,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-3.jpeg?ik-s=616d314e752321e87d3a983d9a32f43f1e79668b&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 84,
+          "ymin": 101,
+          "xmax": 337,
+          "ymax": 143
+        },
+        {
+          "text": "BOOT(LONG",
+          "xmin": 359,
+          "ymin": 97,
+          "xmax": 689,
+          "ymax": 145
+        },
+        {
+          "text": "I",
+          "xmin": 714,
+          "ymin": 99,
+          "xmax": 724,
+          "ymax": 140
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 84,
+          "ymin": 182,
+          "xmax": 293,
+          "ymax": 225
+        },
+        {
+          "text": "=",
+          "xmin": 288,
+          "ymin": 185,
+          "xmax": 296,
+          "ymax": 219
+        },
+        {
+          "text": ":22CMS",
+          "xmin": 291,
+          "ymin": 182,
+          "xmax": 494,
+          "ymax": 225
+        },
+        {
+          "text": ".8",
+          "xmin": 517,
+          "ymin": 182,
+          "xmax": 559,
+          "ymax": 226
+        },
+        {
+          "text": "I",
+          "xmin": 583,
+          "ymin": 182,
+          "xmax": 590,
+          "ymax": 215
+        },
+        {
+          "text": "INCHES(PVC),10",
+          "xmin": 584,
+          "ymin": 178,
+          "xmax": 1013,
+          "ymax": 230
+        },
+        {
+          "text": "EYELETS",
+          "xmin": 84,
+          "ymin": 260,
+          "xmax": 302,
+          "ymax": 302
+        },
+        {
+          "text": "Our",
+          "xmin": 82,
+          "ymin": 341,
+          "xmax": 184,
+          "ymax": 384
+        },
+        {
+          "text": "Selling",
+          "xmin": 203,
+          "ymin": 338,
+          "xmax": 379,
+          "ymax": 394
+        },
+        {
+          "text": "Price",
+          "xmin": 399,
+          "ymin": 340,
+          "xmax": 532,
+          "ymax": 384
+        },
+        {
+          "text": "Wholesale",
+          "xmin": 549,
+          "ymin": 338,
+          "xmax": 834,
+          "ymax": 384
+        },
+        {
+          "text": "Price-",
+          "xmin": 859,
+          "ymin": 339,
+          "xmax": 1011,
+          "ymax": 383
+        },
+        {
+          "text": "Ksh1800",
+          "xmin": 84,
+          "ymin": 417,
+          "xmax": 309,
+          "ymax": 464
+        },
+        {
+          "text": "Retail",
+          "xmin": 349,
+          "ymin": 417,
+          "xmax": 498,
+          "ymax": 464
+        },
+        {
+          "text": "Price",
+          "xmin": 521,
+          "ymin": 418,
+          "xmax": 651,
+          "ymax": 464
+        },
+        {
+          "text": "-Ksh",
+          "xmin": 668,
+          "ymin": 417,
+          "xmax": 797,
+          "ymax": 464
+        },
+        {
+          "text": "2000",
+          "xmin": 818,
+          "ymin": 420,
+          "xmax": 949,
+          "ymax": 464
+        },
+        {
+          "text": "DuII",
+          "xmin": 2246,
+          "ymin": 461,
+          "xmax": 2356,
+          "ymax": 513
+        },
+        {
+          "text": "Box",
+          "xmin": 2383,
+          "ymin": 464,
+          "xmax": 2486,
+          "ymax": 513
+        },
+        {
+          "text": "COST",
+          "xmin": 78,
+          "ymin": 534,
+          "xmax": 184,
+          "ymax": 575
+        },
+        {
+          "text": "DESCRI",
+          "xmin": 197,
+          "ymin": 544,
+          "xmax": 324,
+          "ymax": 575
+        },
+        {
+          "text": "IPTION",
+          "xmin": 319,
+          "ymin": 544,
+          "xmax": 443,
+          "ymax": 574
+        },
+        {
+          "text": "UNIT",
+          "xmin": 591,
+          "ymin": 544,
+          "xmax": 682,
+          "ymax": 572
+        },
+        {
+          "text": "COST",
+          "xmin": 695,
+          "ymin": 544,
+          "xmax": 793,
+          "ymax": 575
+        },
+        {
+          "text": "Dul",
+          "xmin": 79,
+          "ymin": 597,
+          "xmax": 143,
+          "ymax": 636
+        },
+        {
+          "text": "|",
+          "xmin": 140,
+          "ymin": 607,
+          "xmax": 156,
+          "ymax": 629
+        },
+        {
+          "text": "box",
+          "xmin": 175,
+          "ymin": 604,
+          "xmax": 240,
+          "ymax": 637
+        },
+        {
+          "text": "360",
+          "xmin": 924,
+          "ymin": 600,
+          "xmax": 988,
+          "ymax": 636
+        },
+        {
+          "text": "D",
+          "xmin": 87,
+          "ymin": 669,
+          "xmax": 124,
+          "ymax": 698
+        },
+        {
+          "text": "col",
+          "xmin": 138,
+          "ymin": 667,
+          "xmax": 188,
+          "ymax": 700
+        },
+        {
+          "text": "Ilection",
+          "xmin": 184,
+          "ymin": 667,
+          "xmax": 323,
+          "ymax": 698
+        },
+        {
+          "text": "120",
+          "xmin": 925,
+          "ymin": 663,
+          "xmax": 988,
+          "ymax": 699
+        },
+        {
+          "text": "Lini",
+          "xmin": 87,
+          "ymin": 731,
+          "xmax": 147,
+          "ymax": 761
+        },
+        {
+          "text": "ing",
+          "xmin": 142,
+          "ymin": 732,
+          "xmax": 198,
+          "ymax": 768
+        },
+        {
+          "text": "130",
+          "xmin": 925,
+          "ymin": 731,
+          "xmax": 986,
+          "ymax": 759
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 79,
+          "ymin": 787,
+          "xmax": 222,
+          "ymax": 833
+        },
+        {
+          "text": "20",
+          "xmin": 946,
+          "ymin": 794,
+          "xmax": 986,
+          "ymax": 822
+        },
+        {
+          "text": "Laces",
+          "xmin": 87,
+          "ymin": 856,
+          "xmax": 182,
+          "ymax": 886
+        },
+        {
+          "text": "20",
+          "xmin": 946,
+          "ymin": 850,
+          "xmax": 988,
+          "ymax": 887
+        },
+        {
+          "text": "Shanks",
+          "xmin": 78,
+          "ymin": 909,
+          "xmax": 216,
+          "ymax": 950
+        },
+        {
+          "text": "5",
+          "xmin": 969,
+          "ymin": 919,
+          "xmax": 983,
+          "ymax": 943
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 78,
+          "ymin": 971,
+          "xmax": 230,
+          "ymax": 1014
+        },
+        {
+          "text": "30",
+          "xmin": 945,
+          "ymin": 981,
+          "xmax": 986,
+          "ymax": 1010
+        },
+        {
+          "text": "Texon",
+          "xmin": 78,
+          "ymin": 1036,
+          "xmax": 197,
+          "ymax": 1077
+        },
+        {
+          "text": "30",
+          "xmin": 946,
+          "ymin": 1044,
+          "xmax": 986,
+          "ymax": 1073
+        },
+        {
+          "text": "Sole",
+          "xmin": 78,
+          "ymin": 1100,
+          "xmax": 164,
+          "ymax": 1136
+        },
+        {
+          "text": "160",
+          "xmin": 925,
+          "ymin": 1106,
+          "xmax": 986,
+          "ymax": 1136
+        },
+        {
+          "text": "Thread",
+          "xmin": 79,
+          "ymin": 1160,
+          "xmax": 214,
+          "ymax": 1201
+        },
+        {
+          "text": "15",
+          "xmin": 947,
+          "ymin": 1169,
+          "xmax": 984,
+          "ymax": 1197
+        },
+        {
+          "text": "Jeans",
+          "xmin": 78,
+          "ymin": 1226,
+          "xmax": 187,
+          "ymax": 1261
+        },
+        {
+          "text": "10",
+          "xmin": 947,
+          "ymin": 1225,
+          "xmax": 988,
+          "ymax": 1262
+        },
+        {
+          "text": "Glue",
+          "xmin": 79,
+          "ymin": 1286,
+          "xmax": 170,
+          "ymax": 1325
+        },
+        {
+          "text": "50",
+          "xmin": 946,
+          "ymin": 1294,
+          "xmax": 986,
+          "ymax": 1324
+        },
+        {
+          "text": "Labour",
+          "xmin": 87,
+          "ymin": 1355,
+          "xmax": 215,
+          "ymax": 1387
+        },
+        {
+          "text": "200",
+          "xmin": 924,
+          "ymin": 1350,
+          "xmax": 988,
+          "ymax": 1386
+        },
+        {
+          "text": "Total",
+          "xmin": 78,
+          "ymin": 1410,
+          "xmax": 175,
+          "ymax": 1449
+        },
+        {
+          "text": "cost",
+          "xmin": 192,
+          "ymin": 1422,
+          "xmax": 266,
+          "ymax": 1450
+        },
+        {
+          "text": "1.150",
+          "xmin": 881,
+          "ymin": 1419,
+          "xmax": 975,
+          "ymax": 1448
+        },
+        {
+          "text": "SELLING",
+          "xmin": 85,
+          "ymin": 1544,
+          "xmax": 232,
+          "ymax": 1572
+        },
+        {
+          "text": "PRI",
+          "xmin": 253,
+          "ymin": 1544,
+          "xmax": 306,
+          "ymax": 1575
+        },
+        {
+          "text": "ICE=1.200",
+          "xmin": 298,
+          "ymin": 1544,
+          "xmax": 478,
+          "ymax": 1575
+        },
+        {
+          "text": "Eyelet",
+          "xmin": 2666,
+          "ymin": 1486,
+          "xmax": 2843,
+          "ymax": 1547
+        },
+        {
+          "text": "Dull",
+          "xmin": 1099,
+          "ymin": 1556,
+          "xmax": 1222,
+          "ymax": 1613
+        },
+        {
+          "text": "Box",
+          "xmin": 1244,
+          "ymin": 1565,
+          "xmax": 1347,
+          "ymax": 1612
+        },
+        {
+          "text": "Labour",
+          "xmin": 87,
+          "ymin": 1667,
+          "xmax": 215,
+          "ymax": 1700
+        },
+        {
+          "text": "breakdown",
+          "xmin": 228,
+          "ymin": 1667,
+          "xmax": 439,
+          "ymax": 1700
+        },
+        {
+          "text": "Cutting-50",
+          "xmin": 85,
+          "ymin": 1731,
+          "xmax": 283,
+          "ymax": 1769
+        },
+        {
+          "text": "Sewing-50",
+          "xmin": 85,
+          "ymin": 1794,
+          "xmax": 281,
+          "ymax": 1830
+        },
+        {
+          "text": "Lasting-50",
+          "xmin": 87,
+          "ymin": 1856,
+          "xmax": 276,
+          "ymax": 1891
+        },
+        {
+          "text": "Stitching-50",
+          "xmin": 85,
+          "ymin": 1918,
+          "xmax": 311,
+          "ymax": 1954
+        },
+        {
+          "text": "Fi",
+          "xmin": 87,
+          "ymin": 1981,
+          "xmax": 112,
+          "ymax": 2011
+        },
+        {
+          "text": "in",
+          "xmin": 109,
+          "ymin": 1981,
+          "xmax": 147,
+          "ymax": 2011
+        },
+        {
+          "text": "ishing-20",
+          "xmin": 140,
+          "ymin": 1980,
+          "xmax": 317,
+          "ymax": 2016
+        },
+        {
+          "text": "Sole",
+          "xmin": 2415,
+          "ymin": 1950,
+          "xmax": 2538,
+          "ymax": 2001
+        }
+      ],
+      "raw_text": "MILITARY BOOT(LONG I HEIGHT = :22CMS .8 I INCHES(PVC),10 EYELETS Our Selling Price Wholesale Price- Ksh1800 Retail Price -Ksh 2000 DuII Box COST DESCRI IPTION UNIT COST Dul | box 360 D col Ilection 120 Lini ing 130 Eyelets 20 Laces 20 Shanks 5 Stiffner 30 Texon 30 Sole 160 Thread 15 Jeans 10 Glue 50 Labour 200 Total cost 1.150 SELLING PRI ICE=1.200 Eyelet Dull Box Labour breakdown Cutting-50 Sewing-50 Lasting-50 Stitching-50 Fi in ishing-20 Sole "
+    },
+    {
+      "page": 3,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-4.jpeg?ik-s=bacf491f4c0a1f3528bf34029dc3c19cd0da32a5&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 83,
+          "ymin": 125,
+          "xmax": 304,
+          "ymax": 163
+        },
+        {
+          "text": "BOOT(LONG",
+          "xmin": 324,
+          "ymin": 121,
+          "xmax": 614,
+          "ymax": 164
+        },
+        {
+          "text": "I",
+          "xmin": 632,
+          "ymin": 121,
+          "xmax": 642,
+          "ymax": 159
+        },
+        {
+          "text": "HEIGHT:22CMS",
+          "xmin": 664,
+          "ymin": 124,
+          "xmax": 1025,
+          "ymax": 163
+        },
+        {
+          "text": ",8",
+          "xmin": 81,
+          "ymin": 196,
+          "xmax": 124,
+          "ymax": 242
+        },
+        {
+          "text": "INCHES(RUBBER",
+          "xmin": 142,
+          "ymin": 193,
+          "xmax": 539,
+          "ymax": 239
+        },
+        {
+          "text": "),10",
+          "xmin": 529,
+          "ymin": 193,
+          "xmax": 622,
+          "ymax": 238
+        },
+        {
+          "text": "EYELETS",
+          "xmin": 639,
+          "ymin": 196,
+          "xmax": 828,
+          "ymax": 233
+        },
+        {
+          "text": "Wholesale",
+          "xmin": 81,
+          "ymin": 263,
+          "xmax": 331,
+          "ymax": 303
+        },
+        {
+          "text": "Price-",
+          "xmin": 352,
+          "ymin": 264,
+          "xmax": 484,
+          "ymax": 303
+        },
+        {
+          "text": "2000",
+          "xmin": 502,
+          "ymin": 265,
+          "xmax": 616,
+          "ymax": 304
+        },
+        {
+          "text": "Retail",
+          "xmin": 634,
+          "ymin": 263,
+          "xmax": 766,
+          "ymax": 303
+        },
+        {
+          "text": "Price-",
+          "xmin": 787,
+          "ymin": 264,
+          "xmax": 920,
+          "ymax": 303
+        },
+        {
+          "text": "ksh2200",
+          "xmin": 83,
+          "ymin": 335,
+          "xmax": 277,
+          "ymax": 376
+        },
+        {
+          "text": "COST",
+          "xmin": 78,
+          "ymin": 534,
+          "xmax": 184,
+          "ymax": 575
+        },
+        {
+          "text": "DESCRI",
+          "xmin": 197,
+          "ymin": 544,
+          "xmax": 324,
+          "ymax": 575
+        },
+        {
+          "text": "IPTION",
+          "xmin": 319,
+          "ymin": 544,
+          "xmax": 444,
+          "ymax": 575
+        },
+        {
+          "text": "UNIT",
+          "xmin": 512,
+          "ymin": 544,
+          "xmax": 606,
+          "ymax": 575
+        },
+        {
+          "text": "COST",
+          "xmin": 617,
+          "ymin": 544,
+          "xmax": 716,
+          "ymax": 575
+        },
+        {
+          "text": "Dull",
+          "xmin": 87,
+          "ymin": 604,
+          "xmax": 157,
+          "ymax": 635
+        },
+        {
+          "text": "box",
+          "xmin": 175,
+          "ymin": 604,
+          "xmax": 240,
+          "ymax": 636
+        },
+        {
+          "text": "360",
+          "xmin": 904,
+          "ymin": 600,
+          "xmax": 969,
+          "ymax": 636
+        },
+        {
+          "text": "D",
+          "xmin": 87,
+          "ymin": 669,
+          "xmax": 124,
+          "ymax": 698
+        },
+        {
+          "text": "col",
+          "xmin": 138,
+          "ymin": 667,
+          "xmax": 188,
+          "ymax": 700
+        },
+        {
+          "text": "Ilection",
+          "xmin": 184,
+          "ymin": 667,
+          "xmax": 323,
+          "ymax": 698
+        },
+        {
+          "text": "120",
+          "xmin": 906,
+          "ymin": 663,
+          "xmax": 969,
+          "ymax": 699
+        },
+        {
+          "text": "Li",
+          "xmin": 87,
+          "ymin": 731,
+          "xmax": 110,
+          "ymax": 759
+        },
+        {
+          "text": "ini",
+          "xmin": 105,
+          "ymin": 731,
+          "xmax": 147,
+          "ymax": 761
+        },
+        {
+          "text": "ing",
+          "xmin": 142,
+          "ymin": 732,
+          "xmax": 198,
+          "ymax": 770
+        },
+        {
+          "text": "130",
+          "xmin": 906,
+          "ymin": 731,
+          "xmax": 968,
+          "ymax": 759
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 79,
+          "ymin": 787,
+          "xmax": 222,
+          "ymax": 833
+        },
+        {
+          "text": "20",
+          "xmin": 927,
+          "ymin": 787,
+          "xmax": 969,
+          "ymax": 826
+        },
+        {
+          "text": "Laces",
+          "xmin": 87,
+          "ymin": 856,
+          "xmax": 182,
+          "ymax": 886
+        },
+        {
+          "text": "20",
+          "xmin": 927,
+          "ymin": 850,
+          "xmax": 969,
+          "ymax": 887
+        },
+        {
+          "text": "Shanks",
+          "xmin": 78,
+          "ymin": 909,
+          "xmax": 216,
+          "ymax": 950
+        },
+        {
+          "text": "5",
+          "xmin": 950,
+          "ymin": 919,
+          "xmax": 963,
+          "ymax": 942
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 78,
+          "ymin": 971,
+          "xmax": 230,
+          "ymax": 1014
+        },
+        {
+          "text": "30",
+          "xmin": 927,
+          "ymin": 975,
+          "xmax": 969,
+          "ymax": 1011
+        },
+        {
+          "text": "Texon",
+          "xmin": 79,
+          "ymin": 1036,
+          "xmax": 198,
+          "ymax": 1079
+        },
+        {
+          "text": "30",
+          "xmin": 927,
+          "ymin": 1044,
+          "xmax": 968,
+          "ymax": 1073
+        },
+        {
+          "text": "Sole",
+          "xmin": 78,
+          "ymin": 1100,
+          "xmax": 164,
+          "ymax": 1136
+        },
+        {
+          "text": "440",
+          "xmin": 904,
+          "ymin": 1099,
+          "xmax": 969,
+          "ymax": 1138
+        },
+        {
+          "text": "Thread",
+          "xmin": 79,
+          "ymin": 1160,
+          "xmax": 214,
+          "ymax": 1201
+        },
+        {
+          "text": "15",
+          "xmin": 928,
+          "ymin": 1169,
+          "xmax": 965,
+          "ymax": 1197
+        },
+        {
+          "text": "Jeans",
+          "xmin": 78,
+          "ymin": 1226,
+          "xmax": 187,
+          "ymax": 1261
+        },
+        {
+          "text": "10",
+          "xmin": 928,
+          "ymin": 1225,
+          "xmax": 969,
+          "ymax": 1262
+        },
+        {
+          "text": "Glue",
+          "xmin": 78,
+          "ymin": 1287,
+          "xmax": 168,
+          "ymax": 1324
+        },
+        {
+          "text": "50",
+          "xmin": 927,
+          "ymin": 1285,
+          "xmax": 970,
+          "ymax": 1326
+        },
+        {
+          "text": "Labour",
+          "xmin": 87,
+          "ymin": 1355,
+          "xmax": 215,
+          "ymax": 1387
+        },
+        {
+          "text": "200",
+          "xmin": 905,
+          "ymin": 1350,
+          "xmax": 969,
+          "ymax": 1386
+        },
+        {
+          "text": "Total",
+          "xmin": 78,
+          "ymin": 1410,
+          "xmax": 175,
+          "ymax": 1449
+        },
+        {
+          "text": "cost",
+          "xmin": 192,
+          "ymin": 1422,
+          "xmax": 266,
+          "ymax": 1450
+        },
+        {
+          "text": "1.430",
+          "xmin": 864,
+          "ymin": 1419,
+          "xmax": 958,
+          "ymax": 1448
+        },
+        {
+          "text": "SELLING",
+          "xmin": 95,
+          "ymin": 1544,
+          "xmax": 243,
+          "ymax": 1575
+        },
+        {
+          "text": "PRICE=1.600",
+          "xmin": 262,
+          "ymin": 1544,
+          "xmax": 490,
+          "ymax": 1575
+        },
+        {
+          "text": "Labour",
+          "xmin": 87,
+          "ymin": 1667,
+          "xmax": 215,
+          "ymax": 1700
+        },
+        {
+          "text": "breakdown",
+          "xmin": 228,
+          "ymin": 1667,
+          "xmax": 439,
+          "ymax": 1700
+        },
+        {
+          "text": "Cutting-50",
+          "xmin": 85,
+          "ymin": 1731,
+          "xmax": 284,
+          "ymax": 1769
+        },
+        {
+          "text": "Sewing-50",
+          "xmin": 85,
+          "ymin": 1794,
+          "xmax": 283,
+          "ymax": 1830
+        },
+        {
+          "text": "Lasti",
+          "xmin": 87,
+          "ymin": 1856,
+          "xmax": 166,
+          "ymax": 1886
+        },
+        {
+          "text": "ing-50",
+          "xmin": 161,
+          "ymin": 1856,
+          "xmax": 278,
+          "ymax": 1894
+        },
+        {
+          "text": "Stitching-50",
+          "xmin": 85,
+          "ymin": 1918,
+          "xmax": 311,
+          "ymax": 1954
+        },
+        {
+          "text": "Fin",
+          "xmin": 87,
+          "ymin": 1981,
+          "xmax": 147,
+          "ymax": 2011
+        },
+        {
+          "text": "ishing-20",
+          "xmin": 140,
+          "ymin": 1980,
+          "xmax": 317,
+          "ymax": 2016
+        }
+      ],
+      "raw_text": "MILITARY BOOT(LONG I HEIGHT:22CMS ,8 INCHES(RUBBER ),10 EYELETS Wholesale Price- 2000 Retail Price- ksh2200 COST DESCRI IPTION UNIT COST Dull box 360 D col Ilection 120 Li ini ing 130 Eyelets 20 Laces 20 Shanks 5 Stiffner 30 Texon 30 Sole 440 Thread 15 Jeans 10 Glue 50 Labour 200 Total cost 1.430 SELLING PRICE=1.600 Labour breakdown Cutting-50 Sewing-50 Lasti ing-50 Stitching-50 Fin ishing-20 "
+    },
+    {
+      "page": 4,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-5.jpeg?ik-s=c71399a547346a618ae6bc4caa21242e0dd12eba&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "SAFETY",
+          "xmin": 181,
+          "ymin": 206,
+          "xmax": 403,
+          "ymax": 255
+        },
+        {
+          "text": "BOOT",
+          "xmin": 428,
+          "ymin": 206,
+          "xmax": 600,
+          "ymax": 255
+        },
+        {
+          "text": "Factory",
+          "xmin": 184,
+          "ymin": 298,
+          "xmax": 408,
+          "ymax": 357
+        },
+        {
+          "text": "Price",
+          "xmin": 431,
+          "ymin": 295,
+          "xmax": 577,
+          "ymax": 347
+        },
+        {
+          "text": "1500-1800",
+          "xmin": 600,
+          "ymin": 297,
+          "xmax": 923,
+          "ymax": 347
+        },
+        {
+          "text": "Wholesale",
+          "xmin": 182,
+          "ymin": 384,
+          "xmax": 506,
+          "ymax": 436
+        },
+        {
+          "text": "2100-",
+          "xmin": 526,
+          "ymin": 387,
+          "xmax": 698,
+          "ymax": 436
+        },
+        {
+          "text": "Retail",
+          "xmin": 721,
+          "ymin": 384,
+          "xmax": 890,
+          "ymax": 436
+        },
+        {
+          "text": "2500",
+          "xmin": 913,
+          "ymin": 387,
+          "xmax": 1059,
+          "ymax": 436
+        },
+        {
+          "text": "COST",
+          "xmin": 103,
+          "ymin": 564,
+          "xmax": 202,
+          "ymax": 605
+        },
+        {
+          "text": "DESCRI",
+          "xmin": 214,
+          "ymin": 576,
+          "xmax": 332,
+          "ymax": 604
+        },
+        {
+          "text": "IPTION",
+          "xmin": 328,
+          "ymin": 576,
+          "xmax": 445,
+          "ymax": 604
+        },
+        {
+          "text": "UNIT",
+          "xmin": 634,
+          "ymin": 576,
+          "xmax": 719,
+          "ymax": 604
+        },
+        {
+          "text": "COST",
+          "xmin": 732,
+          "ymin": 576,
+          "xmax": 824,
+          "ymax": 605
+        },
+        {
+          "text": "Dull",
+          "xmin": 112,
+          "ymin": 633,
+          "xmax": 177,
+          "ymax": 663
+        },
+        {
+          "text": "box",
+          "xmin": 193,
+          "ymin": 633,
+          "xmax": 253,
+          "ymax": 663
+        },
+        {
+          "text": "240",
+          "xmin": 911,
+          "ymin": 635,
+          "xmax": 968,
+          "ymax": 663
+        },
+        {
+          "text": "Lining",
+          "xmin": 112,
+          "ymin": 693,
+          "xmax": 214,
+          "ymax": 729
+        },
+        {
+          "text": "105",
+          "xmin": 912,
+          "ymin": 693,
+          "xmax": 968,
+          "ymax": 722
+        },
+        {
+          "text": "Hooks",
+          "xmin": 112,
+          "ymin": 749,
+          "xmax": 216,
+          "ymax": 780
+        },
+        {
+          "text": "80",
+          "xmin": 930,
+          "ymin": 751,
+          "xmax": 968,
+          "ymax": 778
+        },
+        {
+          "text": "Laces",
+          "xmin": 112,
+          "ymin": 811,
+          "xmax": 201,
+          "ymax": 839
+        },
+        {
+          "text": "20",
+          "xmin": 931,
+          "ymin": 810,
+          "xmax": 968,
+          "ymax": 836
+        },
+        {
+          "text": "Shanks",
+          "xmin": 110,
+          "ymin": 867,
+          "xmax": 232,
+          "ymax": 897
+        },
+        {
+          "text": "10",
+          "xmin": 933,
+          "ymin": 868,
+          "xmax": 968,
+          "ymax": 895
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 110,
+          "ymin": 925,
+          "xmax": 246,
+          "ymax": 956
+        },
+        {
+          "text": "30",
+          "xmin": 930,
+          "ymin": 927,
+          "xmax": 968,
+          "ymax": 954
+        },
+        {
+          "text": "Texon",
+          "xmin": 109,
+          "ymin": 985,
+          "xmax": 215,
+          "ymax": 1012
+        },
+        {
+          "text": "30",
+          "xmin": 931,
+          "ymin": 985,
+          "xmax": 968,
+          "ymax": 1012
+        },
+        {
+          "text": "Sole",
+          "xmin": 110,
+          "ymin": 1042,
+          "xmax": 182,
+          "ymax": 1073
+        },
+        {
+          "text": "170",
+          "xmin": 912,
+          "ymin": 1044,
+          "xmax": 968,
+          "ymax": 1071
+        },
+        {
+          "text": "Toe",
+          "xmin": 109,
+          "ymin": 1102,
+          "xmax": 171,
+          "ymax": 1129
+        },
+        {
+          "text": "cap",
+          "xmin": 186,
+          "ymin": 1109,
+          "xmax": 244,
+          "ymax": 1138
+        },
+        {
+          "text": "170",
+          "xmin": 912,
+          "ymin": 1102,
+          "xmax": 968,
+          "ymax": 1129
+        },
+        {
+          "text": "Thread",
+          "xmin": 109,
+          "ymin": 1159,
+          "xmax": 229,
+          "ymax": 1190
+        },
+        {
+          "text": "15",
+          "xmin": 932,
+          "ymin": 1161,
+          "xmax": 965,
+          "ymax": 1188
+        },
+        {
+          "text": "Glue",
+          "xmin": 110,
+          "ymin": 1217,
+          "xmax": 190,
+          "ymax": 1247
+        },
+        {
+          "text": "60",
+          "xmin": 930,
+          "ymin": 1219,
+          "xmax": 968,
+          "ymax": 1247
+        },
+        {
+          "text": "Jeans",
+          "xmin": 102,
+          "ymin": 1273,
+          "xmax": 204,
+          "ymax": 1307
+        },
+        {
+          "text": "10",
+          "xmin": 932,
+          "ymin": 1278,
+          "xmax": 968,
+          "ymax": 1305
+        },
+        {
+          "text": "Labour",
+          "xmin": 112,
+          "ymin": 1334,
+          "xmax": 231,
+          "ymax": 1365
+        },
+        {
+          "text": "370",
+          "xmin": 910,
+          "ymin": 1336,
+          "xmax": 968,
+          "ymax": 1364
+        },
+        {
+          "text": "Total",
+          "xmin": 109,
+          "ymin": 1392,
+          "xmax": 194,
+          "ymax": 1422
+        },
+        {
+          "text": "cost",
+          "xmin": 195,
+          "ymin": 1394,
+          "xmax": 279,
+          "ymax": 1422
+        },
+        {
+          "text": "1.310",
+          "xmin": 871,
+          "ymin": 1394,
+          "xmax": 958,
+          "ymax": 1422
+        },
+        {
+          "text": "SELLING",
+          "xmin": 119,
+          "ymin": 1570,
+          "xmax": 257,
+          "ymax": 1598
+        },
+        {
+          "text": "PRICE=1.500-1800",
+          "xmin": 275,
+          "ymin": 1570,
+          "xmax": 583,
+          "ymax": 1598
+        }
+      ],
+      "raw_text": "SAFETY BOOT Factory Price 1500-1800 Wholesale 2100- Retail 2500 COST DESCRI IPTION UNIT COST Dull box 240 Lining 105 Hooks 80 Laces 20 Shanks 10 Stiffner 30 Texon 30 Sole 170 Toe cap 170 Thread 15 Glue 60 Jeans 10 Labour 370 Total cost 1.310 SELLING PRICE=1.500-1800 "
+    },
+    {
+      "page": 5,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-6.jpeg?ik-s=09e5b66c132a9f6f0944d550ef4a56aa897f9775&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "OFFICIAL",
+          "xmin": 65,
+          "ymin": 26,
+          "xmax": 337,
+          "ymax": 75
+        },
+        {
+          "text": "MEN",
+          "xmin": 360,
+          "ymin": 27,
+          "xmax": 499,
+          "ymax": 75
+        },
+        {
+          "text": "PERMANENT",
+          "xmin": 529,
+          "ymin": 26,
+          "xmax": 925,
+          "ymax": 75
+        },
+        {
+          "text": "SHINE",
+          "xmin": 64,
+          "ymin": 116,
+          "xmax": 248,
+          "ymax": 164
+        },
+        {
+          "text": "FACTORY",
+          "xmin": 274,
+          "ymin": 116,
+          "xmax": 540,
+          "ymax": 165
+        },
+        {
+          "text": "PRICE",
+          "xmin": 564,
+          "ymin": 116,
+          "xmax": 729,
+          "ymax": 164
+        },
+        {
+          "text": "1250-1600",
+          "xmin": 756,
+          "ymin": 116,
+          "xmax": 1075,
+          "ymax": 166
+        },
+        {
+          "text": "WHOLESALE=1800",
+          "xmin": 65,
+          "ymin": 207,
+          "xmax": 625,
+          "ymax": 255
+        },
+        {
+          "text": "RETAIL",
+          "xmin": 649,
+          "ymin": 207,
+          "xmax": 846,
+          "ymax": 255
+        },
+        {
+          "text": "PRICE",
+          "xmin": 867,
+          "ymin": 207,
+          "xmax": 1035,
+          "ymax": 255
+        },
+        {
+          "text": "2000",
+          "xmin": 66,
+          "ymin": 298,
+          "xmax": 213,
+          "ymax": 347
+        },
+        {
+          "text": "COST",
+          "xmin": 43,
+          "ymin": 488,
+          "xmax": 143,
+          "ymax": 541
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 155,
+          "ymin": 499,
+          "xmax": 387,
+          "ymax": 541
+        },
+        {
+          "text": "UNITCOST",
+          "xmin": 546,
+          "ymin": 499,
+          "xmax": 735,
+          "ymax": 541
+        },
+        {
+          "text": "Leather",
+          "xmin": 43,
+          "ymin": 577,
+          "xmax": 187,
+          "ymax": 630
+        },
+        {
+          "text": "380",
+          "xmin": 810,
+          "ymin": 580,
+          "xmax": 873,
+          "ymax": 628
+        },
+        {
+          "text": "Lining",
+          "xmin": 39,
+          "ymin": 664,
+          "xmax": 156,
+          "ymax": 728
+        },
+        {
+          "text": "40",
+          "xmin": 829,
+          "ymin": 669,
+          "xmax": 873,
+          "ymax": 717
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 43,
+          "ymin": 755,
+          "xmax": 178,
+          "ymax": 813
+        },
+        {
+          "text": "20",
+          "xmin": 831,
+          "ymin": 755,
+          "xmax": 873,
+          "ymax": 804
+        },
+        {
+          "text": "Sole",
+          "xmin": 39,
+          "ymin": 842,
+          "xmax": 125,
+          "ymax": 893
+        },
+        {
+          "text": "170",
+          "xmin": 812,
+          "ymin": 842,
+          "xmax": 873,
+          "ymax": 893
+        },
+        {
+          "text": "Innersole",
+          "xmin": 52,
+          "ymin": 934,
+          "xmax": 226,
+          "ymax": 980
+        },
+        {
+          "text": "50",
+          "xmin": 831,
+          "ymin": 931,
+          "xmax": 873,
+          "ymax": 979
+        },
+        {
+          "text": "Glue",
+          "xmin": 43,
+          "ymin": 1017,
+          "xmax": 131,
+          "ymax": 1065
+        },
+        {
+          "text": "50",
+          "xmin": 830,
+          "ymin": 1019,
+          "xmax": 873,
+          "ymax": 1065
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 39,
+          "ymin": 1102,
+          "xmax": 187,
+          "ymax": 1155
+        },
+        {
+          "text": "30",
+          "xmin": 830,
+          "ymin": 1106,
+          "xmax": 873,
+          "ymax": 1152
+        },
+        {
+          "text": "Texon",
+          "xmin": 39,
+          "ymin": 1193,
+          "xmax": 157,
+          "ymax": 1249
+        },
+        {
+          "text": "30",
+          "xmin": 830,
+          "ymin": 1194,
+          "xmax": 873,
+          "ymax": 1242
+        },
+        {
+          "text": "Shanks",
+          "xmin": 39,
+          "ymin": 1274,
+          "xmax": 173,
+          "ymax": 1333
+        },
+        {
+          "text": "10",
+          "xmin": 832,
+          "ymin": 1282,
+          "xmax": 873,
+          "ymax": 1330
+        },
+        {
+          "text": "Thread",
+          "xmin": 39,
+          "ymin": 1365,
+          "xmax": 172,
+          "ymax": 1418
+        },
+        {
+          "text": "20",
+          "xmin": 831,
+          "ymin": 1369,
+          "xmax": 873,
+          "ymax": 1418
+        },
+        {
+          "text": "Labour",
+          "xmin": 52,
+          "ymin": 1459,
+          "xmax": 172,
+          "ymax": 1504
+        },
+        {
+          "text": "310",
+          "xmin": 810,
+          "ymin": 1454,
+          "xmax": 873,
+          "ymax": 1504
+        },
+        {
+          "text": "Totalcost",
+          "xmin": 39,
+          "ymin": 1542,
+          "xmax": 220,
+          "ymax": 1592
+        },
+        {
+          "text": "1.110",
+          "xmin": 771,
+          "ymin": 1550,
+          "xmax": 862,
+          "ymax": 1593
+        },
+        {
+          "text": "Selling",
+          "xmin": 50,
+          "ymin": 1722,
+          "xmax": 170,
+          "ymax": 1779
+        },
+        {
+          "text": "price",
+          "xmin": 183,
+          "ymin": 1725,
+          "xmax": 268,
+          "ymax": 1776
+        },
+        {
+          "text": "=1250-1600",
+          "xmin": 281,
+          "ymin": 1725,
+          "xmax": 477,
+          "ymax": 1766
+        },
+        {
+          "text": "Permanent",
+          "xmin": 1286,
+          "ymin": 1838,
+          "xmax": 1616,
+          "ymax": 1886
+        },
+        {
+          "text": "shine",
+          "xmin": 1636,
+          "ymin": 1834,
+          "xmax": 1796,
+          "ymax": 1886
+        },
+        {
+          "text": "is",
+          "xmin": 1819,
+          "ymin": 1837,
+          "xmax": 1886,
+          "ymax": 1892
+        },
+        {
+          "text": "just",
+          "xmin": 1878,
+          "ymin": 1837,
+          "xmax": 1988,
+          "ymax": 1893
+        },
+        {
+          "text": "the",
+          "xmin": 2006,
+          "ymin": 1835,
+          "xmax": 2105,
+          "ymax": 1887
+        },
+        {
+          "text": "leather",
+          "xmin": 2132,
+          "ymin": 1834,
+          "xmax": 2343,
+          "ymax": 1887
+        },
+        {
+          "text": "whi",
+          "xmin": 2363,
+          "ymin": 1835,
+          "xmax": 2464,
+          "ymax": 1886
+        },
+        {
+          "text": "ich",
+          "xmin": 2459,
+          "ymin": 1834,
+          "xmax": 2536,
+          "ymax": 1887
+        },
+        {
+          "text": "one",
+          "xmin": 2560,
+          "ymin": 1850,
+          "xmax": 2673,
+          "ymax": 1887
+        },
+        {
+          "text": "doesnt",
+          "xmin": 1284,
+          "ymin": 1925,
+          "xmax": 1487,
+          "ymax": 1978
+        },
+        {
+          "text": "need",
+          "xmin": 1514,
+          "ymin": 1926,
+          "xmax": 1655,
+          "ymax": 1978
+        },
+        {
+          "text": "to",
+          "xmin": 1678,
+          "ymin": 1933,
+          "xmax": 1739,
+          "ymax": 1978
+        },
+        {
+          "text": "polish.",
+          "xmin": 1764,
+          "ymin": 1925,
+          "xmax": 1956,
+          "ymax": 1986
+        }
+      ],
+      "raw_text": "OFFICIAL MEN PERMANENT SHINE FACTORY PRICE 1250-1600 WHOLESALE=1800 RETAIL PRICE 2000 COST DESCRIPTION UNITCOST Leather 380 Lining 40 Eyelets 20 Sole 170 Innersole 50 Glue 50 Stiffner 30 Texon 30 Shanks 10 Thread 20 Labour 310 Totalcost 1.110 Selling price =1250-1600 Permanent shine is just the leather whi ich one doesnt need to polish. "
+    },
+    {
+      "page": 6,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-7.jpeg?ik-s=7f1f343ced397e6bb51a598499232ee10cd5f511&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 64,
+          "ymin": 156,
+          "xmax": 316,
+          "ymax": 199
+        },
+        {
+          "text": "BOOT(SHORT",
+          "xmin": 339,
+          "ymin": 152,
+          "xmax": 712,
+          "ymax": 203
+        },
+        {
+          "text": "I",
+          "xmin": 709,
+          "ymin": 153,
+          "xmax": 719,
+          "ymax": 197
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 64,
+          "ymin": 237,
+          "xmax": 269,
+          "ymax": 281
+        },
+        {
+          "text": "=",
+          "xmin": 266,
+          "ymin": 240,
+          "xmax": 276,
+          "ymax": 281
+        },
+        {
+          "text": ":14CMS",
+          "xmin": 273,
+          "ymin": 237,
+          "xmax": 475,
+          "ymax": 281
+        },
+        {
+          "text": ".6",
+          "xmin": 498,
+          "ymin": 237,
+          "xmax": 538,
+          "ymax": 280
+        },
+        {
+          "text": "INCHES(PVC),7",
+          "xmin": 563,
+          "ymin": 233,
+          "xmax": 958,
+          "ymax": 283
+        },
+        {
+          "text": "EYELETS",
+          "xmin": 64,
+          "ymin": 315,
+          "xmax": 281,
+          "ymax": 358
+        },
+        {
+          "text": "(",
+          "xmin": 303,
+          "ymin": 311,
+          "xmax": 317,
+          "ymax": 357
+        },
+        {
+          "text": "WITHOUT",
+          "xmin": 310,
+          "ymin": 311,
+          "xmax": 593,
+          "ymax": 358
+        },
+        {
+          "text": "THREAD",
+          "xmin": 608,
+          "ymin": 312,
+          "xmax": 841,
+          "ymax": 358
+        },
+        {
+          "text": "I",
+          "xmin": 840,
+          "ymin": 312,
+          "xmax": 850,
+          "ymax": 356
+        },
+        {
+          "text": "Wholesale",
+          "xmin": 61,
+          "ymin": 394,
+          "xmax": 346,
+          "ymax": 440
+        },
+        {
+          "text": "1200ksh",
+          "xmin": 370,
+          "ymin": 394,
+          "xmax": 590,
+          "ymax": 440
+        },
+        {
+          "text": "Retail",
+          "xmin": 613,
+          "ymin": 394,
+          "xmax": 762,
+          "ymax": 440
+        },
+        {
+          "text": "1300ksh",
+          "xmin": 785,
+          "ymin": 394,
+          "xmax": 1005,
+          "ymax": 440
+        },
+        {
+          "text": "COST",
+          "xmin": 18,
+          "ymin": 536,
+          "xmax": 123,
+          "ymax": 577
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 138,
+          "ymin": 547,
+          "xmax": 388,
+          "ymax": 577
+        },
+        {
+          "text": "UNIT",
+          "xmin": 530,
+          "ymin": 539,
+          "xmax": 629,
+          "ymax": 577
+        },
+        {
+          "text": "COST",
+          "xmin": 642,
+          "ymin": 547,
+          "xmax": 741,
+          "ymax": 577
+        },
+        {
+          "text": "Dull",
+          "xmin": 18,
+          "ymin": 602,
+          "xmax": 92,
+          "ymax": 641
+        },
+        {
+          "text": "box",
+          "xmin": 111,
+          "ymin": 608,
+          "xmax": 172,
+          "ymax": 641
+        },
+        {
+          "text": "360",
+          "xmin": 813,
+          "ymin": 610,
+          "xmax": 880,
+          "ymax": 641
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 18,
+          "ymin": 665,
+          "xmax": 155,
+          "ymax": 709
+        },
+        {
+          "text": "14",
+          "xmin": 838,
+          "ymin": 672,
+          "xmax": 881,
+          "ymax": 700
+        },
+        {
+          "text": "Laces",
+          "xmin": 20,
+          "ymin": 730,
+          "xmax": 122,
+          "ymax": 766
+        },
+        {
+          "text": "20",
+          "xmin": 837,
+          "ymin": 735,
+          "xmax": 882,
+          "ymax": 765
+        },
+        {
+          "text": "Shanks",
+          "xmin": 18,
+          "ymin": 789,
+          "xmax": 151,
+          "ymax": 831
+        },
+        {
+          "text": "10",
+          "xmin": 838,
+          "ymin": 799,
+          "xmax": 881,
+          "ymax": 829
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 17,
+          "ymin": 853,
+          "xmax": 160,
+          "ymax": 896
+        },
+        {
+          "text": "30",
+          "xmin": 837,
+          "ymin": 862,
+          "xmax": 881,
+          "ymax": 890
+        },
+        {
+          "text": "Texon",
+          "xmin": 17,
+          "ymin": 918,
+          "xmax": 134,
+          "ymax": 957
+        },
+        {
+          "text": "30",
+          "xmin": 836,
+          "ymin": 925,
+          "xmax": 881,
+          "ymax": 955
+        },
+        {
+          "text": "Sole",
+          "xmin": 18,
+          "ymin": 982,
+          "xmax": 99,
+          "ymax": 1020
+        },
+        {
+          "text": "150",
+          "xmin": 814,
+          "ymin": 988,
+          "xmax": 879,
+          "ymax": 1018
+        },
+        {
+          "text": "Thread",
+          "xmin": 17,
+          "ymin": 1040,
+          "xmax": 149,
+          "ymax": 1081
+        },
+        {
+          "text": "5",
+          "xmin": 861,
+          "ymin": 1050,
+          "xmax": 875,
+          "ymax": 1074
+        },
+        {
+          "text": "Jeans",
+          "xmin": 17,
+          "ymin": 1109,
+          "xmax": 122,
+          "ymax": 1143
+        },
+        {
+          "text": "10",
+          "xmin": 838,
+          "ymin": 1113,
+          "xmax": 882,
+          "ymax": 1144
+        },
+        {
+          "text": "Glue",
+          "xmin": 18,
+          "ymin": 1171,
+          "xmax": 106,
+          "ymax": 1210
+        },
+        {
+          "text": "50",
+          "xmin": 837,
+          "ymin": 1177,
+          "xmax": 882,
+          "ymax": 1208
+        },
+        {
+          "text": "Labour",
+          "xmin": 18,
+          "ymin": 1230,
+          "xmax": 151,
+          "ymax": 1271
+        },
+        {
+          "text": "190",
+          "xmin": 814,
+          "ymin": 1240,
+          "xmax": 880,
+          "ymax": 1271
+        },
+        {
+          "text": "Total",
+          "xmin": 17,
+          "ymin": 1298,
+          "xmax": 120,
+          "ymax": 1334
+        },
+        {
+          "text": "cost",
+          "xmin": 134,
+          "ymin": 1306,
+          "xmax": 207,
+          "ymax": 1334
+        },
+        {
+          "text": "869",
+          "xmin": 812,
+          "ymin": 1303,
+          "xmax": 879,
+          "ymax": 1334
+        },
+        {
+          "text": "SELLING",
+          "xmin": 23,
+          "ymin": 1492,
+          "xmax": 174,
+          "ymax": 1522
+        },
+        {
+          "text": "PRICE=1000",
+          "xmin": 191,
+          "ymin": 1492,
+          "xmax": 413,
+          "ymax": 1524
+        },
+        {
+          "text": "Labour",
+          "xmin": 26,
+          "ymin": 1616,
+          "xmax": 155,
+          "ymax": 1649
+        },
+        {
+          "text": "breakdown",
+          "xmin": 166,
+          "ymin": 1616,
+          "xmax": 380,
+          "ymax": 1649
+        },
+        {
+          "text": "Cutting-50",
+          "xmin": 24,
+          "ymin": 1681,
+          "xmax": 218,
+          "ymax": 1718
+        },
+        {
+          "text": "Sewing-50",
+          "xmin": 24,
+          "ymin": 1744,
+          "xmax": 216,
+          "ymax": 1782
+        },
+        {
+          "text": "Lasting-70",
+          "xmin": 27,
+          "ymin": 1807,
+          "xmax": 211,
+          "ymax": 1844
+        },
+        {
+          "text": "Finishi",
+          "xmin": 26,
+          "ymin": 1869,
+          "xmax": 136,
+          "ymax": 1900
+        },
+        {
+          "text": "ing-20",
+          "xmin": 127,
+          "ymin": 1870,
+          "xmax": 247,
+          "ymax": 1909
+        }
+      ],
+      "raw_text": "MILITARY BOOT(SHORT I HEIGHT = :14CMS .6 INCHES(PVC),7 EYELETS ( WITHOUT THREAD I Wholesale 1200ksh Retail 1300ksh COST DESCRIPTION UNIT COST Dull box 360 Eyelets 14 Laces 20 Shanks 10 Stiffner 30 Texon 30 Sole 150 Thread 5 Jeans 10 Glue 50 Labour 190 Total cost 869 SELLING PRICE=1000 Labour breakdown Cutting-50 Sewing-50 Lasting-70 Finishi ing-20 "
+    },
+    {
+      "page": 7,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-8.jpeg?ik-s=3c9eeafd2bcb8adfc0ec2a52cef96f7f391985c3&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 64,
+          "ymin": 156,
+          "xmax": 316,
+          "ymax": 199
+        },
+        {
+          "text": "BOOT(SHORT",
+          "xmin": 339,
+          "ymin": 152,
+          "xmax": 712,
+          "ymax": 203
+        },
+        {
+          "text": "I",
+          "xmin": 709,
+          "ymin": 153,
+          "xmax": 719,
+          "ymax": 197
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 64,
+          "ymin": 237,
+          "xmax": 269,
+          "ymax": 281
+        },
+        {
+          "text": "=",
+          "xmin": 266,
+          "ymin": 240,
+          "xmax": 276,
+          "ymax": 281
+        },
+        {
+          "text": ":14CMS",
+          "xmin": 273,
+          "ymin": 237,
+          "xmax": 475,
+          "ymax": 281
+        },
+        {
+          "text": ".6",
+          "xmin": 498,
+          "ymin": 237,
+          "xmax": 538,
+          "ymax": 280
+        },
+        {
+          "text": "INCHES(PVC),7",
+          "xmin": 563,
+          "ymin": 233,
+          "xmax": 958,
+          "ymax": 283
+        },
+        {
+          "text": "EYELETS",
+          "xmin": 64,
+          "ymin": 315,
+          "xmax": 281,
+          "ymax": 358
+        },
+        {
+          "text": "(",
+          "xmin": 303,
+          "ymin": 311,
+          "xmax": 317,
+          "ymax": 357
+        },
+        {
+          "text": "(WITH",
+          "xmin": 307,
+          "ymin": 311,
+          "xmax": 467,
+          "ymax": 359
+        },
+        {
+          "text": "THREAD",
+          "xmin": 487,
+          "ymin": 315,
+          "xmax": 711,
+          "ymax": 358
+        },
+        {
+          "text": "I",
+          "xmin": 718,
+          "ymin": 312,
+          "xmax": 726,
+          "ymax": 354
+        },
+        {
+          "text": "Wholesale-1300ksh",
+          "xmin": 61,
+          "ymin": 394,
+          "xmax": 597,
+          "ymax": 440
+        },
+        {
+          "text": "Retail-1400ksh",
+          "xmin": 619,
+          "ymin": 394,
+          "xmax": 1019,
+          "ymax": 440
+        },
+        {
+          "text": "COST",
+          "xmin": 47,
+          "ymin": 525,
+          "xmax": 153,
+          "ymax": 568
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 168,
+          "ymin": 537,
+          "xmax": 418,
+          "ymax": 568
+        },
+        {
+          "text": "UNIT",
+          "xmin": 467,
+          "ymin": 527,
+          "xmax": 563,
+          "ymax": 568
+        },
+        {
+          "text": "COST",
+          "xmin": 578,
+          "ymin": 537,
+          "xmax": 676,
+          "ymax": 568
+        },
+        {
+          "text": "Dull",
+          "xmin": 51,
+          "ymin": 594,
+          "xmax": 123,
+          "ymax": 630
+        },
+        {
+          "text": "box",
+          "xmin": 141,
+          "ymin": 598,
+          "xmax": 202,
+          "ymax": 631
+        },
+        {
+          "text": "360",
+          "xmin": 743,
+          "ymin": 600,
+          "xmax": 809,
+          "ymax": 631
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 48,
+          "ymin": 655,
+          "xmax": 184,
+          "ymax": 703
+        },
+        {
+          "text": "14",
+          "xmin": 768,
+          "ymin": 663,
+          "xmax": 808,
+          "ymax": 691
+        },
+        {
+          "text": "Laces",
+          "xmin": 47,
+          "ymin": 719,
+          "xmax": 153,
+          "ymax": 758
+        },
+        {
+          "text": "20",
+          "xmin": 767,
+          "ymin": 726,
+          "xmax": 809,
+          "ymax": 757
+        },
+        {
+          "text": "Shanks",
+          "xmin": 47,
+          "ymin": 780,
+          "xmax": 181,
+          "ymax": 821
+        },
+        {
+          "text": "10",
+          "xmin": 767,
+          "ymin": 789,
+          "xmax": 809,
+          "ymax": 820
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 47,
+          "ymin": 842,
+          "xmax": 190,
+          "ymax": 886
+        },
+        {
+          "text": "30",
+          "xmin": 765,
+          "ymin": 852,
+          "xmax": 811,
+          "ymax": 881
+        },
+        {
+          "text": "Texon",
+          "xmin": 47,
+          "ymin": 909,
+          "xmax": 164,
+          "ymax": 948
+        },
+        {
+          "text": "30",
+          "xmin": 766,
+          "ymin": 915,
+          "xmax": 809,
+          "ymax": 945
+        },
+        {
+          "text": "Sole",
+          "xmin": 47,
+          "ymin": 972,
+          "xmax": 130,
+          "ymax": 1009
+        },
+        {
+          "text": "150",
+          "xmin": 744,
+          "ymin": 978,
+          "xmax": 809,
+          "ymax": 1009
+        },
+        {
+          "text": "Thread",
+          "xmin": 47,
+          "ymin": 1031,
+          "xmax": 181,
+          "ymax": 1072
+        },
+        {
+          "text": "15",
+          "xmin": 767,
+          "ymin": 1041,
+          "xmax": 809,
+          "ymax": 1072
+        },
+        {
+          "text": "Jeans",
+          "xmin": 47,
+          "ymin": 1100,
+          "xmax": 152,
+          "ymax": 1134
+        },
+        {
+          "text": "10",
+          "xmin": 768,
+          "ymin": 1104,
+          "xmax": 811,
+          "ymax": 1134
+        },
+        {
+          "text": "Glue",
+          "xmin": 47,
+          "ymin": 1161,
+          "xmax": 136,
+          "ymax": 1197
+        },
+        {
+          "text": "50",
+          "xmin": 766,
+          "ymin": 1167,
+          "xmax": 808,
+          "ymax": 1195
+        },
+        {
+          "text": "Labour",
+          "xmin": 47,
+          "ymin": 1219,
+          "xmax": 181,
+          "ymax": 1264
+        },
+        {
+          "text": "230",
+          "xmin": 743,
+          "ymin": 1230,
+          "xmax": 809,
+          "ymax": 1261
+        },
+        {
+          "text": "Total",
+          "xmin": 47,
+          "ymin": 1286,
+          "xmax": 150,
+          "ymax": 1325
+        },
+        {
+          "text": "cost",
+          "xmin": 164,
+          "ymin": 1295,
+          "xmax": 236,
+          "ymax": 1324
+        },
+        {
+          "text": "919",
+          "xmin": 742,
+          "ymin": 1293,
+          "xmax": 809,
+          "ymax": 1324
+        },
+        {
+          "text": "SELLING",
+          "xmin": 53,
+          "ymin": 1482,
+          "xmax": 205,
+          "ymax": 1513
+        },
+        {
+          "text": "PRICE=1100",
+          "xmin": 221,
+          "ymin": 1482,
+          "xmax": 444,
+          "ymax": 1513
+        },
+        {
+          "text": "Labour",
+          "xmin": 55,
+          "ymin": 1607,
+          "xmax": 185,
+          "ymax": 1639
+        },
+        {
+          "text": "breakdown",
+          "xmin": 196,
+          "ymin": 1606,
+          "xmax": 409,
+          "ymax": 1639
+        },
+        {
+          "text": "Cutting-50",
+          "xmin": 54,
+          "ymin": 1671,
+          "xmax": 246,
+          "ymax": 1706
+        },
+        {
+          "text": "Sew",
+          "xmin": 54,
+          "ymin": 1734,
+          "xmax": 134,
+          "ymax": 1765
+        },
+        {
+          "text": "wing-50",
+          "xmin": 127,
+          "ymin": 1734,
+          "xmax": 247,
+          "ymax": 1771
+        },
+        {
+          "text": "Lasting-70",
+          "xmin": 56,
+          "ymin": 1797,
+          "xmax": 242,
+          "ymax": 1834
+        },
+        {
+          "text": "Finishi",
+          "xmin": 56,
+          "ymin": 1858,
+          "xmax": 166,
+          "ymax": 1891
+        },
+        {
+          "text": "ing-20",
+          "xmin": 157,
+          "ymin": 1860,
+          "xmax": 278,
+          "ymax": 1899
+        },
+        {
+          "text": "Stitching-40",
+          "xmin": 54,
+          "ymin": 1921,
+          "xmax": 274,
+          "ymax": 1960
+        }
+      ],
+      "raw_text": "MILITARY BOOT(SHORT I HEIGHT = :14CMS .6 INCHES(PVC),7 EYELETS ( (WITH THREAD I Wholesale-1300ksh Retail-1400ksh COST DESCRIPTION UNIT COST Dull box 360 Eyelets 14 Laces 20 Shanks 10 Stiffner 30 Texon 30 Sole 150 Thread 15 Jeans 10 Glue 50 Labour 230 Total cost 919 SELLING PRICE=1100 Labour breakdown Cutting-50 Sew wing-50 Lasting-70 Finishi ing-20 Stitching-40 "
+    },
+    {
+      "page": 8,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-9.jpeg?ik-s=aa7dd230d9f564ea86065a21bc6bb0222bb20440&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 64,
+          "ymin": 55,
+          "xmax": 316,
+          "ymax": 98
+        },
+        {
+          "text": "BOOT(SHORT)",
+          "xmin": 339,
+          "ymin": 51,
+          "xmax": 723,
+          "ymax": 104
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 64,
+          "ymin": 137,
+          "xmax": 269,
+          "ymax": 180
+        },
+        {
+          "text": "=",
+          "xmin": 267,
+          "ymin": 140,
+          "xmax": 275,
+          "ymax": 177
+        },
+        {
+          "text": ":14CMS",
+          "xmin": 270,
+          "ymin": 137,
+          "xmax": 475,
+          "ymax": 180
+        },
+        {
+          "text": ",6",
+          "xmin": 496,
+          "ymin": 137,
+          "xmax": 538,
+          "ymax": 184
+        },
+        {
+          "text": "INCHES(RUBBER),",
+          "xmin": 563,
+          "ymin": 133,
+          "xmax": 1075,
+          "ymax": 185
+        },
+        {
+          "text": "EYELETS",
+          "xmin": 64,
+          "ymin": 215,
+          "xmax": 281,
+          "ymax": 257
+        },
+        {
+          "text": "(",
+          "xmin": 302,
+          "ymin": 212,
+          "xmax": 316,
+          "ymax": 256
+        },
+        {
+          "text": "WITH",
+          "xmin": 310,
+          "ymin": 212,
+          "xmax": 468,
+          "ymax": 257
+        },
+        {
+          "text": "THREAD",
+          "xmin": 488,
+          "ymin": 215,
+          "xmax": 711,
+          "ymax": 257
+        },
+        {
+          "text": "I",
+          "xmin": 718,
+          "ymin": 212,
+          "xmax": 726,
+          "ymax": 255
+        },
+        {
+          "text": "Wholesale-1400",
+          "xmin": 61,
+          "ymin": 300,
+          "xmax": 504,
+          "ymax": 347
+        },
+        {
+          "text": "or",
+          "xmin": 523,
+          "ymin": 313,
+          "xmax": 581,
+          "ymax": 347
+        },
+        {
+          "text": "1450",
+          "xmin": 600,
+          "ymin": 303,
+          "xmax": 729,
+          "ymax": 347
+        },
+        {
+          "text": "Retail-",
+          "xmin": 771,
+          "ymin": 295,
+          "xmax": 965,
+          "ymax": 347
+        },
+        {
+          "text": "1500",
+          "xmin": 64,
+          "ymin": 387,
+          "xmax": 208,
+          "ymax": 436
+        },
+        {
+          "text": "COST",
+          "xmin": 58,
+          "ymin": 532,
+          "xmax": 163,
+          "ymax": 573
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 58,
+          "ymin": 585,
+          "xmax": 315,
+          "ymax": 627
+        },
+        {
+          "text": "UNIT",
+          "xmin": 426,
+          "ymin": 588,
+          "xmax": 526,
+          "ymax": 627
+        },
+        {
+          "text": "COST",
+          "xmin": 539,
+          "ymin": 597,
+          "xmax": 638,
+          "ymax": 628
+        },
+        {
+          "text": "Dull",
+          "xmin": 58,
+          "ymin": 649,
+          "xmax": 131,
+          "ymax": 688
+        },
+        {
+          "text": "box",
+          "xmin": 150,
+          "ymin": 656,
+          "xmax": 212,
+          "ymax": 688
+        },
+        {
+          "text": "360",
+          "xmin": 878,
+          "ymin": 657,
+          "xmax": 943,
+          "ymax": 688
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 60,
+          "ymin": 709,
+          "xmax": 196,
+          "ymax": 756
+        },
+        {
+          "text": "14",
+          "xmin": 903,
+          "ymin": 717,
+          "xmax": 944,
+          "ymax": 745
+        },
+        {
+          "text": "Laces",
+          "xmin": 66,
+          "ymin": 777,
+          "xmax": 161,
+          "ymax": 808
+        },
+        {
+          "text": "20",
+          "xmin": 901,
+          "ymin": 777,
+          "xmax": 945,
+          "ymax": 807
+        },
+        {
+          "text": "Shanks",
+          "xmin": 58,
+          "ymin": 825,
+          "xmax": 191,
+          "ymax": 871
+        },
+        {
+          "text": "10",
+          "xmin": 902,
+          "ymin": 837,
+          "xmax": 944,
+          "ymax": 867
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 58,
+          "ymin": 890,
+          "xmax": 200,
+          "ymax": 929
+        },
+        {
+          "text": "30",
+          "xmin": 901,
+          "ymin": 897,
+          "xmax": 945,
+          "ymax": 928
+        },
+        {
+          "text": "Texon",
+          "xmin": 57,
+          "ymin": 949,
+          "xmax": 174,
+          "ymax": 990
+        },
+        {
+          "text": "30",
+          "xmin": 900,
+          "ymin": 957,
+          "xmax": 944,
+          "ymax": 986
+        },
+        {
+          "text": "Sole",
+          "xmin": 58,
+          "ymin": 1010,
+          "xmax": 139,
+          "ymax": 1046
+        },
+        {
+          "text": "430",
+          "xmin": 877,
+          "ymin": 1016,
+          "xmax": 943,
+          "ymax": 1046
+        },
+        {
+          "text": "Thread",
+          "xmin": 57,
+          "ymin": 1066,
+          "xmax": 190,
+          "ymax": 1111
+        },
+        {
+          "text": "15",
+          "xmin": 902,
+          "ymin": 1077,
+          "xmax": 943,
+          "ymax": 1107
+        },
+        {
+          "text": "Jeans",
+          "xmin": 57,
+          "ymin": 1133,
+          "xmax": 161,
+          "ymax": 1167
+        },
+        {
+          "text": "10",
+          "xmin": 902,
+          "ymin": 1136,
+          "xmax": 945,
+          "ymax": 1167
+        },
+        {
+          "text": "Glue",
+          "xmin": 58,
+          "ymin": 1189,
+          "xmax": 145,
+          "ymax": 1225
+        },
+        {
+          "text": "50",
+          "xmin": 901,
+          "ymin": 1196,
+          "xmax": 944,
+          "ymax": 1225
+        },
+        {
+          "text": "Labour",
+          "xmin": 58,
+          "ymin": 1246,
+          "xmax": 190,
+          "ymax": 1288
+        },
+        {
+          "text": "230",
+          "xmin": 879,
+          "ymin": 1256,
+          "xmax": 945,
+          "ymax": 1287
+        },
+        {
+          "text": "Total",
+          "xmin": 57,
+          "ymin": 1310,
+          "xmax": 159,
+          "ymax": 1349
+        },
+        {
+          "text": "cost",
+          "xmin": 173,
+          "ymin": 1319,
+          "xmax": 247,
+          "ymax": 1347
+        },
+        {
+          "text": "1.199",
+          "xmin": 843,
+          "ymin": 1316,
+          "xmax": 943,
+          "ymax": 1346
+        },
+        {
+          "text": "SELLING",
+          "xmin": 64,
+          "ymin": 1434,
+          "xmax": 214,
+          "ymax": 1465
+        },
+        {
+          "text": "PRICE=1300",
+          "xmin": 65,
+          "ymin": 1488,
+          "xmax": 286,
+          "ymax": 1518
+        },
+        {
+          "text": "Labour",
+          "xmin": 65,
+          "ymin": 1608,
+          "xmax": 195,
+          "ymax": 1640
+        },
+        {
+          "text": "breakdown",
+          "xmin": 206,
+          "ymin": 1607,
+          "xmax": 418,
+          "ymax": 1640
+        },
+        {
+          "text": "Cutti",
+          "xmin": 65,
+          "ymin": 1669,
+          "xmax": 147,
+          "ymax": 1699
+        },
+        {
+          "text": "ing-50",
+          "xmin": 143,
+          "ymin": 1669,
+          "xmax": 259,
+          "ymax": 1707
+        },
+        {
+          "text": "Sewing-50",
+          "xmin": 64,
+          "ymin": 1729,
+          "xmax": 254,
+          "ymax": 1766
+        },
+        {
+          "text": "Lasting-70",
+          "xmin": 66,
+          "ymin": 1789,
+          "xmax": 253,
+          "ymax": 1825
+        },
+        {
+          "text": "Finishi",
+          "xmin": 66,
+          "ymin": 1848,
+          "xmax": 175,
+          "ymax": 1879
+        },
+        {
+          "text": "ing-20",
+          "xmin": 167,
+          "ymin": 1849,
+          "xmax": 287,
+          "ymax": 1887
+        },
+        {
+          "text": "Stitching-40",
+          "xmin": 64,
+          "ymin": 1907,
+          "xmax": 284,
+          "ymax": 1946
+        }
+      ],
+      "raw_text": "MILITARY BOOT(SHORT) HEIGHT = :14CMS ,6 INCHES(RUBBER), EYELETS ( WITH THREAD I Wholesale-1400 or 1450 Retail- 1500 COST DESCRIPTION UNIT COST Dull box 360 Eyelets 14 Laces 20 Shanks 10 Stiffner 30 Texon 30 Sole 430 Thread 15 Jeans 10 Glue 50 Labour 230 Total cost 1.199 SELLING PRICE=1300 Labour breakdown Cutti ing-50 Sewing-50 Lasting-70 Finishi ing-20 Stitching-40 "
+    },
+    {
+      "page": 9,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-10.jpeg?ik-s=f6dfdaad8d08c1af4324c2fe820ee324bc1c8a2c&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 45,
+          "ymin": 26,
+          "xmax": 330,
+          "ymax": 75
+        },
+        {
+          "text": "BOOT(SHORT",
+          "xmin": 355,
+          "ymin": 22,
+          "xmax": 775,
+          "ymax": 75
+        },
+        {
+          "text": "I",
+          "xmin": 771,
+          "ymin": 24,
+          "xmax": 782,
+          "ymax": 72
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 45,
+          "ymin": 116,
+          "xmax": 283,
+          "ymax": 164
+        },
+        {
+          "text": ";14CMS",
+          "xmin": 270,
+          "ymin": 116,
+          "xmax": 509,
+          "ymax": 172
+        },
+        {
+          "text": ",6",
+          "xmin": 532,
+          "ymin": 116,
+          "xmax": 583,
+          "ymax": 169
+        },
+        {
+          "text": "INCHES(RUBBER),7",
+          "xmin": 45,
+          "ymin": 203,
+          "xmax": 623,
+          "ymax": 264
+        },
+        {
+          "text": "EYELETS",
+          "xmin": 649,
+          "ymin": 207,
+          "xmax": 893,
+          "ymax": 255
+        },
+        {
+          "text": "(NO",
+          "xmin": 917,
+          "ymin": 203,
+          "xmax": 1033,
+          "ymax": 261
+        },
+        {
+          "text": "THREAD",
+          "xmin": 40,
+          "ymin": 295,
+          "xmax": 302,
+          "ymax": 347
+        },
+        {
+          "text": "I",
+          "xmin": 300,
+          "ymin": 294,
+          "xmax": 311,
+          "ymax": 347
+        },
+        {
+          "text": "Wholesale-1400",
+          "xmin": 42,
+          "ymin": 386,
+          "xmax": 541,
+          "ymax": 438
+        },
+        {
+          "text": "Retail",
+          "xmin": 563,
+          "ymin": 386,
+          "xmax": 732,
+          "ymax": 438
+        },
+        {
+          "text": "-1500",
+          "xmin": 756,
+          "ymin": 389,
+          "xmax": 928,
+          "ymax": 438
+        },
+        {
+          "text": "COST",
+          "xmin": 11,
+          "ymin": 508,
+          "xmax": 113,
+          "ymax": 552
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 128,
+          "ymin": 521,
+          "xmax": 378,
+          "ymax": 552
+        },
+        {
+          "text": "UNIT",
+          "xmin": 502,
+          "ymin": 508,
+          "xmax": 601,
+          "ymax": 552
+        },
+        {
+          "text": "COST",
+          "xmin": 615,
+          "ymin": 521,
+          "xmax": 713,
+          "ymax": 552
+        },
+        {
+          "text": "Dul",
+          "xmin": 11,
+          "ymin": 576,
+          "xmax": 71,
+          "ymax": 615
+        },
+        {
+          "text": "II",
+          "xmin": 70,
+          "ymin": 582,
+          "xmax": 82,
+          "ymax": 609
+        },
+        {
+          "text": "box",
+          "xmin": 101,
+          "ymin": 582,
+          "xmax": 163,
+          "ymax": 615
+        },
+        {
+          "text": "360",
+          "xmin": 848,
+          "ymin": 584,
+          "xmax": 915,
+          "ymax": 615
+        },
+        {
+          "text": "Eyel",
+          "xmin": 9,
+          "ymin": 639,
+          "xmax": 86,
+          "ymax": 683
+        },
+        {
+          "text": "lets",
+          "xmin": 82,
+          "ymin": 644,
+          "xmax": 145,
+          "ymax": 677
+        },
+        {
+          "text": "14",
+          "xmin": 875,
+          "ymin": 641,
+          "xmax": 918,
+          "ymax": 677
+        },
+        {
+          "text": "Laces",
+          "xmin": 11,
+          "ymin": 703,
+          "xmax": 113,
+          "ymax": 741
+        },
+        {
+          "text": "20",
+          "xmin": 873,
+          "ymin": 703,
+          "xmax": 917,
+          "ymax": 740
+        },
+        {
+          "text": "Shanks",
+          "xmin": 11,
+          "ymin": 761,
+          "xmax": 141,
+          "ymax": 802
+        },
+        {
+          "text": "10",
+          "xmin": 874,
+          "ymin": 764,
+          "xmax": 917,
+          "ymax": 802
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 11,
+          "ymin": 827,
+          "xmax": 151,
+          "ymax": 866
+        },
+        {
+          "text": "30",
+          "xmin": 872,
+          "ymin": 827,
+          "xmax": 918,
+          "ymax": 866
+        },
+        {
+          "text": "Texon",
+          "xmin": 8,
+          "ymin": 890,
+          "xmax": 125,
+          "ymax": 929
+        },
+        {
+          "text": "30",
+          "xmin": 873,
+          "ymin": 890,
+          "xmax": 918,
+          "ymax": 929
+        },
+        {
+          "text": "Sole",
+          "xmin": 8,
+          "ymin": 957,
+          "xmax": 89,
+          "ymax": 991
+        },
+        {
+          "text": "430",
+          "xmin": 848,
+          "ymin": 962,
+          "xmax": 915,
+          "ymax": 992
+        },
+        {
+          "text": "Thread",
+          "xmin": 11,
+          "ymin": 1014,
+          "xmax": 141,
+          "ymax": 1058
+        },
+        {
+          "text": "5",
+          "xmin": 897,
+          "ymin": 1026,
+          "xmax": 909,
+          "ymax": 1044
+        },
+        {
+          "text": "Jeans",
+          "xmin": 8,
+          "ymin": 1083,
+          "xmax": 112,
+          "ymax": 1118
+        },
+        {
+          "text": "10",
+          "xmin": 875,
+          "ymin": 1080,
+          "xmax": 917,
+          "ymax": 1119
+        },
+        {
+          "text": "Glue",
+          "xmin": 8,
+          "ymin": 1139,
+          "xmax": 97,
+          "ymax": 1184
+        },
+        {
+          "text": "50",
+          "xmin": 873,
+          "ymin": 1143,
+          "xmax": 917,
+          "ymax": 1182
+        },
+        {
+          "text": "Labour",
+          "xmin": 8,
+          "ymin": 1200,
+          "xmax": 141,
+          "ymax": 1246
+        },
+        {
+          "text": "190",
+          "xmin": 850,
+          "ymin": 1212,
+          "xmax": 915,
+          "ymax": 1243
+        },
+        {
+          "text": "Total",
+          "xmin": 8,
+          "ymin": 1267,
+          "xmax": 110,
+          "ymax": 1306
+        },
+        {
+          "text": "cost",
+          "xmin": 124,
+          "ymin": 1277,
+          "xmax": 198,
+          "ymax": 1306
+        },
+        {
+          "text": "1.149",
+          "xmin": 815,
+          "ymin": 1275,
+          "xmax": 915,
+          "ymax": 1306
+        },
+        {
+          "text": "SELLING",
+          "xmin": 14,
+          "ymin": 1463,
+          "xmax": 165,
+          "ymax": 1494
+        },
+        {
+          "text": "PRICE=1250",
+          "xmin": 181,
+          "ymin": 1463,
+          "xmax": 404,
+          "ymax": 1494
+        },
+        {
+          "text": "Labour",
+          "xmin": 16,
+          "ymin": 1586,
+          "xmax": 144,
+          "ymax": 1619
+        },
+        {
+          "text": "breakdown",
+          "xmin": 157,
+          "ymin": 1586,
+          "xmax": 369,
+          "ymax": 1619
+        },
+        {
+          "text": "Cutting-50",
+          "xmin": 16,
+          "ymin": 1650,
+          "xmax": 209,
+          "ymax": 1686
+        },
+        {
+          "text": "Sewing-50",
+          "xmin": 15,
+          "ymin": 1713,
+          "xmax": 205,
+          "ymax": 1749
+        },
+        {
+          "text": "Lasting-70",
+          "xmin": 17,
+          "ymin": 1776,
+          "xmax": 204,
+          "ymax": 1811
+        },
+        {
+          "text": "Fini",
+          "xmin": 17,
+          "ymin": 1838,
+          "xmax": 75,
+          "ymax": 1868
+        },
+        {
+          "text": "ishi",
+          "xmin": 72,
+          "ymin": 1837,
+          "xmax": 126,
+          "ymax": 1868
+        },
+        {
+          "text": "ing-20",
+          "xmin": 118,
+          "ymin": 1838,
+          "xmax": 238,
+          "ymax": 1877
+        }
+      ],
+      "raw_text": "MILITARY BOOT(SHORT I HEIGHT ;14CMS ,6 INCHES(RUBBER),7 EYELETS (NO THREAD I Wholesale-1400 Retail -1500 COST DESCRIPTION UNIT COST Dul II box 360 Eyel lets 14 Laces 20 Shanks 10 Stiffner 30 Texon 30 Sole 430 Thread 5 Jeans 10 Glue 50 Labour 190 Total cost 1.149 SELLING PRICE=1250 Labour breakdown Cutting-50 Sewing-50 Lasting-70 Fini ishi ing-20 "
+    },
+    {
+      "page": 10,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-11.jpeg?ik-s=a14843fdac61eafca602cc64211de3926479b304&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 59,
+          "ymin": 80,
+          "xmax": 378,
+          "ymax": 134
+        },
+        {
+          "text": "BOOT(LONG)",
+          "xmin": 406,
+          "ymin": 75,
+          "xmax": 862,
+          "ymax": 139
+        },
+        {
+          "text": "HEIGHT;22CMS",
+          "xmin": 59,
+          "ymin": 179,
+          "xmax": 575,
+          "ymax": 246
+        },
+        {
+          "text": "5,8",
+          "xmin": 562,
+          "ymin": 179,
+          "xmax": 655,
+          "ymax": 246
+        },
+        {
+          "text": "INCHES(PVC),HO0KS,FOLDED",
+          "xmin": 59,
+          "ymin": 274,
+          "xmax": 1060,
+          "ymax": 345
+        },
+        {
+          "text": "Wholesale-2200",
+          "xmin": 55,
+          "ymin": 377,
+          "xmax": 611,
+          "ymax": 436
+        },
+        {
+          "text": "Retail-2400",
+          "xmin": 637,
+          "ymin": 377,
+          "xmax": 1020,
+          "ymax": 434
+        },
+        {
+          "text": "FOLDI",
+          "xmin": 2782,
+          "ymin": 496,
+          "xmax": 2912,
+          "ymax": 528
+        },
+        {
+          "text": "COST",
+          "xmin": 53,
+          "ymin": 567,
+          "xmax": 159,
+          "ymax": 608
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 174,
+          "ymin": 577,
+          "xmax": 423,
+          "ymax": 608
+        },
+        {
+          "text": "UNIT",
+          "xmin": 558,
+          "ymin": 569,
+          "xmax": 657,
+          "ymax": 608
+        },
+        {
+          "text": "COST",
+          "xmin": 671,
+          "ymin": 577,
+          "xmax": 772,
+          "ymax": 608
+        },
+        {
+          "text": "NG",
+          "xmin": 2781,
+          "ymin": 558,
+          "xmax": 2845,
+          "ymax": 592
+        },
+        {
+          "text": "Dull",
+          "xmin": 56,
+          "ymin": 636,
+          "xmax": 129,
+          "ymax": 680
+        },
+        {
+          "text": "box",
+          "xmin": 146,
+          "ymin": 644,
+          "xmax": 208,
+          "ymax": 677
+        },
+        {
+          "text": "360",
+          "xmin": 882,
+          "ymin": 646,
+          "xmax": 948,
+          "ymax": 676
+        },
+        {
+          "text": "D-",
+          "xmin": 53,
+          "ymin": 708,
+          "xmax": 98,
+          "ymax": 743
+        },
+        {
+          "text": "col",
+          "xmin": 113,
+          "ymin": 713,
+          "xmax": 162,
+          "ymax": 745
+        },
+        {
+          "text": "sllection",
+          "xmin": 152,
+          "ymin": 713,
+          "xmax": 289,
+          "ymax": 745
+        },
+        {
+          "text": "120",
+          "xmin": 883,
+          "ymin": 714,
+          "xmax": 948,
+          "ymax": 745
+        },
+        {
+          "text": "Lini",
+          "xmin": 56,
+          "ymin": 776,
+          "xmax": 119,
+          "ymax": 813
+        },
+        {
+          "text": "ing",
+          "xmin": 114,
+          "ymin": 782,
+          "xmax": 167,
+          "ymax": 819
+        },
+        {
+          "text": "130",
+          "xmin": 883,
+          "ymin": 782,
+          "xmax": 948,
+          "ymax": 813
+        },
+        {
+          "text": "Hooks",
+          "xmin": 53,
+          "ymin": 843,
+          "xmax": 172,
+          "ymax": 882
+        },
+        {
+          "text": "100",
+          "xmin": 883,
+          "ymin": 851,
+          "xmax": 948,
+          "ymax": 882
+        },
+        {
+          "text": "Laces",
+          "xmin": 53,
+          "ymin": 915,
+          "xmax": 157,
+          "ymax": 949
+        },
+        {
+          "text": "20",
+          "xmin": 906,
+          "ymin": 919,
+          "xmax": 950,
+          "ymax": 950
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 56,
+          "ymin": 979,
+          "xmax": 192,
+          "ymax": 1029
+        },
+        {
+          "text": "20",
+          "xmin": 906,
+          "ymin": 988,
+          "xmax": 950,
+          "ymax": 1018
+        },
+        {
+          "text": "HOOKS",
+          "xmin": 2782,
+          "ymin": 972,
+          "xmax": 2935,
+          "ymax": 1006
+        },
+        {
+          "text": "Shanks",
+          "xmin": 53,
+          "ymin": 1047,
+          "xmax": 188,
+          "ymax": 1088
+        },
+        {
+          "text": "10",
+          "xmin": 907,
+          "ymin": 1056,
+          "xmax": 950,
+          "ymax": 1087
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 53,
+          "ymin": 1117,
+          "xmax": 195,
+          "ymax": 1156
+        },
+        {
+          "text": "30",
+          "xmin": 905,
+          "ymin": 1125,
+          "xmax": 949,
+          "ymax": 1155
+        },
+        {
+          "text": "Texon",
+          "xmin": 53,
+          "ymin": 1187,
+          "xmax": 171,
+          "ymax": 1223
+        },
+        {
+          "text": "30",
+          "xmin": 905,
+          "ymin": 1193,
+          "xmax": 950,
+          "ymax": 1224
+        },
+        {
+          "text": "Sole",
+          "xmin": 53,
+          "ymin": 1253,
+          "xmax": 134,
+          "ymax": 1292
+        },
+        {
+          "text": "160",
+          "xmin": 883,
+          "ymin": 1261,
+          "xmax": 948,
+          "ymax": 1292
+        },
+        {
+          "text": "Thread",
+          "xmin": 53,
+          "ymin": 1321,
+          "xmax": 186,
+          "ymax": 1363
+        },
+        {
+          "text": "20",
+          "xmin": 906,
+          "ymin": 1330,
+          "xmax": 950,
+          "ymax": 1360
+        },
+        {
+          "text": "Jeans",
+          "xmin": 53,
+          "ymin": 1392,
+          "xmax": 158,
+          "ymax": 1432
+        },
+        {
+          "text": "10",
+          "xmin": 907,
+          "ymin": 1398,
+          "xmax": 950,
+          "ymax": 1428
+        },
+        {
+          "text": "GIue",
+          "xmin": 53,
+          "ymin": 1458,
+          "xmax": 143,
+          "ymax": 1499
+        },
+        {
+          "text": "50",
+          "xmin": 906,
+          "ymin": 1466,
+          "xmax": 950,
+          "ymax": 1496
+        },
+        {
+          "text": "Sponge",
+          "xmin": 53,
+          "ymin": 1527,
+          "xmax": 196,
+          "ymax": 1575
+        },
+        {
+          "text": "20",
+          "xmin": 906,
+          "ymin": 1535,
+          "xmax": 949,
+          "ymax": 1565
+        },
+        {
+          "text": "Labour",
+          "xmin": 53,
+          "ymin": 1596,
+          "xmax": 187,
+          "ymax": 1634
+        },
+        {
+          "text": "250",
+          "xmin": 882,
+          "ymin": 1603,
+          "xmax": 948,
+          "ymax": 1634
+        },
+        {
+          "text": "Total",
+          "xmin": 53,
+          "ymin": 1666,
+          "xmax": 156,
+          "ymax": 1705
+        },
+        {
+          "text": "cost",
+          "xmin": 169,
+          "ymin": 1674,
+          "xmax": 243,
+          "ymax": 1703
+        },
+        {
+          "text": "1,330",
+          "xmin": 848,
+          "ymin": 1672,
+          "xmax": 948,
+          "ymax": 1705
+        },
+        {
+          "text": "SELLING",
+          "xmin": 60,
+          "ymin": 1808,
+          "xmax": 209,
+          "ymax": 1838
+        },
+        {
+          "text": "PRICE=1450",
+          "xmin": 227,
+          "ymin": 1808,
+          "xmax": 449,
+          "ymax": 1838
+        }
+      ],
+      "raw_text": "MILITARY BOOT(LONG) HEIGHT;22CMS 5,8 INCHES(PVC),HO0KS,FOLDED Wholesale-2200 Retail-2400 FOLDI COST DESCRIPTION UNIT COST NG Dull box 360 D- col sllection 120 Lini ing 130 Hooks 100 Laces 20 Eyelets 20 HOOKS Shanks 10 Stiffner 30 Texon 30 Sole 160 Thread 20 Jeans 10 GIue 50 Sponge 20 Labour 250 Total cost 1,330 SELLING PRICE=1450 "
+    },
+    {
+      "page": 11,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-12.jpeg?ik-s=333ddb3f974ba9d1fd2441306005bd3204755fa7&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 810,
+          "ymin": 156,
+          "xmax": 1061,
+          "ymax": 199
+        },
+        {
+          "text": "BOOT(LONG",
+          "xmin": 1085,
+          "ymin": 152,
+          "xmax": 1413,
+          "ymax": 199
+        },
+        {
+          "text": ")",
+          "xmin": 1440,
+          "ymin": 153,
+          "xmax": 1450,
+          "ymax": 194
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 810,
+          "ymin": 237,
+          "xmax": 1019,
+          "ymax": 281
+        },
+        {
+          "text": ":22CMS",
+          "xmin": 1008,
+          "ymin": 237,
+          "xmax": 1221,
+          "ymax": 281
+        },
+        {
+          "text": ",8",
+          "xmin": 1242,
+          "ymin": 237,
+          "xmax": 1286,
+          "ymax": 283
+        },
+        {
+          "text": "INCHES(RUBBER),EYELETS,FOLDED",
+          "xmin": 810,
+          "ymin": 311,
+          "xmax": 1748,
+          "ymax": 365
+        },
+        {
+          "text": "WHOLESALE-2300",
+          "xmin": 807,
+          "ymin": 397,
+          "xmax": 1300,
+          "ymax": 440
+        },
+        {
+          "text": "RETAIL-2500",
+          "xmin": 1320,
+          "ymin": 397,
+          "xmax": 1654,
+          "ymax": 440
+        },
+        {
+          "text": "COST",
+          "xmin": 923,
+          "ymin": 557,
+          "xmax": 1030,
+          "ymax": 601
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 1044,
+          "ymin": 571,
+          "xmax": 1295,
+          "ymax": 601
+        },
+        {
+          "text": "UNIT",
+          "xmin": 1413,
+          "ymin": 560,
+          "xmax": 1510,
+          "ymax": 601
+        },
+        {
+          "text": "COST",
+          "xmin": 1524,
+          "ymin": 571,
+          "xmax": 1623,
+          "ymax": 601
+        },
+        {
+          "text": "Dull",
+          "xmin": 926,
+          "ymin": 625,
+          "xmax": 999,
+          "ymax": 664
+        },
+        {
+          "text": "box",
+          "xmin": 1016,
+          "ymin": 633,
+          "xmax": 1078,
+          "ymax": 665
+        },
+        {
+          "text": "360",
+          "xmin": 1657,
+          "ymin": 628,
+          "xmax": 1726,
+          "ymax": 664
+        },
+        {
+          "text": "D-",
+          "xmin": 923,
+          "ymin": 688,
+          "xmax": 969,
+          "ymax": 729
+        },
+        {
+          "text": "collection",
+          "xmin": 983,
+          "ymin": 694,
+          "xmax": 1159,
+          "ymax": 727
+        },
+        {
+          "text": "120",
+          "xmin": 1659,
+          "ymin": 696,
+          "xmax": 1724,
+          "ymax": 726
+        },
+        {
+          "text": "Lining",
+          "xmin": 926,
+          "ymin": 758,
+          "xmax": 1036,
+          "ymax": 798
+        },
+        {
+          "text": "130",
+          "xmin": 1659,
+          "ymin": 759,
+          "xmax": 1725,
+          "ymax": 790
+        },
+        {
+          "text": "Laces",
+          "xmin": 926,
+          "ymin": 816,
+          "xmax": 1026,
+          "ymax": 850
+        },
+        {
+          "text": "20",
+          "xmin": 1681,
+          "ymin": 815,
+          "xmax": 1726,
+          "ymax": 852
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 922,
+          "ymin": 876,
+          "xmax": 1061,
+          "ymax": 924
+        },
+        {
+          "text": "10",
+          "xmin": 1682,
+          "ymin": 884,
+          "xmax": 1725,
+          "ymax": 914
+        },
+        {
+          "text": "Shanks",
+          "xmin": 923,
+          "ymin": 937,
+          "xmax": 1058,
+          "ymax": 978
+        },
+        {
+          "text": "10",
+          "xmin": 1682,
+          "ymin": 947,
+          "xmax": 1725,
+          "ymax": 977
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 923,
+          "ymin": 1003,
+          "xmax": 1066,
+          "ymax": 1041
+        },
+        {
+          "text": "30",
+          "xmin": 1681,
+          "ymin": 1003,
+          "xmax": 1726,
+          "ymax": 1039
+        },
+        {
+          "text": "Texon",
+          "xmin": 923,
+          "ymin": 1067,
+          "xmax": 1038,
+          "ymax": 1101
+        },
+        {
+          "text": "30",
+          "xmin": 1680,
+          "ymin": 1072,
+          "xmax": 1725,
+          "ymax": 1101
+        },
+        {
+          "text": "Sole",
+          "xmin": 923,
+          "ymin": 1128,
+          "xmax": 1005,
+          "ymax": 1165
+        },
+        {
+          "text": "410",
+          "xmin": 1656,
+          "ymin": 1127,
+          "xmax": 1726,
+          "ymax": 1165
+        },
+        {
+          "text": "Thread",
+          "xmin": 923,
+          "ymin": 1188,
+          "xmax": 1056,
+          "ymax": 1229
+        },
+        {
+          "text": "20",
+          "xmin": 1681,
+          "ymin": 1190,
+          "xmax": 1726,
+          "ymax": 1229
+        },
+        {
+          "text": "Jeans",
+          "xmin": 923,
+          "ymin": 1257,
+          "xmax": 1028,
+          "ymax": 1291
+        },
+        {
+          "text": "10",
+          "xmin": 1682,
+          "ymin": 1253,
+          "xmax": 1726,
+          "ymax": 1290
+        },
+        {
+          "text": "Glue",
+          "xmin": 923,
+          "ymin": 1316,
+          "xmax": 1010,
+          "ymax": 1352
+        },
+        {
+          "text": "50",
+          "xmin": 1680,
+          "ymin": 1322,
+          "xmax": 1725,
+          "ymax": 1352
+        },
+        {
+          "text": "Sponge",
+          "xmin": 922,
+          "ymin": 1380,
+          "xmax": 1065,
+          "ymax": 1424
+        },
+        {
+          "text": "50",
+          "xmin": 1681,
+          "ymin": 1385,
+          "xmax": 1725,
+          "ymax": 1415
+        },
+        {
+          "text": "Labour",
+          "xmin": 926,
+          "ymin": 1440,
+          "xmax": 1057,
+          "ymax": 1476
+        },
+        {
+          "text": "250",
+          "xmin": 1658,
+          "ymin": 1447,
+          "xmax": 1725,
+          "ymax": 1476
+        },
+        {
+          "text": "Total",
+          "xmin": 923,
+          "ymin": 1502,
+          "xmax": 1026,
+          "ymax": 1543
+        },
+        {
+          "text": "cost",
+          "xmin": 1023,
+          "ymin": 1509,
+          "xmax": 1113,
+          "ymax": 1541
+        },
+        {
+          "text": "1.500",
+          "xmin": 1624,
+          "ymin": 1510,
+          "xmax": 1722,
+          "ymax": 1540
+        },
+        {
+          "text": "SELLING",
+          "xmin": 929,
+          "ymin": 1698,
+          "xmax": 1080,
+          "ymax": 1727
+        },
+        {
+          "text": "PRICE=1600",
+          "xmin": 1098,
+          "ymin": 1698,
+          "xmax": 1318,
+          "ymax": 1728
+        }
+      ],
+      "raw_text": "MILITARY BOOT(LONG ) HEIGHT :22CMS ,8 INCHES(RUBBER),EYELETS,FOLDED WHOLESALE-2300 RETAIL-2500 COST DESCRIPTION UNIT COST Dull box 360 D- collection 120 Lining 130 Laces 20 Eyelets 10 Shanks 10 Stiffner 30 Texon 30 Sole 410 Thread 20 Jeans 10 Glue 50 Sponge 50 Labour 250 Total cost 1.500 SELLING PRICE=1600 "
+    },
+    {
+      "page": 12,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-13.jpeg?ik-s=86c31df7289f9defea191c5e1b66875d2c03e4d8&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "MILITARY",
+          "xmin": 64,
+          "ymin": 156,
+          "xmax": 316,
+          "ymax": 199
+        },
+        {
+          "text": "BOOT(LONG",
+          "xmin": 339,
+          "ymin": 152,
+          "xmax": 668,
+          "ymax": 199
+        },
+        {
+          "text": "|",
+          "xmin": 693,
+          "ymin": 153,
+          "xmax": 703,
+          "ymax": 194
+        },
+        {
+          "text": "HEIGHT",
+          "xmin": 64,
+          "ymin": 237,
+          "xmax": 274,
+          "ymax": 279
+        },
+        {
+          "text": ";22CMS",
+          "xmin": 261,
+          "ymin": 237,
+          "xmax": 475,
+          "ymax": 283
+        },
+        {
+          "text": ",8",
+          "xmin": 497,
+          "ymin": 237,
+          "xmax": 538,
+          "ymax": 282
+        },
+        {
+          "text": "INCHES(PVC),HOOKS,FOLD",
+          "xmin": 64,
+          "ymin": 312,
+          "xmax": 804,
+          "ymax": 363
+        },
+        {
+          "text": "ED.",
+          "xmin": 798,
+          "ymin": 315,
+          "xmax": 872,
+          "ymax": 358
+        },
+        {
+          "text": "D,PSHINE",
+          "xmin": 857,
+          "ymin": 315,
+          "xmax": 1082,
+          "ymax": 363
+        },
+        {
+          "text": "WHOLESALE-2200",
+          "xmin": 61,
+          "ymin": 397,
+          "xmax": 555,
+          "ymax": 440
+        },
+        {
+          "text": "RETAIL-2400",
+          "xmin": 574,
+          "ymin": 397,
+          "xmax": 909,
+          "ymax": 440
+        },
+        {
+          "text": "COST",
+          "xmin": 72,
+          "ymin": 560,
+          "xmax": 179,
+          "ymax": 601
+        },
+        {
+          "text": "DESCRIPTION",
+          "xmin": 193,
+          "ymin": 571,
+          "xmax": 441,
+          "ymax": 602
+        },
+        {
+          "text": "UNIT",
+          "xmin": 541,
+          "ymin": 560,
+          "xmax": 643,
+          "ymax": 601
+        },
+        {
+          "text": "COST",
+          "xmin": 655,
+          "ymin": 571,
+          "xmax": 753,
+          "ymax": 601
+        },
+        {
+          "text": "Dull",
+          "xmin": 76,
+          "ymin": 625,
+          "xmax": 148,
+          "ymax": 664
+        },
+        {
+          "text": "box",
+          "xmin": 166,
+          "ymin": 633,
+          "xmax": 227,
+          "ymax": 664
+        },
+        {
+          "text": "360",
+          "xmin": 963,
+          "ymin": 634,
+          "xmax": 1030,
+          "ymax": 664
+        },
+        {
+          "text": "Pshi",
+          "xmin": 72,
+          "ymin": 689,
+          "xmax": 149,
+          "ymax": 727
+        },
+        {
+          "text": "ine",
+          "xmin": 146,
+          "ymin": 696,
+          "xmax": 197,
+          "ymax": 726
+        },
+        {
+          "text": "300",
+          "xmin": 963,
+          "ymin": 696,
+          "xmax": 1030,
+          "ymax": 727
+        },
+        {
+          "text": "Lini",
+          "xmin": 76,
+          "ymin": 755,
+          "xmax": 138,
+          "ymax": 790
+        },
+        {
+          "text": "ing",
+          "xmin": 131,
+          "ymin": 759,
+          "xmax": 186,
+          "ymax": 798
+        },
+        {
+          "text": "130",
+          "xmin": 965,
+          "ymin": 759,
+          "xmax": 1029,
+          "ymax": 790
+        },
+        {
+          "text": "Hooks",
+          "xmin": 72,
+          "ymin": 813,
+          "xmax": 191,
+          "ymax": 852
+        },
+        {
+          "text": "100",
+          "xmin": 965,
+          "ymin": 821,
+          "xmax": 1030,
+          "ymax": 852
+        },
+        {
+          "text": "Laces",
+          "xmin": 72,
+          "ymin": 878,
+          "xmax": 179,
+          "ymax": 917
+        },
+        {
+          "text": "20",
+          "xmin": 987,
+          "ymin": 878,
+          "xmax": 1032,
+          "ymax": 915
+        },
+        {
+          "text": "Eyelets",
+          "xmin": 72,
+          "ymin": 939,
+          "xmax": 210,
+          "ymax": 988
+        },
+        {
+          "text": "10",
+          "xmin": 989,
+          "ymin": 947,
+          "xmax": 1031,
+          "ymax": 977
+        },
+        {
+          "text": "Shanks",
+          "xmin": 72,
+          "ymin": 1000,
+          "xmax": 207,
+          "ymax": 1041
+        },
+        {
+          "text": "10",
+          "xmin": 988,
+          "ymin": 1003,
+          "xmax": 1032,
+          "ymax": 1041
+        },
+        {
+          "text": "Stiffner",
+          "xmin": 72,
+          "ymin": 1067,
+          "xmax": 215,
+          "ymax": 1104
+        },
+        {
+          "text": "30",
+          "xmin": 986,
+          "ymin": 1072,
+          "xmax": 1031,
+          "ymax": 1101
+        },
+        {
+          "text": "Texon",
+          "xmin": 72,
+          "ymin": 1128,
+          "xmax": 190,
+          "ymax": 1165
+        },
+        {
+          "text": "30",
+          "xmin": 987,
+          "ymin": 1134,
+          "xmax": 1031,
+          "ymax": 1162
+        },
+        {
+          "text": "Sole",
+          "xmin": 72,
+          "ymin": 1190,
+          "xmax": 156,
+          "ymax": 1229
+        },
+        {
+          "text": "160",
+          "xmin": 965,
+          "ymin": 1197,
+          "xmax": 1029,
+          "ymax": 1228
+        },
+        {
+          "text": "Thread",
+          "xmin": 72,
+          "ymin": 1251,
+          "xmax": 205,
+          "ymax": 1292
+        },
+        {
+          "text": "20",
+          "xmin": 987,
+          "ymin": 1253,
+          "xmax": 1032,
+          "ymax": 1290
+        },
+        {
+          "text": "Jeans",
+          "xmin": 72,
+          "ymin": 1318,
+          "xmax": 178,
+          "ymax": 1352
+        },
+        {
+          "text": "10",
+          "xmin": 989,
+          "ymin": 1322,
+          "xmax": 1031,
+          "ymax": 1352
+        },
+        {
+          "text": "Glue",
+          "xmin": 72,
+          "ymin": 1377,
+          "xmax": 162,
+          "ymax": 1417
+        },
+        {
+          "text": "50",
+          "xmin": 987,
+          "ymin": 1385,
+          "xmax": 1031,
+          "ymax": 1415
+        },
+        {
+          "text": "Sponge",
+          "xmin": 72,
+          "ymin": 1440,
+          "xmax": 215,
+          "ymax": 1489
+        },
+        {
+          "text": "20",
+          "xmin": 987,
+          "ymin": 1441,
+          "xmax": 1032,
+          "ymax": 1477
+        },
+        {
+          "text": "Labour",
+          "xmin": 72,
+          "ymin": 1502,
+          "xmax": 206,
+          "ymax": 1541
+        },
+        {
+          "text": "250",
+          "xmin": 965,
+          "ymin": 1510,
+          "xmax": 1030,
+          "ymax": 1541
+        },
+        {
+          "text": "Total",
+          "xmin": 72,
+          "ymin": 1565,
+          "xmax": 175,
+          "ymax": 1604
+        },
+        {
+          "text": "cost",
+          "xmin": 172,
+          "ymin": 1570,
+          "xmax": 262,
+          "ymax": 1603
+        },
+        {
+          "text": "1,500",
+          "xmin": 928,
+          "ymin": 1572,
+          "xmax": 1029,
+          "ymax": 1604
+        },
+        {
+          "text": "SELLING",
+          "xmin": 79,
+          "ymin": 1698,
+          "xmax": 227,
+          "ymax": 1727
+        },
+        {
+          "text": "PRICE=1600",
+          "xmin": 246,
+          "ymin": 1698,
+          "xmax": 466,
+          "ymax": 1727
+        },
+        {
+          "text": "PERMANE",
+          "xmin": 2832,
+          "ymin": 2008,
+          "xmax": 2999,
+          "ymax": 2032
+        },
+        {
+          "text": "SHINE",
+          "xmin": 2831,
+          "ymin": 2052,
+          "xmax": 2929,
+          "ymax": 2076
+        }
+      ],
+      "raw_text": "MILITARY BOOT(LONG | HEIGHT ;22CMS ,8 INCHES(PVC),HOOKS,FOLD ED. D,PSHINE WHOLESALE-2200 RETAIL-2400 COST DESCRIPTION UNIT COST Dull box 360 Pshi ine 300 Lini ing 130 Hooks 100 Laces 20 Eyelets 10 Shanks 10 Stiffner 30 Texon 30 Sole 160 Thread 20 Jeans 10 Glue 50 Sponge 20 Labour 250 Total cost 1,500 SELLING PRICE=1600 PERMANE SHINE "
+    },
+    {
+      "page": 13,
+      "image_url": "https://images.nanonets.com/tr:rt-0/uploadedfiles/rawocr/c4e60db5-d04e-4f88-b82b-241dc858607d-14.jpeg?ik-s=068a0a63a098a50f7b7570f1db4de70ff89c91a6&ik-t=1753146403",
+      "size": {
+        "width": 3000,
+        "height": 2250
+      },
+      "words": [
+        {
+          "text": "I",
+          "xmin": 26,
+          "ymin": 0,
+          "xmax": 50,
+          "ymax": 24
+        },
+        {
+          "text": "I",
+          "xmin": 43,
+          "ymin": 5,
+          "xmax": 75,
+          "ymax": 27
+        },
+        {
+          "text": "I",
+          "xmin": 0,
+          "ymin": 30,
+          "xmax": 7,
+          "ymax": 53
+        }
+      ],
+      "raw_text": "I I I "
+    }
+  ]
+}
