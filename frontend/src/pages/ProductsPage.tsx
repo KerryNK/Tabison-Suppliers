@@ -3,6 +3,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Box, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from '../context/CartContext';
 
 const columns: GridColDef[] = [
   { field: "name", headerName: "Name", flex: 1 },
@@ -29,6 +30,7 @@ const ProductsPage: React.FC = () => {
   const [form, setForm] = useState(defaultForm);
   const [editing, setEditing] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     setLoading(true);
@@ -104,6 +106,7 @@ const ProductsPage: React.FC = () => {
                 {user?.role === "admin" && (
                   <Button size="small" color="error" onClick={() => handleDelete(params.row._id)}>Delete</Button>
                 )}
+                <Button size="small" color="secondary" onClick={() => addToCart(params.row)}>Add to Cart</Button>
               </Box>
             ),
           },

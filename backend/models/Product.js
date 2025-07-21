@@ -9,6 +9,9 @@ const productSchema = new mongoose.Schema({
   stockQuantity: { type: Number, default: 0 },
   supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier', required: true },
   status: { type: String, enum: ['Active', 'Inactive', 'Discontinued'], default: 'Active' },
+  description: { type: String },
+  costBreakdown: { type: Array, default: [] }, // Array of { item, unit, cost }
+  images: { type: [String], default: [] },
 }, { timestamps: true });
 
 export default mongoose.model('Product', productSchema); 
