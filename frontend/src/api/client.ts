@@ -2,7 +2,7 @@ import { useAuth } from "../context/AuthContext";
 
 export function useApi() {
   const { token } = useAuth();
-  const apiUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+  const apiUrl = import.meta.env.VITE_API_BASE_URL || "https://suppliers-7zjy.onrender.com/api";
   return {
     get: (path: string) =>
       fetch(`${apiUrl}${path}`, {
