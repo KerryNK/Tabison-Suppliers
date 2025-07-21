@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import CartPage from './pages/CartPage';
 import PaymentPage from './pages/PaymentPage';
+import Footer from './components/Footer';
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from './context/CartContext';
 
@@ -27,6 +28,7 @@ const App: React.FC = () => (
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <Footer />
       </Layout>
     </AuthProvider>
   </CartProvider>

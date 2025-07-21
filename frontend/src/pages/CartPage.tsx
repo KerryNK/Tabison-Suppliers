@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Button, Typography, IconButton, TextField } from '@mui/material';
+import { Box, Typography, IconButton, TextField, Button, Divider, Stack, CardMedia, Paper } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useCart } from '../context/CartContext';
 import { useApi } from '../api/client';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
 const CartPage: React.FC = () => {
@@ -17,7 +17,6 @@ const CartPage: React.FC = () => {
     setPlacing(true);
     setError(''); setSuccess('');
     try {
-      // Prepare order payload
       const order = {
         orderNumber: 'ORD-' + Date.now(),
         supplier: items[0]?.product.supplier || '',
@@ -36,36 +35,57 @@ const CartPage: React.FC = () => {
     }
   };
 
+  const total = items.reduce((sum, i) => sum + i.product.retailPrice * i.quantity, 0);
+
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', mt: 4 }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>Your Cart</Typography>
-      {items.length === 0 ? <Typography>Your cart is empty.</Typography> : (
-        <>
-          {items.map(({ product, quantity }) => (
-            <Box key={product._id} sx={{ display: 'flex', alignItems: 'center', mb: 2, p: 2, bgcolor: '#f9f9f9', borderRadius: 2 }}>
-              <Box sx={{ flex: 1 }}>
-                <Typography fontWeight={700}>{product.name}</Typography>
-                <Typography color="text.secondary">Ksh {product.retailPrice}</Typography>
-              </Box>
-              <TextField
-                type="number"
-                size="small"
-                value={quantity}
-                onChange={e => updateQuantity(product._id, Number(e.target.value))}
-                inputProps={{ min: 1, style: { width: 60 } }}
-                sx={{ mx: 2 }}
-              />
-              <IconButton onClick={() => removeFromCart(product._id)}><DeleteIcon /></IconButton>
+    <Box sx={{ maxWidth: 900, mx: 'auto', mt: 4, p: 2 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 3, textAlign: 'center' }}>Your Cart</Typography>
+      {items.length === 0 ? (
+        <Paper sx={{ p: 4, textAlign: 'center', color: 'text.secondary' }}>Your cart is empty.</Paper>
+      ) : (
+        <Box>
+          <Stack spacing={2}>
+            {items.map(({ product, quantity }) => (
+              <Paper key={product._id} sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 3, boxShadow: 2 }}>
+                {product.images && product.images[0] ? (
+                  <CardMedia component="img" image={product.images[0]} alt={product.name} sx={{ width: 80, height: 80, objectFit: 'contain', bgcolor: '#f9f9f9', borderRadius: 2, mr: 2 }} />
+                ) : (
+                  <Box sx={{ width: 80, height: 80, bgcolor: '#f9f9f9', borderRadius: 2, mr: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography color="text.secondary">No Image</Typography>
+                  </Box>
+                )}
+                <Box sx={{ flex: 1 }}>
+                  <Typography fontWeight={700} color="primary.main">{product.name}</Typography>
+                  <Typography color="secondary.main">Ksh {product.retailPrice}</Typography>
+                </Box>
+                <TextField
+                  type="number"
+                  size="small"
+                  value={quantity}
+                  onChange={e => updateQuantity(product._id, Number(e.target.value))}
+                  inputProps={{ min: 1, style: { width: 60 } }}
+                  sx={{ mx: 2 }}
+                />
+                <IconButton onClick={() => removeFromCart(product._id)} color="error"><DeleteIcon /></IconButton>
+              </Paper>
+            ))}
+          </Stack>
+          <Divider sx={{ my: 4 }} />
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { sm: 'center' }, gap: 2 }}>
+            <Box>
+              <Typography variant="h6" sx={{ fontWeight: 700 }}>Order Summary</Typography>
+              <Typography sx={{ mt: 1 }}><b>Total:</b> Ksh {total}</Typography>
             </Box>
-          ))}
-          <Typography sx={{ mt: 2, mb: 2 }}>
-            <b>Total:</b> Ksh {items.reduce((sum, i) => sum + i.product.retailPrice * i.quantity, 0)}
-          </Typography>
-          <Button variant="contained" color="primary" onClick={handlePlaceOrder} disabled={placing} sx={{ mr: 2 }}>Place Order</Button>
-          <Button variant="outlined" color="secondary" onClick={clearCart}>Clear Cart</Button>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+              <Button variant="contained" color="primary" onClick={handlePlaceOrder} disabled={placing} size="large">
+                {placing ? 'Placing Order...' : 'Checkout'}
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={clearCart} size="large">Clear Cart</Button>
+            </Stack>
+          </Box>
           {success && <Typography color="success.main" sx={{ mt: 2 }}>{success}</Typography>}
           {error && <Typography color="error.main" sx={{ mt: 2 }}>{error}</Typography>}
-        </>
+        </Box>
       )}
     </Box>
   );

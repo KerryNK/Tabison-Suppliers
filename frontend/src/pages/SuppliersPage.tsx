@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Paper, Rating, Stack, IconButton } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Box, Rating } from "@mui/material";
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const columns: GridColDef[] = [
+const columnsBase: GridColDef[] = [
   { field: "name", headerName: "Name", flex: 1 },
   { field: "email", headerName: "Email", flex: 1 },
   { field: "phone", headerName: "Phone", flex: 1 },
@@ -76,37 +78,41 @@ const SuppliersPage: React.FC = () => {
     }
   };
 
+  const columns: GridColDef[] = [
+    ...columnsBase,
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.7,
+      renderCell: (params) => (
+        <Stack direction="row" spacing={1}>
+          <IconButton size="small" color="primary" onClick={() => handleEdit(params.row)}><EditIcon /></IconButton>
+          {user?.role === "admin" && (
+            <IconButton size="small" color="error" onClick={() => handleDelete(params.row._id)}><DeleteIcon /></IconButton>
+          )}
+        </Stack>
+      ),
+    },
+  ];
+
   return (
-    <Box sx={{ maxWidth: 1000, mx: "auto", mt: 4 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-        <h1 style={{ color: "#1a2233", fontWeight: 700 }}>Suppliers</h1>
-        <Button variant="contained" color="primary" onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>
+    <Box sx={{ maxWidth: 1000, mx: "auto", mt: 4, p: 2 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 3, textAlign: 'center' }}>Suppliers</Typography>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+        <Button variant="contained" color="secondary" onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>
           Add Supplier
         </Button>
       </Box>
-      <DataGrid
-        autoHeight
-        rows={suppliers.map(s => ({ ...s, id: s._id }))}
-        columns={[
-          ...columns,
-          {
-            field: "actions",
-            headerName: "Actions",
-            flex: 0.7,
-            renderCell: (params) => (
-              <Box>
-                <Button size="small" onClick={() => handleEdit(params.row)}>Edit</Button>
-                {user?.role === "admin" && (
-                  <Button size="small" color="error" onClick={() => handleDelete(params.row._id)}>Delete</Button>
-                )}
-              </Box>
-            ),
-          },
-        ]}
-        loading={loading}
-        disableRowSelectionOnClick
-        sx={{ background: "#fff", borderRadius: 2, boxShadow: 1 }}
-      />
+      <Paper sx={{ p: 2, borderRadius: 3, boxShadow: 2 }}>
+        <DataGrid
+          autoHeight
+          rows={suppliers.map(s => ({ ...s, id: s._id }))}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          sx={{ background: "#fff", borderRadius: 2, boxShadow: 1 }}
+        />
+      </Paper>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{editing ? "Edit Supplier" : "Add Supplier"}</DialogTitle>
         <form onSubmit={handleSubmit}>
