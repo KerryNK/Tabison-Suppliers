@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Drawer, List, ListItem, ListItemText, AppBar, Toolbar, Typography, Avatar, Box, Button } from "@mui/material";
+import logo from '../assets/logo.png';
 
 const navItems = [
   { label: "Dashboard", path: "/" },
@@ -32,10 +33,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           },
         }}
       >
-        <Toolbar sx={{ bgcolor: "secondary.main", minHeight: 64 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, color: "#fff" }}>
-            Tabison Suppliers
-          </Typography>
+        <Toolbar sx={{ bgcolor: "secondary.main", minHeight: 64, display: 'flex', alignItems: 'center' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img src={logo} alt="Tabison Suppliers Logo" style={{ height: 48, marginRight: 12 }} />
+            <Typography variant="h6" sx={{ fontWeight: 700, color: "#fff" }}>
+              Tabison Suppliers
+            </Typography>
+          </Link>
         </Toolbar>
         <List>
           {navItems.map((item) => (
