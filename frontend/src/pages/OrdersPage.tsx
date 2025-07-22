@@ -112,72 +112,74 @@ const OrdersPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 2, bgcolor: '#f5f7fa', minHeight: '80vh' }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main' }}>Orders</Typography>
-        <Button variant="contained" color="secondary" size="large" sx={{ fontWeight: 700, borderRadius: 2, boxShadow: 2 }} onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>
-          Add Order
-        </Button>
-      </Box>
-      <Paper sx={{ bgcolor: 'background.paper', p: 3, borderRadius: 2, boxShadow: 1, mb: 4 }}>
-        <DataGrid
-          autoHeight
-          rows={orders.map(o => ({ ...o, id: o._id }))}
-          columns={columns}
-          loading={loading}
-          disableRowSelectionOnClick
-          sx={{ background: '#fff', borderRadius: 2, boxShadow: 1 }}
-        />
-      </Paper>
-      <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ sx: { borderRadius: 3, p: 1 } }}>
-        <DialogTitle sx={{ fontWeight: 700, color: 'primary.main', pb: 0 }}>{editing ? "Edit Order" : "Add Order"}</DialogTitle>
-        <form onSubmit={handleSubmit}>
-          <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 400, pt: 1 }}>
-            <TextField name="orderNumber" label="Order Number" value={form.orderNumber} onChange={handleChange} required autoFocus />
-            <TextField name="supplier" label="Supplier ID" value={form.supplier} onChange={handleChange} required />
-            <Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                <b>Order Items</b>
-                <Button size="small" onClick={handleAddItem}>Add Item</Button>
-              </Box>
-              {orderItems.map((item, idx) => (
-                <Box key={idx} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <FormControl sx={{ minWidth: 120, mr: 1 }} size="small">
-                    <Select value={item.product} onChange={e => handleItemChange(idx, 'product', e.target.value)}>
-                      {products.map(p => <MenuItem key={p._id} value={p._id}>{p.name}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                  <TextField type="number" size="small" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', Number(e.target.value))} inputProps={{ min: 1 }} sx={{ width: 80, mr: 1 }} />
-                  <IconButton onClick={() => handleRemoveItem(idx)}><DeleteIcon /></IconButton>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 6 }}>
+      <Box sx={{ maxWidth: 1200, mx: 'auto', p: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main' }}>Orders</Typography>
+          <Button variant="contained" color="secondary" size="large" sx={{ fontWeight: 700, borderRadius: 2, boxShadow: 2 }} onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>
+            Add Order
+          </Button>
+        </Box>
+        <Paper sx={{ bgcolor: 'background.paper', p: 3, borderRadius: 2, boxShadow: 1, mb: 4 }}>
+          <DataGrid
+            autoHeight
+            rows={orders.map(o => ({ ...o, id: o._id }))}
+            columns={columns}
+            loading={loading}
+            disableRowSelectionOnClick
+            sx={{ background: '#fff', borderRadius: 2, boxShadow: 1 }}
+          />
+        </Paper>
+        <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ sx: { borderRadius: 3, p: 1 } }}>
+          <DialogTitle sx={{ fontWeight: 700, color: 'primary.main', pb: 0 }}>{editing ? "Edit Order" : "Add Order"}</DialogTitle>
+          <form onSubmit={handleSubmit}>
+            <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 400, pt: 1 }}>
+              <TextField name="orderNumber" label="Order Number" value={form.orderNumber} onChange={handleChange} required autoFocus />
+              <TextField name="supplier" label="Supplier ID" value={form.supplier} onChange={handleChange} required />
+              <Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <b>Order Items</b>
+                  <Button size="small" onClick={handleAddItem}>Add Item</Button>
                 </Box>
-              ))}
-            </Box>
-            <TextField name="totalAmount" label="Total Amount" value={orderItems.reduce((sum, i) => {
-              const prod = products.find(p => p._id === i.product);
-              return sum + (prod ? prod.retailPrice * i.quantity : 0);
-            }, 0)} inputProps={{ readOnly: true }} required type="number" />
-            <FormControl required>
-              <InputLabel>Status</InputLabel>
-              <Select name="status" value={form.status} onChange={handleSelect} label="Status">
-                {statusOptions.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
-              </Select>
-            </FormControl>
-            <FormControl required>
-              <InputLabel>Payment Status</InputLabel>
-              <Select name="paymentStatus" value={form.paymentStatus} onChange={handleSelect} label="Payment Status">
-                {paymentOptions.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </DialogContent>
-          <DialogActions sx={{ pb: 2, pr: 3 }}>
-            <Button onClick={() => setOpen(false)} color="inherit">Cancel</Button>
-            <Button type="submit" variant="contained" color="primary" sx={{ fontWeight: 700 }}>{editing ? "Update" : "Add"}</Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-      <Snackbar open={!!error || !!success} autoHideDuration={3000} onClose={() => { setError(""); setSuccess(""); }}>
-        {error ? <Alert severity="error">{error}</Alert> : success ? <Alert severity="success">{success}</Alert> : null}
-      </Snackbar>
+                {orderItems.map((item, idx) => (
+                  <Box key={idx} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <FormControl sx={{ minWidth: 120, mr: 1 }} size="small">
+                      <Select value={item.product} onChange={e => handleItemChange(idx, 'product', e.target.value)}>
+                        {products.map(p => <MenuItem key={p._id} value={p._id}>{p.name}</MenuItem>)}
+                      </Select>
+                    </FormControl>
+                    <TextField type="number" size="small" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', Number(e.target.value))} inputProps={{ min: 1 }} sx={{ width: 80, mr: 1 }} />
+                    <IconButton onClick={() => handleRemoveItem(idx)}><DeleteIcon /></IconButton>
+                  </Box>
+                ))}
+              </Box>
+              <TextField name="totalAmount" label="Total Amount" value={orderItems.reduce((sum, i) => {
+                const prod = products.find(p => p._id === i.product);
+                return sum + (prod ? prod.retailPrice * i.quantity : 0);
+              }, 0)} inputProps={{ readOnly: true }} required type="number" />
+              <FormControl required>
+                <InputLabel>Status</InputLabel>
+                <Select name="status" value={form.status} onChange={handleSelect} label="Status">
+                  {statusOptions.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
+                </Select>
+              </FormControl>
+              <FormControl required>
+                <InputLabel>Payment Status</InputLabel>
+                <Select name="paymentStatus" value={form.paymentStatus} onChange={handleSelect} label="Payment Status">
+                  {paymentOptions.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </DialogContent>
+            <DialogActions sx={{ pb: 2, pr: 3 }}>
+              <Button onClick={() => setOpen(false)} color="inherit">Cancel</Button>
+              <Button type="submit" variant="contained" color="primary" sx={{ fontWeight: 700 }}>{editing ? "Update" : "Add"}</Button>
+            </DialogActions>
+          </form>
+        </Dialog>
+        <Snackbar open={!!error || !!success} autoHideDuration={3000} onClose={() => { setError(""); setSuccess(""); }}>
+          {error ? <Alert severity="error">{error}</Alert> : success ? <Alert severity="success">{success}</Alert> : null}
+        </Snackbar>
+      </Box>
     </Box>
   );
 };
