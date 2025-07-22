@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Box, MenuItem, Select, InputLabel, FormControl, IconButton } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Box, MenuItem, Select, InputLabel, FormControl, IconButton, Paper, Typography } from "@mui/material";
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -112,40 +112,27 @@ const OrdersPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-        <h1 style={{ color: "#1a2233", fontWeight: 700 }}>Orders</h1>
-        <Button variant="contained" color="primary" onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 2, bgcolor: '#f5f7fa', minHeight: '80vh' }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main' }}>Orders</Typography>
+        <Button variant="contained" color="secondary" size="large" sx={{ fontWeight: 700, borderRadius: 2, boxShadow: 2 }} onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>
           Add Order
         </Button>
       </Box>
-      <DataGrid
-        autoHeight
-        rows={orders.map(o => ({ ...o, id: o._id }))}
-        columns={[
-          ...columns,
-          {
-            field: "actions",
-            headerName: "Actions",
-            flex: 0.7,
-            renderCell: (params) => (
-              <Box>
-                <Button size="small" onClick={() => handleEdit(params.row)}>Edit</Button>
-                {user?.role === "admin" && (
-                  <Button size="small" color="error" onClick={() => handleDelete(params.row._id)}>Delete</Button>
-                )}
-              </Box>
-            ),
-          },
-        ]}
-        loading={loading}
-        disableRowSelectionOnClick
-        sx={{ background: "#fff", borderRadius: 2, boxShadow: 1 }}
-      />
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>{editing ? "Edit Order" : "Add Order"}</DialogTitle>
+      <Paper sx={{ bgcolor: 'background.paper', p: 3, borderRadius: 2, boxShadow: 1, mb: 4 }}>
+        <DataGrid
+          autoHeight
+          rows={orders.map(o => ({ ...o, id: o._id }))}
+          columns={columns}
+          loading={loading}
+          disableRowSelectionOnClick
+          sx={{ background: '#fff', borderRadius: 2, boxShadow: 1 }}
+        />
+      </Paper>
+      <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ sx: { borderRadius: 3, p: 1 } }}>
+        <DialogTitle sx={{ fontWeight: 700, color: 'primary.main', pb: 0 }}>{editing ? "Edit Order" : "Add Order"}</DialogTitle>
         <form onSubmit={handleSubmit}>
-          <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 400 }}>
+          <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 400, pt: 1 }}>
             <TextField name="orderNumber" label="Order Number" value={form.orderNumber} onChange={handleChange} required autoFocus />
             <TextField name="supplier" label="Supplier ID" value={form.supplier} onChange={handleChange} required />
             <Box>
@@ -182,9 +169,9 @@ const OrdersPage: React.FC = () => {
               </Select>
             </FormControl>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button type="submit" variant="contained">{editing ? "Update" : "Add"}</Button>
+          <DialogActions sx={{ pb: 2, pr: 3 }}>
+            <Button onClick={() => setOpen(false)} color="inherit">Cancel</Button>
+            <Button type="submit" variant="contained" color="primary" sx={{ fontWeight: 700 }}>{editing ? "Update" : "Add"}</Button>
           </DialogActions>
         </form>
       </Dialog>
