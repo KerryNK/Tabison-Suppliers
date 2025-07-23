@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, Snackbar, Alert, FormControl, InputLabel, Select, MenuItem, TextField, Stack } from "@mui/material";
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
@@ -33,11 +33,13 @@ const ProductsPage: React.FC = () => {
   const [sort, setSort] = useState('newest');
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [tag, setTag] = useState('All');
+  // Debounce ref
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchProducts = async (cat = category, s = search, so = sort, pr = priceRange, tg = tag) => {
     setLoading(true);
     let url = "/products";
-    const params = [];
+    const params: string[] = [];
     if (cat && cat !== "All") params.push(`category=${encodeURIComponent(cat)}`);
     if (s) params.push(`search=${encodeURIComponent(s)}`);
     if (so) params.push(`sort=${encodeURIComponent(so)}`);
@@ -50,7 +52,21 @@ const ProductsPage: React.FC = () => {
     api.get(url).then(data => { setProducts(data); setLoading(false); }).catch(() => { setError("Failed to fetch products"); setLoading(false); });
   };
 
+
+  // Initial fetch
   useEffect(() => { fetchProducts(); /* eslint-disable-next-line */ }, []);
+
+  // Debounced search effect
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      fetchProducts(category, search, sort, priceRange, tag);
+    }, 400);
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   const handleAddToCart = (product: any) => {
     addToCart(product);
@@ -62,9 +78,11 @@ const ProductsPage: React.FC = () => {
     fetchProducts(e.target.value, search);
   };
 
+
+  // Keep the search button for accessibility, but not required for live search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchProducts(category, search);
+    fetchProducts(category, search, sort, priceRange, tag);
   };
 
   return (
@@ -104,13 +122,14 @@ const ProductsPage: React.FC = () => {
             sx={{ mt: 1 }}
           />
         </Box>
-        <form onSubmit={handleSearch} className="product-search-form">
+        <form onSubmit={handleSearch} className="product-search-form" autoComplete="off">
           <TextField
             size="small"
             placeholder="Search products..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             sx={{ minWidth: 200 }}
+            inputProps={{ 'aria-label': 'Search products' }}
           />
           <Button type="submit" variant="contained" color="secondary" sx={{ ml: 1, fontWeight: 700 }}>Search</Button>
         </form>
