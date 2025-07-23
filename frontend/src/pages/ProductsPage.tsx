@@ -104,7 +104,7 @@ const ProductsPage: React.FC = () => {
             sx={{ mt: 1 }}
           />
         </Box>
-        <form onSubmit={handleSearch} style={{ display: 'flex', alignItems: 'center' }}>
+        <form onSubmit={handleSearch} className="product-search-form">
           <TextField
             size="small"
             placeholder="Search products..."
@@ -118,19 +118,27 @@ const ProductsPage: React.FC = () => {
       <Grid container spacing={3}>
         {products.map(product => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
-            <Card onClick={() => setSelectedProduct(product)} sx={{ cursor: 'pointer', height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3, borderRadius: 3, transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 } }}>
+            <Card onClick={() => setSelectedProduct(product)} sx={{ cursor: 'pointer', height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3, borderRadius: 3, transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 }, position: 'relative', overflow: 'visible' }}>
+              {/* Badges for New/Best Seller */}
+              {product.tags && product.tags.includes('New') && (
+                <Box sx={{ position: 'absolute', top: 12, left: 12, zIndex: 2, bgcolor: 'primary.main', color: '#fff', px: 1.5, py: 0.5, borderRadius: 2, fontSize: 12, fontWeight: 700 }}>New</Box>
+              )}
+              {product.tags && product.tags.includes('Best Seller') && (
+                <Box sx={{ position: 'absolute', top: 12, right: 12, zIndex: 2, bgcolor: 'secondary.main', color: '#fff', px: 1.5, py: 0.5, borderRadius: 2, fontSize: 12, fontWeight: 700 }}>Best Seller</Box>
+              )}
               {product.images && product.images[0] ? (
-                <CardMedia component="img" image={product.images[0]} alt={product.name} sx={{ height: 180, objectFit: 'contain', bgcolor: '#f9f9f9' }} />
+                <CardMedia component="img" image={product.images[0]} alt={product.name} sx={{ height: 200, objectFit: 'cover', bgcolor: '#f9f9f9', borderRadius: 2, mt: 1 }} />
               ) : (
-                <Box sx={{ height: 180, bgcolor: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ height: 200, bgcolor: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 2, mt: 1 }}>
                   <Typography color="text.secondary">No Image</Typography>
                 </Box>
               )}
-              <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'primary.main', textAlign: 'center' }}>{product.name}</Typography>
+              <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'primary.main', textAlign: 'center', width: '100%' }}>{product.name}</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>{product.type}</Typography>
                 <Typography variant="body1" sx={{ color: 'secondary.main', mb: 2, fontWeight: 600 }}>Ksh {product.retailPrice}</Typography>
-                <Button variant="contained" color="secondary" onClick={e => { e.stopPropagation(); handleAddToCart(product); }} sx={{ mt: 'auto', fontWeight: 700 }}>
-                  Add to Cart
+                <Button variant="contained" color="secondary" onClick={e => { e.stopPropagation(); setSelectedProduct(product); }} sx={{ mt: 'auto', fontWeight: 700, width: '100%' }}>
+                  Quick View
                 </Button>
               </CardContent>
             </Card>
@@ -140,6 +148,7 @@ const ProductsPage: React.FC = () => {
       <Snackbar open={!!error || !!success} autoHideDuration={3000} onClose={() => { setError(""); setSuccess(""); }}>
         {error ? <Alert severity="error">{error}</Alert> : success ? <Alert severity="success">{success}</Alert> : null}
       </Snackbar>
+      {/* Enhanced Quick View Modal */}
       <Dialog open={!!selectedProduct} onClose={() => setSelectedProduct(null)} maxWidth="sm" fullWidth>
         {selectedProduct && (
           <>
@@ -147,18 +156,63 @@ const ProductsPage: React.FC = () => {
             <DialogContent>
               {selectedProduct.images && selectedProduct.images[0] && (
                 <Box sx={{ textAlign: 'center', mb: 2 }}>
-                  <img src={selectedProduct.images[0]} alt={selectedProduct.name} style={{ maxWidth: '100%', maxHeight: 240 }} />
+                  <img src={selectedProduct.images[0]} alt={selectedProduct.name} className="product-modal-img" />
                 </Box>
               )}
+              <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>{selectedProduct.type}</Typography>
               <Typography variant="body1" sx={{ mb: 1 }}>{selectedProduct.description || 'No description available.'}</Typography>
               <Typography variant="h6" sx={{ color: 'secondary.main', mb: 1 }}>Ksh {selectedProduct.retailPrice}</Typography>
-              <Typography variant="body2" color={selectedProduct.stockQuantity > 0 ? 'success.main' : 'error.main'}>
+              <Typography variant="body2" color={selectedProduct.stockQuantity > 0 ? 'success.main' : 'error.main'} sx={{ mb: 1 }}>
                 {selectedProduct.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
               </Typography>
+              {/* Features */}
+              {selectedProduct.features && selectedProduct.features.length > 0 && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Features:</Typography>
+                  <ul className="product-modal-list">
+                    {selectedProduct.features.map((f: string, i: number) => <li key={i}>{f}</li>)}
+                  </ul>
+                </Box>
+              )}
+              {/* Cost Breakdown */}
+              {selectedProduct.costBreakdown && (
+                <Box sx={{ mb: 2, bgcolor: '#f9f9f9', borderRadius: 2, p: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>Cost Breakdown:</Typography>
+                  <ul className="product-modal-list">
+                    {Object.entries(selectedProduct.costBreakdown).map(([k, v]) => (
+                      <li key={k} className="product-modal-breakdown-row">
+                        <span className="product-modal-breakdown-key">{k.replace(/_/g, ' ')}</span>
+                        <span className="product-modal-breakdown-value">{v}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Box>
+              )}
+              {/* Size/Quantity selection */}
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
+                <TextField
+                  label="Quantity"
+                  type="number"
+                  size="small"
+                  defaultValue={1}
+                  inputProps={{ min: 1, max: selectedProduct.stockQuantity || 99 }}
+                  sx={{ width: 100 }}
+                  onChange={e => selectedProduct.selectedQty = parseInt(e.target.value) || 1}
+                />
+                {/* Example: if you want to add size selection, add a Select here */}
+                {/* <FormControl size="small" sx={{ minWidth: 100 }}>
+                  <InputLabel>Size</InputLabel>
+                  <Select label="Size" defaultValue="M">
+                    <MenuItem value="S">S</MenuItem>
+                    <MenuItem value="M">M</MenuItem>
+                    <MenuItem value="L">L</MenuItem>
+                  </Select>
+                </FormControl> */}
+              </Box>
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setSelectedProduct(null)} color="primary">Close</Button>
-              <Button variant="contained" color="secondary" onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}>Add to Cart</Button>
+              <Button variant="contained" color="secondary" onClick={() => { handleAddToCart({ ...selectedProduct, quantity: selectedProduct.selectedQty || 1 }); setSelectedProduct(null); }}>Add to Cart</Button>
             </DialogActions>
           </>
         )}

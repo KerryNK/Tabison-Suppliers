@@ -10,6 +10,7 @@ const orderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
   orderNumber: { type: String, required: true, unique: true },
   supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   items: [orderItemSchema],
   totalAmount: { type: Number, required: true, min: 0 },
   status: { type: String, enum: ['Pending', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },

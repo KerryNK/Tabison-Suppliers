@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Paper, FormControl, InputLabel, Select, MenuItem, Chip, Stack, IconButton } from '@mui/material';
+import { Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Paper, FormControl, InputLabel, Select, MenuItem, Chip, Stack, IconButton, Tooltip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useApi } from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -25,6 +25,7 @@ const AdminProductsPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
   const [selectionModel, setSelectionModel] = useState<string[]>([]);
+  const [viewProduct, setViewProduct] = useState<any | null>(null);
 
   const fetchProducts = async (cat = category, s = search) => {
     setLoading(true);
@@ -101,22 +102,80 @@ const AdminProductsPage: React.FC = () => {
     }
   };
 
+  // Bulk delete
+  const handleBulkDelete = async () => {
+    if (!selectionModel.length) return;
+    if (!window.confirm('Delete selected products?')) return;
+    try {
+      await Promise.all(selectionModel.map(id => api.delete(`/products/${id}`)));
+      setProducts(products => products.filter(p => !selectionModel.includes(p._id)));
+      setSuccess('Selected products deleted!');
+      setSelectionModel([]);
+    } catch {
+      setError('Failed to delete selected products');
+    }
+  };
+
+  // Inline update for price/stock
+  const handleInlineEdit = async (id: string, field: string, value: any) => {
+    try {
+      const updated = await api.put(`/products/${id}`, { [field]: value });
+      setProducts(products => products.map(p => p._id === id ? { ...p, ...updated } : p));
+      setSuccess('Product updated!');
+    } catch {
+      setError('Failed to update product');
+    }
+  };
+
   const columns: GridColDef[] = [
     { field: 'images', headerName: 'Image', flex: 0.7, renderCell: (params) => params.value && params.value[0] ? <img src={params.value[0]} alt="Product" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4 }} loading="lazy" /> : null },
     { field: 'name', headerName: 'Name', flex: 1 },
     { field: 'category', headerName: 'Category', flex: 1 },
-    { field: 'retailPrice', headerName: 'Retail Price', flex: 1 },
-    { field: 'stockQuantity', headerName: 'Stock', flex: 1 },
+    {
+      field: 'retailPrice',
+      headerName: 'Retail Price',
+      flex: 1,
+      renderCell: (params) => (
+        <TextField
+          size="small"
+          type="number"
+          defaultValue={params.value}
+          onBlur={e => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val) && val !== params.value) handleInlineEdit(params.row._id, 'retailPrice', val);
+          }}
+          sx={{ width: 100 }}
+        />
+      )
+    },
+    {
+      field: 'stockQuantity',
+      headerName: 'Stock',
+      flex: 1,
+      renderCell: (params) => (
+        <TextField
+          size="small"
+          type="number"
+          defaultValue={params.value}
+          onBlur={e => {
+            const val = parseInt(e.target.value);
+            if (!isNaN(val) && val !== params.value) handleInlineEdit(params.row._id, 'stockQuantity', val);
+          }}
+          sx={{ width: 80 }}
+        />
+      )
+    },
     { field: 'tags', headerName: 'Tags', flex: 1, renderCell: (params) => params.value?.map((tag: string) => <Chip key={tag} label={tag} size="small" sx={{ mr: 0.5 }} />) },
     { field: 'status', headerName: 'Status', flex: 1 },
     {
       field: 'actions',
       headerName: 'Actions',
-      flex: 0.7,
+      flex: 1,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
-          <IconButton size="small" color="primary" onClick={() => handleEdit(params.row)}><EditIcon /></IconButton>
-          <IconButton size="small" color="error" onClick={() => handleDelete(params.row._id)}><DeleteIcon /></IconButton>
+          <Tooltip title="View Details"><IconButton size="small" color="info" onClick={() => setViewProduct(params.row)}><span className="material-icons">visibility</span></IconButton></Tooltip>
+          <Tooltip title="Edit"><IconButton size="small" color="primary" onClick={() => handleEdit(params.row)}><EditIcon /></IconButton></Tooltip>
+          <Tooltip title="Delete"><IconButton size="small" color="error" onClick={() => handleDelete(params.row._id)}><DeleteIcon /></IconButton></Tooltip>
         </Stack>
       ),
     },
@@ -125,9 +184,57 @@ const AdminProductsPage: React.FC = () => {
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 4, p: 2 }}>
       <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 3, textAlign: 'center' }}>Admin Product Management</Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Button variant="contained" color="secondary" onClick={() => { setForm(defaultForm); setEditing(null); setOpen(true); }}>Add Product</Button>
+        <Button variant="outlined" color="error" disabled={!selectionModel.length} onClick={handleBulkDelete}>Delete Selected</Button>
       </Box>
+      {/* Product Details Modal for Admins */}
+      <Dialog open={!!viewProduct} onClose={() => setViewProduct(null)} maxWidth="sm" fullWidth>
+        {viewProduct && (
+          <>
+            <DialogTitle>{viewProduct.name}</DialogTitle>
+            <DialogContent>
+              {viewProduct.images && viewProduct.images[0] && (
+                <Box sx={{ textAlign: 'center', mb: 2 }}>
+                  <img src={viewProduct.images[0]} alt={viewProduct.name} style={{ maxWidth: '100%', maxHeight: 240, borderRadius: 8 }} />
+                </Box>
+              )}
+              <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>{viewProduct.type}</Typography>
+              <Typography variant="body1" sx={{ mb: 1 }}>{viewProduct.description || 'No description available.'}</Typography>
+              <Typography variant="h6" sx={{ color: 'secondary.main', mb: 1 }}>Ksh {viewProduct.retailPrice}</Typography>
+              <Typography variant="body2" color={viewProduct.stockQuantity > 0 ? 'success.main' : 'error.main'} sx={{ mb: 1 }}>
+                {viewProduct.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+              </Typography>
+              {/* Features */}
+              {viewProduct.features && viewProduct.features.length > 0 && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Features:</Typography>
+                  <ul style={{ margin: 0, paddingLeft: 18 }}>
+                    {viewProduct.features.map((f: string, i: number) => <li key={i}>{f}</li>)}
+                  </ul>
+                </Box>
+              )}
+              {/* Cost Breakdown */}
+              {viewProduct.costBreakdown && (
+                <Box sx={{ mb: 2, bgcolor: '#f9f9f9', borderRadius: 2, p: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>Cost Breakdown:</Typography>
+                  <ul style={{ margin: 0, paddingLeft: 18 }}>
+                    {Object.entries(viewProduct.costBreakdown).map(([k, v]) => (
+                      <li key={k} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</span>
+                        <span style={{ fontFamily: 'monospace' }}>{v}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Box>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setViewProduct(null)} color="primary">Close</Button>
+            </DialogActions>
+          </>
+        )}
+      </Dialog>
       <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
         <TextField size="small" placeholder="Search products..." value={search} onChange={e => setSearch(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') fetchProducts(category, search); }} />
         <FormControl size="small" sx={{ minWidth: 140 }}>

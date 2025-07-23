@@ -3,9 +3,14 @@ import Order from '../models/Order.js';
 import { authenticate, isAdmin } from '../middleware/auth.js';
 const router = express.Router();
 
-// GET all orders
-router.get('/', async (req, res) => {
-  const orders = await Order.find().populate('supplier').populate('items.product');
+// GET all orders (user sees only their orders, admin sees all)
+import mongoose from 'mongoose';
+router.get('/', authenticate, async (req, res) => {
+  let filter = {};
+  if (!req.user || req.user.role !== 'admin') {
+    filter.user = new mongoose.Types.ObjectId(req.user._id);
+  }
+  const orders = await Order.find(filter).populate('supplier').populate('items.product');
   res.json(orders);
 });
 
@@ -19,7 +24,7 @@ router.get('/:id', async (req, res) => {
 // CREATE order (protected)
 router.post('/', authenticate, async (req, res) => {
   try {
-    const order = new Order(req.body);
+    const order = new Order({ ...req.body, user: req.user._id });
     await order.save();
     res.status(201).json(order);
   } catch (err) {
