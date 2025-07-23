@@ -1,16 +1,50 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardMedia, Typography, Button, Box, Chip, Collapse } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Button, Box, Chip, Collapse, IconButton, Tooltip } from "@mui/material";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+
+const getFavorites = () => {
+  try {
+    return JSON.parse(localStorage.getItem('favorites') || '[]');
+  } catch {
+    return [];
+  }
+};
 
 const ProductCard = ({ product, onQuickView, onAddToCart }) => {
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(() => getFavorites().includes(product._id));
+
+  const toggleFavorite = (e) => {
+    e.stopPropagation();
+    let favs = getFavorites();
+    if (isFavorite) {
+      favs = favs.filter(id => id !== product._id);
+    } else {
+      favs.push(product._id);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    setIsFavorite(!isFavorite);
+  };
 
   return (
     <Card sx={{ borderRadius: 3, boxShadow: 3, display: 'flex', flexDirection: 'column', height: '100%', position: 'relative', p: 0 }}>
+      {/* Wishlist Heart Icon */}
+      <Tooltip title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}>
+        <IconButton
+          onClick={toggleFavorite}
+          sx={{ position: 'absolute', top: 12, right: 12, zIndex: 3, bgcolor: '#fff', boxShadow: 1 }}
+          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon color="action" />}
+        </IconButton>
+      </Tooltip>
       {product.tags && product.tags.includes('New') && (
         <Chip label="New" color="primary" size="small" sx={{ position: 'absolute', top: 12, left: 12, zIndex: 2, fontWeight: 700 }} />
       )}
       {product.tags && product.tags.includes('Best Seller') && (
-        <Chip label="Best Seller" color="secondary" size="small" sx={{ position: 'absolute', top: 12, right: 12, zIndex: 2, fontWeight: 700 }} />
+        <Chip label="Best Seller" color="secondary" size="small" sx={{ position: 'absolute', top: 12, right: 48, zIndex: 2, fontWeight: 700 }} />
       )}
       {product.images && product.images[0] ? (
         <CardMedia component="img" image={product.images[0]} alt={product.name} sx={{ height: 180, objectFit: 'cover', bgcolor: '#f9f9f9' }} />
