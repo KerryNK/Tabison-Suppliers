@@ -40,8 +40,12 @@ const upload = multer({ storage });
 
 // GET all products (with optional category filter, search, sorting, price range, and tag)
 router.get('/', async (req, res) => {
-  const { category, search, sort, minPrice, maxPrice, tag } = req.query;
+  const { category, search, sort, minPrice, maxPrice, tag, ids } = req.query;
   const filter = {};
+  if (ids) {
+    const idArr = ids.split(',').map(id => id.trim());
+    filter._id = { $in: idArr };
+  }
   if (category) filter.category = category;
   if (search) {
     filter.$or = [
