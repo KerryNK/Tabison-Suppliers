@@ -1,3 +1,36 @@
+import Rating from '@mui/material/Rating';
+import { useCallback } from 'react';
+  const [reviewRating, setReviewRating] = useState<number | null>(null);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState('');
+
+  // Submit review handler
+  const handleReviewSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProduct || !reviewRating) {
+      setReviewError('Please provide a rating.');
+      return;
+    }
+    setReviewSubmitting(true);
+    setReviewError('');
+    try {
+      await api.post(`/products/${selectedProduct._id}/reviews`, {
+        rating: reviewRating,
+        comment: reviewComment
+      });
+      setReviewSuccess('Review submitted!');
+      setReviewRating(null);
+      setReviewComment('');
+      // Refresh product details (fetch again)
+      fetchProducts();
+    } catch (err) {
+      setReviewError('Failed to submit review.');
+    } finally {
+      setReviewSubmitting(false);
+    }
+  }, [selectedProduct, reviewRating, reviewComment, api]);
 import React, { useEffect, useState, useRef } from "react";
 import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, Snackbar, Alert, FormControl, InputLabel, Select, MenuItem, TextField, Stack } from "@mui/material";
 import { useApi } from "../api/client";
@@ -261,6 +294,51 @@ const ProductsPage: React.FC = () => {
                   </Select>
                 </FormControl> */}
               </Box>
+            {/* Product Reviews */}
+            <Box sx={{ mt: 3, mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>Reviews</Typography>
+              {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                <Box sx={{ maxHeight: 180, overflowY: 'auto', mb: 2 }}>
+                  {selectedProduct.reviews.map((rev: any, idx: number) => (
+                    <Box key={idx} sx={{ mb: 1.5, p: 1.5, bgcolor: '#f7f7f7', borderRadius: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Rating value={rev.rating} readOnly size="small" />
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{rev.user?.username || 'User'}</Typography>
+                        <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>{rev.date ? new Date(rev.date).toLocaleDateString() : ''}</Typography>
+                      </Box>
+                      {rev.comment && <Typography variant="body2" sx={{ mt: 0.5 }}>{rev.comment}</Typography>}
+                    </Box>
+                  ))}
+                </Box>
+              ) : (
+                <Typography variant="body2" color="text.secondary">No reviews yet.</Typography>
+              )}
+              {/* Review Form */}
+              {user && (
+                <Box component="form" onSubmit={handleReviewSubmit} sx={{ mt: 2, bgcolor: '#f9f9f9', p: 2, borderRadius: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>Leave a Review</Typography>
+                  <Rating
+                    value={reviewRating}
+                    onChange={(_, newValue) => setReviewRating(newValue)}
+                    size="large"
+                  />
+                  <TextField
+                    label="Comment"
+                    multiline
+                    minRows={2}
+                    fullWidth
+                    value={reviewComment}
+                    onChange={e => setReviewComment(e.target.value)}
+                    sx={{ mt: 1 }}
+                  />
+                  <Button type="submit" variant="contained" color="primary" sx={{ mt: 1 }} disabled={reviewSubmitting}>
+                    {reviewSubmitting ? 'Submitting...' : 'Submit Review'}
+                  </Button>
+                  {reviewError && <Typography color="error" sx={{ mt: 1 }}>{reviewError}</Typography>}
+                  {reviewSuccess && <Typography color="success.main" sx={{ mt: 1 }}>{reviewSuccess}</Typography>}
+                </Box>
+              )}
+            </Box>
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setSelectedProduct(null)} color="primary">Close</Button>
