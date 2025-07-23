@@ -1,3 +1,30 @@
+// ADD REVIEW to product
+router.post('/:id/reviews', authenticate, async (req, res) => {
+  const { rating, comment } = req.body;
+  if (!rating || rating < 1 || rating > 5) {
+    return res.status(400).json({ message: 'Rating must be between 1 and 5.' });
+  }
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+    // Prevent duplicate review by same user (optional)
+    const alreadyReviewed = product.reviews.find(r => r.user.toString() === req.user._id.toString());
+    if (alreadyReviewed) {
+      return res.status(400).json({ message: 'You have already reviewed this product.' });
+    }
+    const review = {
+      user: req.user._id,
+      rating,
+      comment,
+      date: new Date()
+    };
+    product.reviews.push(review);
+    await product.save();
+    res.status(201).json(product.reviews);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 import express from 'express';
 import Product from '../models/Product.js';
 import { authenticate, isAdmin } from '../middleware/auth.js';
