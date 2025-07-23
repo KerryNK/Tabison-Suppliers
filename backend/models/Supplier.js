@@ -7,6 +7,8 @@ const supplierSchema = new mongoose.Schema({
   address: { type: String },
   status: { type: String, enum: ['Active', 'Inactive', 'Pending'], default: 'Active' },
   rating: { type: Number, min: 1, max: 5 },
+  image: { type: String },
+  bio: { type: String },
 }, { timestamps: true });
 
 export default mongoose.model('Supplier', supplierSchema); 

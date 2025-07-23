@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Box, MenuItem, Select, InputLabel, FormControl, IconButton, Paper, Typography } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Box, MenuItem, Select, InputLabel, FormControl, IconButton, Paper, Typography, Stepper, Step, StepLabel } from "@mui/material";
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,6 +19,7 @@ const OrdersPage: React.FC = () => {
   const [orderItems, setOrderItems] = useState<{ product: string, quantity: number }[]>([]);
 
   // Move columns definition here so it can access products
+  const statusSteps = ["Pending", "Confirmed", "Shipped", "Delivered"];
   const columns: GridColDef[] = [
     { field: "orderNumber", headerName: "Order #", flex: 1 },
     { field: "supplier", headerName: "Supplier ID", flex: 1 },
@@ -34,7 +35,26 @@ const OrdersPage: React.FC = () => {
       }
     },
     { field: "totalAmount", headerName: "Total", flex: 1 },
-    { field: "status", headerName: "Status", flex: 1 },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1.5,
+      renderCell: (params) => {
+        const idx = statusSteps.indexOf(params.value);
+        if (params.value === "Cancelled") {
+          return <Typography color="error">Cancelled</Typography>;
+        }
+        return (
+          <Stepper activeStep={idx} alternativeLabel size="small">
+            {statusSteps.map((label, i) => (
+              <Step key={label} completed={i < idx}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        );
+      }
+    },
     { field: "paymentStatus", headerName: "Payment", flex: 1 },
   ];
 

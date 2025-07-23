@@ -1,3 +1,4 @@
+import Recommendations from '../components/Recommendations';
 import Rating from '@mui/material/Rating';
 import { useCallback } from 'react';
   const [reviewRating, setReviewRating] = useState<number | null>(null);
@@ -33,6 +34,9 @@ import { useCallback } from 'react';
   }, [selectedProduct, reviewRating, reviewComment, api]);
 import React, { useEffect, useState, useRef } from "react";
 import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, Snackbar, Alert, FormControl, InputLabel, Select, MenuItem, TextField, Stack } from "@mui/material";
+import { motion, useAnimation } from 'framer-motion';
+  // Animation controls for Add to Cart button
+  const cartAnim = useAnimation();
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from '../context/CartContext';
@@ -108,6 +112,7 @@ const ProductsPage: React.FC = () => {
   const handleAddToCart = (product: any) => {
     addToCart(product);
     setSuccess(`${product.name} added to cart!`);
+    cartAnim.start({ scale: [1, 1.15, 0.95, 1], transition: { duration: 0.4 } });
   };
 
   const handleCategoryChange = (e: any) => {
@@ -339,10 +344,16 @@ const ProductsPage: React.FC = () => {
                 </Box>
               )}
             </Box>
+            {/* Recommendations */}
+            <Recommendations currentProduct={selectedProduct} />
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setSelectedProduct(null)} color="primary">Close</Button>
-              <Button variant="contained" color="secondary" onClick={() => { handleAddToCart({ ...selectedProduct, quantity: selectedProduct.selectedQty || 1 }); setSelectedProduct(null); }}>Add to Cart</Button>
+              <motion.div animate={cartAnim} style={{ width: '100%' }}>
+                <Button variant="contained" color="secondary" fullWidth onClick={() => { handleAddToCart({ ...selectedProduct, quantity: selectedProduct.selectedQty || 1 }); setSelectedProduct(null); }}>
+                  Add to Cart
+                </Button>
+              </motion.div>
             </DialogActions>
           </>
         )}

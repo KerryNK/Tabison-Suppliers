@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Paper, Rating, Stack, IconButton } from "@mui/material";
+import { Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, Paper, Rating, Stack, IconButton, Avatar } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
@@ -7,14 +7,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const columnsBase: GridColDef[] = [
+  {
+    field: "image",
+    headerName: "Image",
+    flex: 0.5,
+    renderCell: (params) => params.value ? <Avatar src={params.value} alt={params.row.name} /> : <Avatar>{params.row.name?.[0]}</Avatar>
+  },
   { field: "name", headerName: "Name", flex: 1 },
   { field: "email", headerName: "Email", flex: 1 },
   { field: "phone", headerName: "Phone", flex: 1 },
   { field: "address", headerName: "Address", flex: 1 },
+  { field: "bio", headerName: "Bio", flex: 1 },
   { field: "rating", headerName: "Rating", flex: 0.5, renderCell: (params) => <Rating value={params.value || 0} readOnly size="small" /> },
 ];
 
-const defaultForm = { name: "", email: "", phone: "", address: "", rating: 0 };
+const defaultForm = { name: "", email: "", phone: "", address: "", image: "", bio: "", rating: 0 };
 
 const SuppliersPage: React.FC = () => {
   const api = useApi();
@@ -63,7 +70,7 @@ const SuppliersPage: React.FC = () => {
 
   const handleEdit = (s: any) => {
     setEditing(s._id);
-    setForm({ name: s.name, email: s.email, phone: s.phone, address: s.address, rating: s.rating || 0 });
+    setForm({ name: s.name, email: s.email, phone: s.phone, address: s.address, image: s.image || '', bio: s.bio || '', rating: s.rating || 0 });
     setOpen(true);
   };
 
@@ -121,6 +128,8 @@ const SuppliersPage: React.FC = () => {
             <TextField name="email" label="Email" value={form.email} onChange={handleChange} required type="email" />
             <TextField name="phone" label="Phone" value={form.phone} onChange={handleChange} required />
             <TextField name="address" label="Address" value={form.address} onChange={handleChange} />
+            <TextField name="image" label="Image URL" value={form.image} onChange={handleChange} />
+            <TextField name="bio" label="Bio" value={form.bio} onChange={handleChange} multiline minRows={2} />
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <span>Rating:</span>
               <Rating name="rating" value={form.rating} onChange={handleRating} />

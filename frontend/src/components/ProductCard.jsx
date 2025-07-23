@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, useAnimation } from 'framer-motion';
 import { Card, CardContent, CardMedia, Typography, Button, Box, Chip, Collapse, IconButton, Tooltip } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -15,6 +16,12 @@ const getFavorites = () => {
 const ProductCard = ({ product, onQuickView, onAddToCart }) => {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [isFavorite, setIsFavorite] = useState(() => getFavorites().includes(product._id));
+  const cartAnim = useAnimation();
+
+  const handleAddToCart = () => {
+    if (typeof onAddToCart === 'function') onAddToCart(product);
+    cartAnim.start({ scale: [1, 1.15, 0.95, 1], transition: { duration: 0.4 } });
+  };
 
   const toggleFavorite = (e) => {
     e.stopPropagation();
@@ -80,9 +87,11 @@ const ProductCard = ({ product, onQuickView, onAddToCart }) => {
             </Box>
           )}
         </Collapse>
-        <Button variant="contained" color="secondary" sx={{ mt: 'auto', fontWeight: 700, width: '100%' }} onClick={() => onAddToCart(product)}>
-          Add to Cart
-        </Button>
+        <motion.div animate={cartAnim} style={{ width: '100%' }}>
+          <Button variant="contained" color="secondary" sx={{ mt: 'auto', fontWeight: 700, width: '100%' }} onClick={handleAddToCart}>
+            Add to Cart
+          </Button>
+        </motion.div>
         <Button size="small" color="info" sx={{ mt: 1, width: '100%' }} onClick={() => onQuickView(product)}>
           Quick View
         </Button>

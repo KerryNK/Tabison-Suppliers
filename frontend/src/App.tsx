@@ -16,30 +16,37 @@ import AboutPage from './pages/AboutPage';
 import FAQPage from './pages/FAQPage';
 import TestimonialsPage from './pages/TestimonialsPage';
 import { HelmetProvider } from 'react-helmet-async';
+import ChatWidget from './components/ChatWidget';
+import PushNotifications from './components/PushNotifications';
+import { CustomThemeProvider } from './context/ThemeContext';
 
 const App: React.FC = () => (
   <HelmetProvider>
-    <CartProvider>
-      <AuthProvider>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/suppliers/*" element={<SuppliersPage />} />
-            <Route path="/products/*" element={<ProductsPage />} />
-            <Route path="/orders/*" element={<OrdersPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/payment" element={<PaymentPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/testimonials" element={<TestimonialsPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-          <Footer />
-        </Layout>
-      </AuthProvider>
-    </CartProvider>
+    <CustomThemeProvider>
+      <CartProvider>
+        <AuthProvider>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/suppliers/*" element={<SuppliersPage />} />
+              <Route path="/products/*" element={<ProductsPage />} />
+              <Route path="/orders/*" element={<OrdersPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/testimonials" element={<TestimonialsPage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+            <Footer />
+            <ChatWidget />
+            <PushNotifications />
+          </Layout>
+        </AuthProvider>
+      </CartProvider>
+    </CustomThemeProvider>
   </HelmetProvider>
 );
 
