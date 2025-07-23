@@ -1,5 +1,12 @@
 import mongoose from 'mongoose';
 
+const reviewSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  comment: { type: String },
+  date: { type: Date, default: Date.now }
+});
+
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   type: { type: String, required: true, enum: ['Shoes', 'Bags', 'Accessories', 'Clothing'] },
@@ -14,6 +21,7 @@ const productSchema = new mongoose.Schema({
   images: { type: [String], default: [] },
   category: { type: String, default: 'General', index: true },
   tags: { type: [String], default: [] },
+  reviews: { type: [reviewSchema], default: [] },
 }, { timestamps: true });
 
 export default mongoose.model('Product', productSchema); 
