@@ -1,3 +1,11 @@
+
+import express from 'express';
+import Product from '../models/Product.js';
+import { authenticate, isAdmin } from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
+const router = express.Router();
+
 // ADD REVIEW to product
 router.post('/:id/reviews', authenticate, async (req, res) => {
   const { rating, comment } = req.body;
@@ -25,12 +33,6 @@ router.post('/:id/reviews', authenticate, async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-import express from 'express';
-import Product from '../models/Product.js';
-import { authenticate, isAdmin } from '../middleware/auth.js';
-import multer from 'multer';
-import path from 'path';
-const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
