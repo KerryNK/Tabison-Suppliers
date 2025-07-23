@@ -78,10 +78,19 @@ function parseProductsFromJson(json) {
       category: type,
       tags,
     });
-    });
+  }
   return products;
 }
-      prod,
+// main logic
+async function main() {
+  await mongoose.connect(MONGO_URI);
+  const supplier = await ensureDefaultSupplier();
+  const json = JSON.parse(fs.readFileSync(JSON_PATH, 'utf-8'));
+  const products = parseProductsFromJson(json);
+  for (const prod of products) {
+    await Product.findOneAndUpdate(
+      { sku: prod.sku },
+      { ...prod, supplier: supplier._id },
       { upsert: true, new: true }
     );
   }
@@ -92,4 +101,4 @@ function parseProductsFromJson(json) {
 main().catch(e => {
   console.error(e);
   process.exit(1);
-}); 
+});
