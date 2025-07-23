@@ -8,6 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Slider from '@mui/material/Slider';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const categories = ["All", "Shoes", "Bags", "Accessories", "Clothing", "General"];
 const sortOptions = [
@@ -173,9 +177,38 @@ const ProductsPage: React.FC = () => {
           <>
             <DialogTitle>{selectedProduct.name}</DialogTitle>
             <DialogContent>
-              {selectedProduct.images && selectedProduct.images[0] && (
+              {selectedProduct.images && selectedProduct.images.length > 0 && (
                 <Box sx={{ textAlign: 'center', mb: 2 }}>
-                  <img src={selectedProduct.images[0]} alt={selectedProduct.name} className="product-modal-img" />
+                  <Swiper
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    style={{ width: '100%', maxWidth: 400, margin: '0 auto' }}
+                  >
+                    {selectedProduct.images.map((img: string, idx: number) => (
+                      <SwiperSlide key={idx}>
+                        <Zoom>
+                          <img
+                            src={img}
+                            alt={selectedProduct.name + '-' + idx}
+                            style={{ width: '100%', maxHeight: 320, objectFit: 'contain', borderRadius: 8, background: '#f9f9f9', cursor: 'zoom-in' }}
+                          />
+                        </Zoom>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  {/* Thumbnails */}
+                  {selectedProduct.images.length > 1 && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 1 }}>
+                      {selectedProduct.images.map((img: string, idx: number) => (
+                        <img
+                          key={idx}
+                          src={img}
+                          alt={selectedProduct.name + '-thumb-' + idx}
+                          style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, border: '1px solid #eee', background: '#fff' }}
+                        />
+                      ))}
+                    </Box>
+                  )}
                 </Box>
               )}
               <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>{selectedProduct.type}</Typography>
