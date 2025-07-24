@@ -8,7 +8,7 @@ export function useApi() {
       fetch(`${apiUrl}${path}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       }).then(res => res.json()),
-    post: (path: string, body: any) =>
+    post: <TBody>(path: string, body: TBody) =>
       fetch(`${apiUrl}${path}`, {
         method: "POST",
         headers: {
@@ -17,7 +17,7 @@ export function useApi() {
         },
         body: JSON.stringify(body),
       }).then(res => res.json()),
-    put: (path: string, body: any) =>
+    put: <TBody>(path: string, body: TBody) =>
       fetch(`${apiUrl}${path}`, {
         method: "PUT",
         headers: {

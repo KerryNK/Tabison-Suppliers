@@ -1,234 +1,69 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Box,
-  Chip,
-  Avatar,
-  Rating,
-  IconButton,
-  Tooltip
-} from '@mui/material';
-import {
-  LocationOn,
-  Phone,
-  Email,
-  Verified,
-  Star,
-  Favorite,
-  FavoriteBorder,
-  Business
-} from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, CardMedia, Typography, Box, Rating, Button, Chip, CardActions } from '@mui/material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import { Supplier } from '../types';
+import { useSnackbar } from 'notistack';
 
 interface SupplierCardProps {
-  supplier: {
-    id: string;
-    name: string;
-    category: string;
-    location: string;
-    phone: string;
-    email: string;
-    rating: number;
-    reviewCount: number;
-    verified: boolean;
-    description: string;
-    specialties: string[];
-    image?: string;
-  };
-  onFavorite?: (id: string) => void;
-  isFavorited?: boolean;
+  supplier: Supplier;
 }
 
-const SupplierCard: React.FC<SupplierCardProps> = ({ 
-  supplier, 
-  onFavorite, 
-  isFavorited = false 
-}) => {
+const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
+  const {
+    name,
+    category,
+    rating,
+    city,
+    county,
+    logo,
+    verified,
+    reviewCount
+  } = supplier;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleContactClick = () => {
+    // Here you would typically open a modal, navigate to a contact page,
+    // or trigger an API call.
+    // For demonstration, we'll just show a success toast.
+    enqueueSnackbar(`Contact request sent to ${name}`, { variant: 'success' });
+  };
+
   return (
-    <Card 
-      sx={{ 
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        borderRadius: 3,
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-        transition: 'all 0.3s ease',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)'
-        }
-      }}
-    >
-      <CardContent sx={{ flexGrow: 1, p: 3 }}>
-        {/* Header with Avatar and Verification */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Avatar
-            sx={{
-              width: 60,
-              height: 60,
-              bgcolor: '#4fd1c5',
-              color: '#1a202c',
-              fontWeight: 800,
-              fontSize: '1.5rem',
-              mr: 2
-            }}
-          >
-            {supplier.image ? (
-              <img src={supplier.image} alt={supplier.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : (
-              supplier.name.charAt(0).toUpperCase()
-            )}
-          </Avatar>
-          
-          <Box sx={{ flexGrow: 1 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700,
-                  color: 'text.primary',
-                  fontSize: '1.1rem'
-                }}
-              >
-                {supplier.name}
-              </Typography>
-              {supplier.verified && (
-                <Tooltip title="Verified Supplier">
-                  <Verified sx={{ color: '#4fd1c5', fontSize: 20 }} />
-                </Tooltip>
-              )}
-            </Box>
-            
-            <Chip
-              label={supplier.category}
-              size="small"
-              sx={{
-                bgcolor: 'rgba(79, 209, 197, 0.1)',
-                color: '#4fd1c5',
-                fontWeight: 600,
-                fontSize: '0.75rem'
-              }}
-            />
-          </Box>
-          
-          <IconButton
-            onClick={() => onFavorite?.(supplier.id)}
-            sx={{ color: isFavorited ? '#e53e3e' : '#a0aec0' }}
-          >
-            {isFavorited ? <Favorite /> : <FavoriteBorder />}
-          </IconButton>
+    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <CardMedia
+        component="img"
+        height="180"
+        image={logo || 'https://via.placeholder.com/300x180.png?text=No+Logo'}
+        alt={`${name} logo`}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+          <Chip label={category} color="secondary" size="small" sx={{ color: 'white' }} />
+          {verified && <VerifiedIcon color="primary" fontSize="small" titleAccess="Verified Supplier" />}
         </Box>
-
-        {/* Rating */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-          <Rating
-            value={supplier.rating}
-            readOnly
-            size="small"
-            sx={{
-              '& .MuiRating-iconFilled': {
-                color: '#ffd700'
-              }
-            }}
-          />
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {supplier.rating} ({supplier.reviewCount} reviews)
-          </Typography>
-        </Box>
-
-        {/* Description */}
-        <Typography 
-          variant="body2" 
-          sx={{ 
-            color: 'text.secondary',
-            mb: 2,
-            lineHeight: 1.6,
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden'
-          }}
-        >
-          {supplier.description}
+        <Typography gutterBottom variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+          {name}
         </Typography>
-
-        {/* Specialties */}
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="caption" sx={{ color: 'text.secondary', mb: 1, display: 'block' }}>
-            Specialties:
-          </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {supplier.specialties.slice(0, 3).map((specialty, index) => (
-              <Chip
-                key={index}
-                label={specialty}
-                size="small"
-                variant="outlined"
-                sx={{
-                  fontSize: '0.7rem',
-                  height: 24,
-                  borderColor: '#e2e8f0',
-                  color: 'text.secondary'
-                }}
-              />
-            ))}
-            {supplier.specialties.length > 3 && (
-              <Chip
-                label={`+${supplier.specialties.length - 3} more`}
-                size="small"
-                variant="outlined"
-                sx={{
-                  fontSize: '0.7rem',
-                  height: 24,
-                  borderColor: '#e2e8f0',
-                  color: 'text.secondary'
-                }}
-              />
-            )}
-          </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary', mb: 1 }}>
+          <LocationOnIcon fontSize="small" sx={{ mr: 0.5 }} />
+          <Typography variant="body2">{city}, {county}</Typography>
         </Box>
-
-        {/* Contact Info */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LocationOn sx={{ fontSize: 16, color: '#4fd1c5' }} />
-            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              {supplier.location}
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Phone sx={{ fontSize: 16, color: '#4fd1c5' }} />
-            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              {supplier.phone}
-            </Typography>
-          </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Rating value={rating} precision={0.5} readOnly />
+          <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+            ({reviewCount || 0} reviews)
+          </Typography>
         </Box>
       </CardContent>
-
-      <CardActions sx={{ p: 3, pt: 0 }}>
+      <CardActions sx={{ p: 2, pt: 0 }}>
         <Button
-          component={Link}
-          to={`/suppliers/${supplier.id}`}
           variant="contained"
           fullWidth
-          sx={{
-            bgcolor: '#4fd1c5',
-            color: 'white',
-            fontWeight: 600,
-            borderRadius: 2,
-            py: 1,
-            '&:hover': {
-              bgcolor: '#38b2ac',
-              transform: 'translateY(-1px)'
-            },
-            transition: 'all 0.2s ease'
-          }}
+          color="primary"
+          onClick={handleContactClick}
         >
-          View Details
+          Contact Supplier
         </Button>
       </CardActions>
     </Card>
