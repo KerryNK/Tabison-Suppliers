@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Card, CardContent, Typography, Grid, Paper } from "@mui/material";
+import { Box, Card, CardContent, Typography, Grid, Paper, Container } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useApi } from "../api/client";
+import HeroSection from "../components/HeroSection";
 
 const Dashboard: React.FC = () => {
   const api = useApi();
@@ -29,10 +30,15 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ mt: 4, maxWidth: 1200, mx: "auto", p: 2 }}>
-      <Typography variant="h4" sx={{ mb: 3, color: "primary.main", fontWeight: 700, textAlign: 'center' }}>
-        Dashboard Analytics
-      </Typography>
+    <Box>
+      {/* Hero Section */}
+      <HeroSection />
+      
+      {/* Dashboard Analytics */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Typography variant="h4" sx={{ mb: 6, color: "primary.main", fontWeight: 700, textAlign: 'center' }}>
+          Platform Analytics
+        </Typography>
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} md={4}>
           <Card sx={{ bgcolor: "primary.main", color: "#fff", borderRadius: 3, boxShadow: 3 }}>
@@ -72,6 +78,7 @@ const Dashboard: React.FC = () => {
           </BarChart>
         </ResponsiveContainer>
       </Paper>
+      </Container>
     </Box>
   );
 };
