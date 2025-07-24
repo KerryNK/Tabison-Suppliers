@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import * as supplierService from '../services/supplierService.js';
+import { Parser } from 'json2csv';
 
 /**
  * A utility to handle async functions and catch errors
@@ -105,4 +106,25 @@ export const deleteSupplier = asyncHandler(async (req, res) => {
 export const getAdminStats = asyncHandler(async (req, res) => {
   const stats = await supplierService.getDashboardStats();
   res.json(stats);
+});
+
+export const exportSuppliersToCSV = asyncHandler(async (req, res) => {
+  const suppliers = await supplierService.getAllSuppliersForExport(req.query);
+  
+  const fields = [
+    { label: 'ID', value: '_id' },
+    { label: 'Name', value: 'name' },
+    { label: 'Email', value: 'email' },
+    { label: 'Phone', value: 'phone' },
+    { label: 'Category', value: 'category' },
+    { label: 'City', value: 'city' },
+    { label: 'Status', value: 'status' },
+    { label: 'Verified', value: 'verified' },
+  ];
+  const json2csvParser = new Parser({ fields });
+  const csv = json2csvParser.parse(suppliers);
+
+  res.header('Content-Type', 'text/csv');
+  res.attachment('suppliers-export.csv');
+  res.send(csv);
 });
