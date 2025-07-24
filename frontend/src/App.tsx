@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
 import SuppliersPage from "./pages/SuppliersPage";
 import ProductsPage from "./pages/ProductsPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -10,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage";
 import CartPage from './pages/CartPage';
 import PaymentPage from './pages/PaymentPage';
 import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from './context/CartContext';
 import AboutPage from './pages/AboutPage';
@@ -27,7 +27,7 @@ const App: React.FC = () => (
         <AuthProvider>
           <Layout>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/suppliers/*" element={<SuppliersPage />} />
               <Route path="/products/*" element={<ProductsPage />} />
               <Route path="/orders/*" element={<OrdersPage />} />
