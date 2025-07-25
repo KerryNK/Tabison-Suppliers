@@ -4,6 +4,10 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import 'express-async-errors'; // Handles async errors in express
 import logger from './config/logger.js';
+import cors from 'cors';
+import logger from './config/logger.js';
+export const supplierRoutes = (app) => { /* ... */ };
+export const anotherFunction = () => { /* ... */ };
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,9 +15,6 @@ const port = process.env.PORT || 5000;
 // Route files
 import supplierRoutes from './routes/suppliers.js';
 // ... import other routes like auth, products, etc.
-
-const app = express();
-
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
@@ -46,8 +47,8 @@ const apiLimiter = rateLimit({
 app.use('/api', apiLimiter); // Apply to all api routes
 
 // Mount routers
-import supplierRoutes from './routes/suppliers.js';
-app.use('/api/suppliers', supplierRoutes); // Use the imported routes
+app.use('/api/suppliers', supplierRoutes);
+// ... app.use('/api/auth', authRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
