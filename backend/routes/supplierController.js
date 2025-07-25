@@ -1,5 +1,5 @@
 import Supplier from '../models/Supplier.js';
-import ErrorHandler from '../utils/errorHandler.js'; // Assuming errorHandler.js is in utils
+import ErrorHandler from '../utils/errorHandler.js';
 
 /**
  * @desc    Register a new supplier
