@@ -1,18 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import 'express-async-errors'; // Handles async errors in express
 import logger from './config/logger.js';
-export const supplierRoutes = (app) => { /* ... */ };
-export const anotherFunction = () => { /* ... */ };
 
-
-// Route files
-import supplierRoutes from './routes/suppliers.js';
-// ... import other routes like auth, products, etc.
+dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 5000;
+
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
@@ -44,6 +42,9 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter); // Apply to all api routes
 
+// Route files
+import supplierRoutes from './routes/suppliers.js';
+// ... import other routes like auth, products, etc.
 // Mount routers
 app.use('/api/suppliers', supplierRoutes);
 // ... app.use('/api/auth', authRoutes);
