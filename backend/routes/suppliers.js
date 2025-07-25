@@ -1,6 +1,6 @@
 import express from 'express';
-import { registerSupplier } from '../controllers/supplierController.js';
-import { supplierRegistrationValidator } from '../middleware/supplierValidator.js';
+import { registerSupplier } from '../controllers/supplierController.js'; // Correct path
+import { supplierRegistrationValidator } from '../middleware/supplierValidator.js'; // Correct path
 
 const router = express.Router();
 

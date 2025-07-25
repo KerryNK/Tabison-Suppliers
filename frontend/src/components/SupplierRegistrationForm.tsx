@@ -252,6 +252,17 @@ const SupplierRegistrationForm: React.FC = () => {
       setSuccess(true);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      // Handle validation errors from the backend
+      if (err.response?.data?.errors) {
+        const backendErrors: Record<string, string> = {};
+        err.response.data.errors.forEach((error: any) => {
+          // The 'path' field from express-validator corresponds to the field name
+          if (error.path) {
+            backendErrors[error.path] = error.msg;
+          }
+        });
+        setValidationErrors(backendErrors);
+      }
     } finally {
       setLoading(false);
     }
