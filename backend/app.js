@@ -1,20 +1,20 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import 'express-async-errors'; // Handles async errors in express
 import logger from './config/logger.js';
-import cors from 'cors';
-import logger from './config/logger.js';
+import ErrorHandler from './utils/errorHandler.js';
+
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
 
 // Route files
 import supplierRoutes from './routes/suppliers.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 // ... import other routes like auth, products, etc.
-
-const app = express();
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
@@ -22,15 +22,19 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // CORS Policy
-const whitelist = ['http://localhost:3000', 'https://your-production-frontend.com']; // Add your frontend URL
+const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS
+  ? process.env.CORS_ALLOWED_ORIGINS.split(',')
+  : [];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
+    // allow requests with no origin (like mobile apps or curl requests) and whitelisted origins
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new ErrorHandler('Not allowed by CORS', 403));
     }
   },
+  credentials: true, // This is useful if you need to send cookies with requests
 };
 app.use(cors(corsOptions));
 
@@ -49,16 +53,25 @@ app.use('/api', apiLimiter); // Apply to all api routes
 // Mount routers
 app.use('/api/suppliers', supplierRoutes);
 // ... app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
+
+app.use('/uploads', express.static('uploads'));
 
 // Global error handler
 app.use((err, req, res, next) => {
-  logger.error(`${err.statusCode || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-  logger.error(err.stack);
+  err.statusCode = err.statusCode || 500;
+  err.message = err.message || 'Internal Server Error';
+
+  logger.error(`${err.statusCode} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  // Only log the full stack in development
+  if (process.env.NODE_ENV === 'development') {
+    logger.error(err.stack);
+  }
   
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  res.status(statusCode).json({
-    message,
+  res.status(err.statusCode).json({
+    message: err.message,
     stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
   });
 });
+
+export default app;

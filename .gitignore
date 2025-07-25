@@ -7,6 +7,7 @@ server/node_modules/
 client/dist/
 client/.vite/
 coverage/
+uploads/
 
 # Log files & reports
 npm-debug.log*

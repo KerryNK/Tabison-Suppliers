@@ -1,3 +1,6 @@
+import React, { useEffect, useState, useCallback } from 'react';
+import { useApi } from '../hooks/useApi';
+import toast from 'react-hot-toast';
 // Mock data for suppliers
 const mockSuppliers = [
   {
@@ -84,44 +87,46 @@ const categories = ['All Categories', 'Military Footwear', 'Safety Footwear', 'O
 const locations = ['All Locations', 'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika'];
 
 const SuppliersPage: React.FC = () => {
-  const [suppliers, setSuppliers] = useState(mockSuppliers);
-  const [filteredSuppliers, setFilteredSuppliers] = useState(mockSuppliers);
-  const [loading, setLoading] = useState(false);
+  const [suppliers, setSuppliers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [error, setError] = useState('');
+  const api = useApi();
 
-  // Filter suppliers based on search and filters
+  // Debounce function
+  const debounce = (func, delay) => {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), delay);
+    }
+  }
+
+  const fetchSuppliers = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (searchTerm) params.append('q', searchTerm);
+      if (selectedCategory !== 'All Categories') params.append('category', selectedCategory);
+      if (selectedLocation !== 'All Locations') params.append('location', selectedLocation);
+
+      const { data } = await api.get(`/suppliers/search?${params.toString()}`);
+      setSuppliers(data.suppliers);
+    } catch (err) {
+      toast.error('Failed to fetch suppliers.');
+    } finally {
+      setLoading(false);
+    }
+  }, [api, searchTerm, selectedCategory, selectedLocation]);
+
+  // Use debounced fetch for search term
   useEffect(() => {
-    let filtered = suppliers;
-
-    // Search filter
-    if (searchTerm) {
-      filtered = filtered.filter(supplier => 
-        supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.specialties.some(specialty => 
-          specialty.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
-    }
-
-    // Category filter
-    if (selectedCategory !== 'All Categories') {
-      filtered = filtered.filter(supplier => supplier.category === selectedCategory);
-    }
-
-    // Location filter
-    if (selectedLocation !== 'All Locations') {
-      filtered = filtered.filter(supplier => 
-        supplier.location.includes(selectedLocation)
-      );
-    }
-
-    setFilteredSuppliers(filtered);
-  }, [searchTerm, selectedCategory, selectedLocation, suppliers]);
+    const debouncedFetch = debounce(fetchSuppliers, 500);
+    debouncedFetch();
+  }, [searchTerm, selectedCategory, selectedLocation, fetchSuppliers]);
 
   const handleFavorite = (id: string) => {
     setFavorites(prev => 
@@ -129,6 +134,7 @@ const SuppliersPage: React.FC = () => {
         ? prev.filter(fav => fav !== id)
         : [...prev, id]
     );
+    toast.success(favorites.includes(id) ? 'Removed from favorites' : 'Added to favorites!');
   };
 
   const LoadingSkeleton = () => (
@@ -285,7 +291,7 @@ const SuppliersPage: React.FC = () => {
         {/* Results Count */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-            {filteredSuppliers.length} supplier{filteredSuppliers.length !== 1 ? 's' : ''} found
+            {suppliers.length} supplier{suppliers.length !== 1 ? 's' : ''} found
           </Typography>
           <Button
             variant="contained"
@@ -302,21 +308,12 @@ const SuppliersPage: React.FC = () => {
           </Button>
         </Box>
 
-        {/* Error Message */}
-        {error && (
-          <Fade in={!!error}>
-            <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
-              {error}
-            </Alert>
-          </Fade>
-        )}
-
         {/* Suppliers Grid */}
         {loading ? (
           <LoadingSkeleton />
-        ) : filteredSuppliers.length > 0 ? (
+        ) : suppliers.length > 0 ? (
           <Grid container spacing={3}>
-            {filteredSuppliers.map((supplier) => (
+            {suppliers.map((supplier) => (
               <Grid item xs={12} sm={6} lg={4} key={supplier.id}>
                 <Fade in timeout={300}>
                   <Box>
@@ -363,4 +360,13 @@ const SuppliersPage: React.FC = () => {
   );
 };
 
-export default SuppliersPage; 
+const AppWrapper: React.FC = () => {
+  return (
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <SuppliersPage />
+    </>
+  )
+}
+
+export default AppWrapper;

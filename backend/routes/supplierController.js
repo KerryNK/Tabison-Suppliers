@@ -1,130 +1,37 @@
-import { validationResult } from 'express-validator';
-import * as supplierService from '../services/supplierService.js';
-import { Parser } from 'json2csv';
+import Supplier from '../models/Supplier.js';
+import ErrorHandler from '../utils/errorHandler.js';
 
 /**
- * A utility to handle async functions and catch errors
- * @param {Function} fn - The async function to wrap
+ * @desc    Register a new supplier
+ * @route   POST /api/suppliers/register
+ * @access  Public
  */
-const asyncHandler = fn => (req, res, next) =>
-  Promise.resolve(fn(req, res, next)).catch(next);
+export const registerSupplier = async (req, res, next) => {
+  // Data has been sanitized and validated by the middleware
+  const supplierData = req.body;
 
-export const getAllSuppliers = asyncHandler(async (req, res) => {
-  const { suppliers, total } = await supplierService.findSuppliers(req.query, req.user);
-  res.json({
-    suppliers,
-    pagination: {
-      current: parseInt(req.query.page || 1, 10),
-      pages: Math.ceil(total / parseInt(req.query.limit || 12, 10)),
-      total,
-      limit: parseInt(req.query.limit || 12, 10)
-    },
-    filters: req.query
+  const supplierExists = await Supplier.findOne({ email: supplierData.email });
+
+  if (supplierExists) {
+    // Use 409 Conflict for existing resources
+    return next(new ErrorHandler('A supplier with this email already exists.', 409));
+  }
+
+  // Create a new supplier instance
+  // Note: The Mongoose schema will automatically handle mapping and defaults
+  const newSupplier = new Supplier({
+    ...supplierData,
+    businessName: supplierData.name, // Assuming business name is the same as company name
   });
-});
 
-export const getSupplierById = asyncHandler(async (req, res) => {
-  const supplier = await supplierService.findSupplierById(req.params.id);
-  if (!supplier) {
-    return res.status(404).json({ message: 'Supplier not found' });
-  }
-  res.json(supplier);
-});
-
-export const createSupplier = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ message: 'Validation failed', errors: errors.array() });
-  }
-
-  const supplier = await supplierService.createSupplier(req.body);
-  
-  // Don't send sensitive admin fields in response
-  const responseSupplier = supplier.toObject();
-  delete responseSupplier.approvedBy;
-  delete responseSupplier.searchKeywords;
+  const createdSupplier = await newSupplier.save();
 
   res.status(201).json({
-    message: 'Registration successful! Your application is under review.',
-    supplier: responseSupplier
+    message: 'Supplier registration successful! Your application is under review.',
+    supplier: {
+      id: createdSupplier._id,
+      name: createdSupplier.name,
+      email: createdSupplier.email,
+    },
   });
-});
-
-export const updateSupplier = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ message: 'Validation failed', errors: errors.array() });
-  }
-
-  const updatedSupplier = await supplierService.updateSupplier(req.params.id, req.body, req.user);
-  if (!updatedSupplier) {
-    return res.status(404).json({ message: 'Supplier not found' });
-  }
-
-  res.json({
-    message: 'Supplier profile updated successfully',
-    supplier: updatedSupplier
-  });
-});
-
-export const updateSupplierStatus = asyncHandler(async (req, res) => {
-  const { status, rejectionReason } = req.body;
-  const validStatuses = ['Pending', 'Active', 'Inactive', 'Suspended'];
-  
-  if (!validStatuses.includes(status)) {
-    return res.status(400).json({ 
-      message: 'Invalid status. Must be one of: ' + validStatuses.join(', ') 
-    });
-  }
-
-  const supplier = await supplierService.updateSupplierStatus(req.params.id, status, rejectionReason, req.user.id);
-  if (!supplier) {
-    return res.status(404).json({ message: 'Supplier not found' });
-  }
-
-  res.json({
-    message: `Supplier status updated to ${status}`,
-    supplier
-  });
-});
-
-export const deleteSupplier = asyncHandler(async (req, res) => {
-  const deletedSupplier = await supplierService.deleteSupplier(req.params.id);
-  if (!deletedSupplier) {
-    return res.status(404).json({ message: 'Supplier not found' });
-  }
-  res.json({ 
-    message: 'Supplier deleted successfully',
-    deletedSupplier: {
-      id: deletedSupplier._id,
-      name: deletedSupplier.name,
-      email: deletedSupplier.email
-    }
-  });
-});
-
-export const getAdminStats = asyncHandler(async (req, res) => {
-  const stats = await supplierService.getDashboardStats();
-  res.json(stats);
-});
-
-export const exportSuppliersToCSV = asyncHandler(async (req, res) => {
-  const suppliers = await supplierService.getAllSuppliersForExport(req.query);
-  
-  const fields = [
-    { label: 'ID', value: '_id' },
-    { label: 'Name', value: 'name' },
-    { label: 'Email', value: 'email' },
-    { label: 'Phone', value: 'phone' },
-    { label: 'Category', value: 'category' },
-    { label: 'City', value: 'city' },
-    { label: 'Status', value: 'status' },
-    { label: 'Verified', value: 'verified' },
-  ];
-  const json2csvParser = new Parser({ fields });
-  const csv = json2csvParser.parse(suppliers);
-
-  res.header('Content-Type', 'text/csv');
-  res.attachment('suppliers-export.csv');
-  res.send(csv);
-});
+};
