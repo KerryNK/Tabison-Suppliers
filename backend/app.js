@@ -4,6 +4,9 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import 'express-async-errors'; // Handles async errors in express
 import logger from './config/logger.js';
+export const supplierRoutes = (app) => { /* ... */ };
+export const anotherFunction = () => { /* ... */ };
+
 
 // Route files
 import supplierRoutes from './routes/suppliers.js';
@@ -57,5 +60,3 @@ app.use((err, req, res, next) => {
     stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
   });
 });
-
-export default app;

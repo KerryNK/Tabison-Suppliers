@@ -1,4 +1,8 @@
 import mongoose from 'mongoose';
+import { supplierRoutes, anotherFunction } from './routes/suppliers.js';
+export const supplierRoutes = (app) => {
+  // your route logic here
+};
 
 const supplierSchema = new mongoose.Schema({
   // Basic Information
