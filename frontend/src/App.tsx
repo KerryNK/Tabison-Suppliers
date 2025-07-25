@@ -12,6 +12,7 @@ import CartPage from './pages/CartPage';
 import PaymentPage from './pages/PaymentPage';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
+import SupplierDetailPage from "./pages/SupplierDetailPage";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from './context/CartContext';
 import AboutPage from './pages/AboutPage';
@@ -35,6 +36,7 @@ const App: React.FC = () => (
               <Layout>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/supplier/:id" element={<SupplierDetailPage />} />
                   <Route path="/suppliers/*" element={<SuppliersPage />} />
                   <Route path="/products/*" element={<ProductsPage />} />
                   <Route path="/orders/*" element={<OrdersPage />} />

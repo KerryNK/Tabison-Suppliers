@@ -3,7 +3,7 @@ import { Card, CardContent, CardMedia, Typography, Box, Rating, Button, Chip, Ca
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { Supplier } from '../types';
-import { useSnackbar } from 'notistack';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface SupplierCardProps {
   supplier: Supplier;
@@ -11,6 +11,7 @@ interface SupplierCardProps {
 
 const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
   const {
+    _id,
     name,
     category,
     rating,
@@ -20,14 +21,6 @@ const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
     verified,
     reviewCount
   } = supplier;
-  const { enqueueSnackbar } = useSnackbar();
-
-  const handleContactClick = () => {
-    // Here you would typically open a modal, navigate to a contact page,
-    // or trigger an API call.
-    // For demonstration, we'll just show a success toast.
-    enqueueSnackbar(`Contact request sent to ${name}`, { variant: 'success' });
-  };
 
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -58,12 +51,13 @@ const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
       </CardContent>
       <CardActions sx={{ p: 2, pt: 0 }}>
         <Button
+          component={RouterLink}
+          to={`/supplier/${_id}`}
           variant="contained"
           fullWidth
           color="primary"
-          onClick={handleContactClick}
         >
-          Contact Supplier
+          View Profile
         </Button>
       </CardActions>
     </Card>
