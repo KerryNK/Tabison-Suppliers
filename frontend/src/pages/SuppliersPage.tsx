@@ -98,6 +98,21 @@ const debounce = (func: (...args: any[]) => void, delay: number) => {
   };
 };
 
+const LoadingSkeleton = () => (
+  <Grid container spacing={3}>
+    {[1, 2, 3, 4, 5, 6].map((item) => (
+      <Grid item xs={12} sm={6} md={4} key={item}>
+        <Box sx={{ p: 2 }}>
+          <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 2, mb: 2 }} />
+          <Skeleton variant="text" height={30} sx={{ mb: 1 }} />
+          <Skeleton variant="text" height={20} sx={{ mb: 1 }} />
+          <Skeleton variant="text" height={20} />
+        </Box>
+      </Grid>
+    ))}
+  </Grid>
+);
+
 const SuppliersPage: React.FC = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,21 +158,6 @@ const SuppliersPage: React.FC = () => {
     );
     toast.success(favorites.includes(id) ? 'Removed from favorites' : 'Added to favorites!');
   };
-
-  const LoadingSkeleton = () => (
-    <Grid container spacing={3}>
-      {[1, 2, 3, 4, 5, 6].map((item) => (
-        <Grid item xs={12} sm={6} md={4} key={item}>
-          <Box sx={{ p: 2 }}>
-            <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 2, mb: 2 }} />
-            <Skeleton variant="text" height={30} sx={{ mb: 1 }} />
-            <Skeleton variant="text" height={20} sx={{ mb: 1 }} />
-            <Skeleton variant="text" height={20} />
-          </Box>
-        </Grid>
-      ))}
-    </Grid>
-  );
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8fafc' }}>
