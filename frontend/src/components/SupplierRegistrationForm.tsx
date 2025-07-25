@@ -231,6 +231,16 @@ const SupplierRegistrationForm: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
+  const validateAll = (): boolean => {
+    const errors: Record<string, string> = {};
+    // Basic Information
+    if (!formData.name.trim()) errors.name = 'Company name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+    if (!formData.category) errors.category = 'Category is required';
+    // Business Details
+    if (!formData.businessType) errors.businessType = 'Business type is required';
+    if (!formData.description.trim() || formData.description.length < 5
   const handleNext = () => {
     if (validateStep(activeStep)) {
       setActiveStep(prev => prev + 1);
