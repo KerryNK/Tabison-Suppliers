@@ -94,21 +94,12 @@ const SuppliersPage: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [favorites, setFavorites] = useState<string[]>([]);
   const api = useApi();
-
-  // Debounce function
-  const debounce = (func, delay) => {
-    let timeout;
-    return function(...args) {
-      const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), delay);
-    }
-  }
-
+  
   const fetchSuppliers = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
+      // Only add parameters if they have a value to avoid empty params
       if (searchTerm) params.append('q', searchTerm);
       if (selectedCategory !== 'All Categories') params.append('category', selectedCategory);
       if (selectedLocation !== 'All Locations') params.append('location', selectedLocation);
@@ -120,13 +111,17 @@ const SuppliersPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [api, searchTerm, selectedCategory, selectedLocation]);
+  }, [api, searchTerm, selectedCategory, selectedLocation]); // Dependencies are correct
 
-  // Use debounced fetch for search term
+  // Memoize the debounced version of the fetch function
+  const debouncedFetchSuppliers = useCallback(
+    debounce(fetchSuppliers, 500),
+    [fetchSuppliers]
+  );
+
   useEffect(() => {
-    const debouncedFetch = debounce(fetchSuppliers, 500);
-    debouncedFetch();
-  }, [searchTerm, selectedCategory, selectedLocation, fetchSuppliers]);
+    debouncedFetchSuppliers();
+  }, [debouncedFetchSuppliers]);
 
   const handleFavorite = (id: string) => {
     setFavorites(prev => 

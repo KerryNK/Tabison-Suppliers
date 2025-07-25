@@ -1,35 +1,17 @@
-import Product from '../models/Product.js';
+import Product from '../models/productModel.js';
 
 /**
- * @desc    Get all products with filtering and pagination
+ * @desc    Fetch all products
  * @route   GET /api/products
  * @access  Public
  */
-const getAllProducts = async (req, res) => {
-  const pageSize = 12;
-  const page = Number(req.query.pageNumber) || 1;
-
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: 'i', // case-insensitive
-        },
-      }
-    : {};
-
-  const category = req.query.category ? { category: req.query.category } : {};
-
-  const count = await Product.countDocuments({ ...keyword, ...category });
-  const products = await Product.find({ ...keyword, ...category })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+const getProducts = async (req, res) => {
+  const products = await Product.find({});
+  res.json(products);
 };
 
 /**
- * @desc    Get a single product by ID
+ * @desc    Fetch a single product by ID
  * @route   GET /api/products/:id
  * @access  Public
  */
@@ -50,15 +32,18 @@ const getProductById = async (req, res) => {
  * @access  Private/Admin
  */
 const createProduct = async (req, res) => {
-  // In a real app, you'd get the user ID from an auth middleware
-  // const createdBy = req.user._id; 
+  // Assuming req.body contains product data and req.user is from auth middleware
+  const { name, price, description, image, brand, category, countInStock } = req.body;
 
   const product = new Product({
-    name: 'Sample Product Name',
-    description: 'Sample description',
-    category: 'Safety Footwear',
-    pricing: { retail: 0, wholesale: 0 },
-    // supplier: req.user.supplierId, // Link to the supplier creating it
+    name,
+    price,
+    user: req.user._id,
+    image,
+    brand,
+    category,
+    countInStock,
+    description,
   });
 
   const createdProduct = await product.save();
@@ -71,18 +56,18 @@ const createProduct = async (req, res) => {
  * @access  Private/Admin
  */
 const updateProduct = async (req, res) => {
-  const { name, description, category, pricing, specifications, features, imageUrl } = req.body;
+  const { name, price, description, image, brand, category, countInStock } = req.body;
 
   const product = await Product.findById(req.params.id);
 
   if (product) {
     product.name = name || product.name;
+    product.price = price ?? product.price;
     product.description = description || product.description;
+    product.image = image || product.image;
+    product.brand = brand || product.brand;
     product.category = category || product.category;
-    product.pricing = pricing || product.pricing;
-    product.specifications = specifications || product.specifications;
-    product.features = features || product.features;
-    product.imageUrl = imageUrl || product.imageUrl;
+    product.countInStock = countInStock ?? product.countInStock;
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
@@ -101,7 +86,7 @@ const deleteProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    await product.deleteOne();
+    await product.deleteOne({ _id: product._id });
     res.json({ message: 'Product removed' });
   } else {
     res.status(404);
@@ -109,4 +94,10 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-export { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct };
+export {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
