@@ -1,4 +1,6 @@
 import Supplier from '../models/supplierModel.js';
+import Product from '../models/productModel.js';
+import Order from '../models/orderModel.js'; // Assuming this model exists
 
 /**
  * @desc    Register a new supplier
@@ -53,4 +55,29 @@ const searchSuppliers = async (req, res) => {
   res.json({ suppliers });
 };
 
-export { registerSupplier, searchSuppliers };
+/**
+ * @desc    Get platform statistics for the dashboard
+ * @route   GET /api/suppliers/stats
+ * @access  Public (or Admin)
+ */
+const getStats = async (req, res) => {
+  // countDocuments is much more efficient than fetching all documents to get the length.
+  const supplierCount = await Supplier.countDocuments({ status: 'approved' });
+  const productCount = await Product.countDocuments({});
+  const orderCount = await Order.countDocuments({});
+
+  // You can also perform more complex aggregations efficiently here.
+  const ordersByStatus = await Order.aggregate([
+    { $group: { _id: '$status', count: { $sum: 1 } } },
+    { $project: { _id: 0, status: '$_id', count: 1 } },
+  ]);
+
+  res.json({
+    suppliers: supplierCount,
+    products: productCount,
+    orders: orderCount,
+    orderData: ordersByStatus,
+  });
+};
+
+export { registerSupplier, searchSuppliers, getStats };

@@ -22,8 +22,10 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material';
-import { Business, Person, LocationOn, Description, Schedule } from '@mui/icons-material';
+import { Business, Person, LocationOn, Description } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import { useNavigate } from 'react-router-dom';
+import BusinessHoursInput from './BusinessHoursInput'; // New component for business hours
 
 interface SupplierFormData {
   // Basic Information
@@ -36,7 +38,7 @@ interface SupplierFormData {
   businessType: string;
   registrationNumber: string;
   taxNumber: string;
-  yearEstablished: string;
+  yearEstablished: number | '';
   
   // Location
   address: string;
@@ -149,23 +151,58 @@ const businessTypes = [
   'Non-Governmental Organization',
 ];
 
-const steps = ['Basic Information', 'Business Details', 'Contact & Location', 'Review & Submit'];
+const steps = ['Basic Info', 'Business Details', 'Location & Contact', 'Business Hours', 'Review & Submit'];
+
+// --- Reducer for complex state management ---
+type FormAction =
+  | { type: 'SET_FIELD'; field: keyof SupplierFormData; value: any }
+  | { type: 'SET_NESTED_FIELD'; parent: keyof SupplierFormData; field: string; value: any }
+  | { type: 'SET_BUSINESS_HOUR'; day: string; field: string; value: any }
+  | { type: 'RESET_FORM' };
+
+const formReducer = (state: SupplierFormData, action: FormAction): SupplierFormData => {
+  switch (action.type) {
+    case 'SET_FIELD':
+      return { ...state, [action.field]: action.value };
+    case 'SET_NESTED_FIELD':
+      return {
+        ...state,
+        [action.parent]: {
+          ...(state[action.parent] as object),
+          [action.field]: action.value,
+        },
+      };
+    case 'SET_BUSINESS_HOUR':
+      return {
+        ...state,
+        businessHours: {
+          ...state.businessHours,
+          [action.day]: {
+            ...state.businessHours[action.day as keyof typeof state.businessHours],
+            [action.field]: action.value,
+          },
+        },
+      };
+    case 'RESET_FORM':
+      return initialFormData;
+    default:
+      return state;
+  }
+};
 
 const SupplierRegistrationForm: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState<SupplierFormData>(initialFormData);
+  const [formData, dispatch] = useReducer(formReducer, initialFormData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   
   const api = useApi();
+  const navigate = useNavigate();
 
-  const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value,
-    }));
+  const handleInputChange = (field: keyof SupplierFormData, value: any) => {
+    dispatch({ type: 'SET_FIELD', field, value });
     
     // Clear validation error when user starts typing
     if (validationErrors[field]) {
@@ -176,29 +213,14 @@ const SupplierRegistrationForm: React.FC = () => {
     }
   };
 
-  const handleNestedInputChange = (parent: string, field: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [parent]: {
-        ...prev[parent as keyof SupplierFormData] as any,
-        [field]: value,
-      },
-    }));
+  const handleNestedInputChange = (parent: keyof SupplierFormData, field: string, value: any) => {
+    dispatch({ type: 'SET_NESTED_FIELD', parent, field, value });
   };
 
   const handleBusinessHoursChange = (day: string, field: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      businessHours: {
-        ...prev.businessHours,
-        [day]: {
-          ...prev.businessHours[day as keyof typeof prev.businessHours],
-          [field]: value,
-        },
-      },
-    }));
+    dispatch({ type: 'SET_BUSINESS_HOUR', day, field, value });
   };
-
+  
   const validateStep = (step: number): boolean => {
     const errors: Record<string, string> = {};
     
@@ -225,6 +247,10 @@ const SupplierRegistrationForm: React.FC = () => {
         if (!formData.contactPerson.name.trim()) errors['contactPerson.name'] = 'Contact person name is required';
         if (!formData.contactPerson.email.trim()) errors['contactPerson.email'] = 'Contact person email is required';
         break;
+
+      case 3: // Business Hours - no validation needed for this step
+      case 4: // Review - no validation needed for this step
+        break;
     }
     
     setValidationErrors(errors);
@@ -233,14 +259,42 @@ const SupplierRegistrationForm: React.FC = () => {
 
   const validateAll = (): boolean => {
     const errors: Record<string, string> = {};
-    // Basic Information
+    // Step 0: Basic Information
     if (!formData.name.trim()) errors.name = 'Company name is required';
     if (!formData.email.trim()) errors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email is invalid';
     if (!formData.phone.trim()) errors.phone = 'Phone number is required';
     if (!formData.category) errors.category = 'Category is required';
-    // Business Details
+
+    // Step 1: Business Details
     if (!formData.businessType) errors.businessType = 'Business type is required';
-    if (!formData.description.trim() || formData.description.length < 5
+    if (!formData.description.trim() || formData.description.length < 50) {
+      errors.description = 'Description must be at least 50 characters';
+    }
+    if (formData.specialties.length === 0) errors.specialties = 'At least one specialty is required';
+
+    // Step 2: Contact & Location
+    if (!formData.address.trim()) errors.address = 'Address is required';
+    if (!formData.city.trim()) errors.city = 'City is required';
+    if (!formData.county) errors.county = 'County is required';
+    if (!formData.contactPerson.name.trim()) errors['contactPerson.name'] = 'Contact person name is required';
+    if (!formData.contactPerson.email.trim()) errors['contactPerson.email'] = 'Contact person email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.contactPerson.email)) {
+      errors['contactPerson.email'] = 'Contact person email is invalid';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const findFirstErrorStep = (errors: Record<string, string>): number => {
+    const errorFields = Object.keys(errors);
+    if (errorFields.some(f => ['name', 'email', 'phone', 'category'].includes(f))) return 0;
+    if (errorFields.some(f => ['businessType', 'description', 'specialties'].includes(f))) return 1;
+    if (errorFields.some(f => ['address', 'city', 'county', 'contactPerson.name', 'contactPerson.email'].includes(f))) return 2;
+    return activeStep; // Stay on current step if no match
+  };
+
   const handleNext = () => {
     if (validateStep(activeStep)) {
       setActiveStep(prev => prev + 1);
@@ -252,7 +306,11 @@ const SupplierRegistrationForm: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!validateStep(2)) return;
+    if (!validateAll()) {
+      const firstErrorStep = findFirstErrorStep(validationErrors);
+      setActiveStep(firstErrorStep);
+      return;
+    }
     
     setLoading(true);
     setError(null);
@@ -292,7 +350,7 @@ const SupplierRegistrationForm: React.FC = () => {
             </Typography>
             <Button 
               variant="contained" 
-              onClick={() => window.location.href = '/suppliers'}
+              onClick={() => navigate('/suppliers')}
               sx={{ mt: 2 }}
             >
               Browse Suppliers
@@ -303,6 +361,7 @@ const SupplierRegistrationForm: React.FC = () => {
     );
   }
 
+  // The content for each step of the form
   const renderStepContent = (step: number) => {
     switch (step) {
       case 0:
@@ -416,7 +475,7 @@ const SupplierRegistrationForm: React.FC = () => {
                 fullWidth
                 label="Year Established"
                 type="number"
-                value={formData.yearEstablished}
+                value={formData.yearEstablished || ''}
                 onChange={(e) => handleInputChange('yearEstablished', e.target.value)}
                 inputProps={{ min: 1900, max: new Date().getFullYear() }}
               />
@@ -596,6 +655,26 @@ const SupplierRegistrationForm: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
+                Business Hours
+              </Typography>
+              {Object.entries(formData.businessHours).map(([day, value]) => (
+                <BusinessHoursInput
+                  key={day}
+                  day={day}
+                  label={day}
+                  value={value}
+                  onChange={handleBusinessHoursChange}
+                />
+              ))}
+            </Grid>
+          </Grid>
+        );
+
+      case 4:
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
                 Review Your Information
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -631,6 +710,13 @@ const SupplierRegistrationForm: React.FC = () => {
                 <Typography><strong>City:</strong> {formData.city}, {formData.county}</Typography>
                 <Typography><strong>Contact Person:</strong> {formData.contactPerson.name}</Typography>
                 <Typography><strong>Contact Email:</strong> {formData.contactPerson.email}</Typography>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom>Business Hours</Typography>
+                <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(formData.businessHours, null, 2)}</Typography>
               </Paper>
             </Grid>
           </Grid>

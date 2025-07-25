@@ -8,26 +8,31 @@ const Dashboard: React.FC = () => {
   const api = useApi();
   const [stats, setStats] = useState({ suppliers: 0, products: 0, orders: 0 });
   const [orderData, setOrderData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    const fetchDashboardData = async () => {
       setLoading(true);
-      const [suppliers, products, orders] = await Promise.all([
-        api.get("/suppliers"),
-        api.get("/products"),
-        api.get("/orders"),
-      ]);
-      setStats({ suppliers: suppliers.length, products: products.length, orders: orders.length });
-      // Example: group orders by status for chart
-      const statusCounts: Record<string, number> = {};
-      orders.forEach((o: any) => {
-        statusCounts[o.status] = (statusCounts[o.status] || 0) + 1;
-      });
-      setOrderData(Object.entries(statusCounts).map(([status, count]) => ({ status, count })));
-      setLoading(false);
-    })();
-  }, []);
+      setError(null);
+      try {
+        const { data } = await api.get('/suppliers/stats');
+        setStats({
+          suppliers: data.suppliers,
+          products: data.products,
+          orders: data.orders,
+        });
+        setOrderData(data.orderData);
+      } catch (err) {
+        setError('Failed to load dashboard analytics. Please try again later.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, [api]);
 
   return (
     <Box>

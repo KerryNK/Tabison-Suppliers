@@ -61,6 +61,25 @@ app.use('/api/products', productRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/proxy', proxyRoutes);
 
+// --- Serve Frontend in Production ---
+if (process.env.NODE_ENV === 'production') {
+  // Define the path to the frontend build directory
+  const frontendBuildPath = path.resolve(__dirname, '../frontend/build');
+
+  // Serve static files from the React app build directory
+  app.use(express.static(frontendBuildPath));
+
+  // For any other GET request that doesn't match an API route,
+  // send back the React app's index.html file.
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(frontendBuildPath, 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('Welcome to Tabison Suppliers API');
+  });
+}
+
 // --- Use Error Handling Middleware (must be last) ---
 app.use(notFound);
 app.use(errorHandler);

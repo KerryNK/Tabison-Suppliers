@@ -86,6 +86,18 @@ const mockSuppliers = [
 const categories = ['All Categories', 'Military Footwear', 'Safety Footwear', 'Official Footwear', 'Security Footwear', 'Industrial Footwear', 'Professional Footwear'];
 const locations = ['All Locations', 'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika'];
 
+/**
+ * A utility function to delay execution of a function.
+ * It's defined outside the component to avoid being recreated on every render.
+ */
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeout: NodeJS.Timeout;
+  return function(...args: any[]) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+};
+
 const SuppliersPage: React.FC = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
