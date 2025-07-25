@@ -1,27 +1,79 @@
 import mongoose from 'mongoose';
 
-const reviewSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  rating: { type: Number, required: true, min: 1, max: 5 },
-  comment: { type: String },
-  date: { type: Date, default: Date.now }
-});
+const costItemSchema = new mongoose.Schema({
+  item: { type: String, required: true },
+  cost: { type: Number, required: true },
+}, { _id: false });
+
+const laborItemSchema = new mongoose.Schema({
+    task: { type: String, required: true },
+    cost: { type: Number, required: true },
+}, { _id: false });
+
+const pricingSchema = new mongoose.Schema({
+    wholesale: { type: Number },
+    retail: { type: Number },
+    // For storing price ranges like "1500-1800"
+    factoryPrice: { type: String } 
+}, { _id: false });
 
 const productSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  type: { type: String, required: true, enum: ['Shoes', 'Bags', 'Accessories', 'Clothing'] },
-  sku: { type: String, required: true, unique: true },
-  wholesalePrice: { type: Number, required: true },
-  retailPrice: { type: Number, required: true },
-  stockQuantity: { type: Number, default: 0 },
-  supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier', required: true },
-  status: { type: String, enum: ['Active', 'Inactive', 'Discontinued'], default: 'Active' },
-  description: { type: String },
-  costBreakdown: { type: Array, default: [] }, // Array of { item, unit, cost }
-  images: { type: [String], default: [] },
-  category: { type: String, default: 'General', index: true },
-  tags: { type: [String], default: [] },
-  reviews: { type: [reviewSchema], default: [] },
-}, { timestamps: true });
+  name: {
+    type: String,
+    required: [true, 'Product name is required'],
+    trim: true,
+  },
+  category: {
+    type: String,
+    required: [true, 'Product category is required'],
+    enum: [
+        'Military Footwear', 
+        'Safety Footwear', 
+        'Official Footwear', 
+        'Security Footwear', 
+        'Industrial Footwear', 
+        'Professional Footwear'
+    ],
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  specifications: {
+    type: [String],
+    default: [],
+  },
+  features: {
+    type: [String],
+    default: [],
+  },
+  pricing: {
+    type: pricingSchema,
+    required: true,
+  },
+  totalCost: {
+    type: Number,
+  },
+  costBreakdown: {
+    type: [costItemSchema],
+    default: [],
+  },
+  laborBreakdown: {
+      type: [laborItemSchema],
+      default: [],
+  },
+  imageUrl: {
+    type: String,
+  },
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Supplier',
+    // required: true, // You may want to require a supplier for each product
+  }
+}, {
+  timestamps: true,
+});
 
-export default mongoose.model('Product', productSchema); 
+const Product = mongoose.model('Product', productSchema);
+
+export default Product;
