@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import generateToken from '../utils/generateToken.js';
+
 
 export function authenticate(req, res, next) {
   const authHeader = req.headers['authorization'];
