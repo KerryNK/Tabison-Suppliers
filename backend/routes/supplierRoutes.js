@@ -4,10 +4,14 @@ import {
   searchSuppliers,
   getStats,
 } from '../controllers/supplierController.js';
+import {
+  validateSupplierRegistration,
+  handleValidationErrors,
+} from '../middleware/validationMiddleware.js';
 
 const router = express.Router();
 
-router.post('/register', registerSupplier);
+router.post('/register', validateSupplierRegistration, handleValidationErrors, registerSupplier);
 router.get('/search', searchSuppliers);
 router.get('/stats', getStats);
 
