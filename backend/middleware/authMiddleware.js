@@ -35,10 +35,6 @@ export const protect = async (req, res, next) => {
 export const authorize = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
     res.status(403);
-    throw new Error('User has no role assigned');
-  }
-  if (!roles.includes(req.user.role)) {
-    res.status(403);
     throw new Error(`Role '${req.user.role}' is not authorized to access this route`);
   }
   next();
