@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import { rateLimit } from 'express-rate-limit';
 
 // Import Error Middleware
@@ -36,6 +37,7 @@ app.use(helmet());
 
 app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // To parse JSON request bodies
+app.use(cookieParser()); // To parse cookies from incoming requests
 
 // Logger: Use morgan for request logging in development
 if (process.env.NODE_ENV === 'development') {
