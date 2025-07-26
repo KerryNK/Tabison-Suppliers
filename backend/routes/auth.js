@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
+import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // Register
@@ -50,6 +51,19 @@ router.post('/logout', (req, res) => {
     expires: new Date(0),
   });
   res.status(200).json({ message: 'Logged out successfully' });
+});
+
+// @desc    Get user profile
+// @route   GET /api/auth/profile
+// @access  Private
+router.get('/profile', protect, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json({ _id: user._id, name: user.name, email: user.email, role: user.role });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
 });
 
 export default router; 

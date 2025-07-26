@@ -7,8 +7,7 @@ import {
   deleteProduct,
 } from '../controllers/productController.js';
 
-// To protect routes, you can import and use middleware like this:
-// import { protect, admin } from '../middleware/authMiddleware.js';
+import { protect, authorize } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -23,9 +22,8 @@ router.route('/').get(getProducts);
 router.route('/:id').get(getProductById);
 
 // --- Admin Routes ---
-// Note: You can add protection middleware (e.g., protect, admin) once it's implemented.
-router.route('/').post(/* protect, admin, */ createProduct);
-router.route('/:id').put(/* protect, admin, */ updateProduct);
-router.route('/:id').delete(/* protect, admin, */ deleteProduct);
+router.route('/').post(protect, authorize('admin'), createProduct);
+router.route('/:id').put(protect, authorize('admin'), updateProduct);
+router.route('/:id').delete(protect, authorize('admin'), deleteProduct);
 
 export default router;

@@ -204,7 +204,7 @@ const Header: React.FC = () => {
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                   >
                     <MenuItem onClick={handleMenuClose}>
-                      <Typography>Welcome, {user.username}!</Typography>
+                      <Typography>Welcome, {user.name}!</Typography>
                     </MenuItem>
                     <MenuItem component={Link} to="/dashboard" onClick={handleMenuClose}>
                       Dashboard
