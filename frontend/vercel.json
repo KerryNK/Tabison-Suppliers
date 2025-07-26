@@ -1,18 +1,15 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/((?!api/|.*\\..*).*)",
-      "destination": "/index.html"
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "server.js"
     }
   ]
-}[18:14:51.431] [vite]: Rollup failed to resolve import "notistack" from "/vercel/path0/frontend/src/App.tsx".
-[18:14:51.432] This is most likely unintended because it can break your application at runtime.
-// In your App.tsx or a similar top-level file
-import { SnackbarProvider } from 'notistack'; // <-- Remove this import
-
-// ...
-
-// And remove the provider component that wraps your application
-<SnackbarProvider>  // <-- Remove this opening tag
-  <AppContent />
-</SnackbarProvider> // <-- Remove this closing tag
+}
