@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useApi } from "../hooks/useApi";
+import { useApi } from "../api/client";
 import { Box, Container, Typography, Grid, TextField, Select, MenuItem, FormControl, InputLabel, CircularProgress } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import { Product } from "../types";

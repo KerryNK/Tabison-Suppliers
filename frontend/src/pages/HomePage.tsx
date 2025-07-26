@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import HeroSection from '../components/HeroSection';
 import SupplierCard from '../components/SupplierCard';
-import { useApi } from '../hooks/useApi';
+import { useApi } from '../api/client';
 import { Supplier } from '../types';
 import toast from 'react-hot-toast';
 

@@ -23,7 +23,7 @@ import {
   Autocomplete,
 } from '@mui/material';
 import { Business, Person, LocationOn, Description } from '@mui/icons-material';
-import { useApi } from '../hooks/useApi';
+import { useApi } from '../api/client';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
