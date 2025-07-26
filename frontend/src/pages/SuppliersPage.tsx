@@ -286,13 +286,4 @@ const SuppliersPage: React.FC = () => {
   );
 };
 
-const AppWrapper: React.FC = () => {
-  return (
-    <>
-      <Toaster position="top-center" reverseOrder={false} />
-      <SuppliersPage />
-    </>
-  )
-}
-
-export default AppWrapper;
+export default SuppliersPage;
