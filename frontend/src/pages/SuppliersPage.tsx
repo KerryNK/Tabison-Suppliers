@@ -239,14 +239,14 @@ const SuppliersPage: React.FC = () => {
           <LoadingSkeleton />
         ) : suppliers.length > 0 ? (
           <Grid container spacing={3}>
-            {suppliers.map((supplier) => (
-              <Grid item xs={12} sm={6} lg={4} key={supplier.id}>
+            {suppliers.map((supplier: any) => (
+              <Grid item xs={12} sm={6} lg={4} key={supplier._id}>
                 <Fade in timeout={300}>
                   <Box>
                     <SupplierCard
                       supplier={supplier}
                       onFavorite={handleFavorite}
-                      isFavorited={favorites.includes(supplier.id)}
+                      isFavorited={favorites.includes(supplier._id)}
                     />
                   </Box>
                 </Fade>
