@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Card, CardContent, Typography, Grid, Paper, Container } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useApi } from "../api/client";
+import { useApi } from "../hooks/useApi";
 import HeroSection from "../components/HeroSection";
 
 const Dashboard: React.FC = () => {
