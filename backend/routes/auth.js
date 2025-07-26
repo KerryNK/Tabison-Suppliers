@@ -29,10 +29,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user || !(await user.matchPassword(password))) {
-    res.status(401);
-    throw new Error('Invalid email or password');
-  }
+  if (!user || !(await user.matchPassword(password))) return res.status(401).json({ message: 'Invalid credentials' });
 
   generateToken(res, user._id, user.role);
 
@@ -42,6 +39,17 @@ router.post('/login', async (req, res) => {
     email: user.email,
     role: user.role,
   });
+});
+
+// @desc    Logout user / clear cookie
+// @route   POST /api/auth/logout
+// @access  Public
+router.post('/logout', (req, res) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: 'Logged out successfully' });
 });
 
 export default router; 

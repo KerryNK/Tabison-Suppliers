@@ -1,5 +1,5 @@
 import express from 'express';
-import PurchaseOrder from '../models/purchaseOrderModel.js';
+import PurchaseOrder from '../models/purchaseOrderModel.js'; // Corrected import
 const router = express.Router();
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

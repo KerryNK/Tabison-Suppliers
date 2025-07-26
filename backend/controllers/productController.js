@@ -6,8 +6,28 @@ import Product from '../models/productModel.js';
  * @access  Public
  */
 const getProducts = async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+  const { q, category, page = 1, limit = 10 } = req.query;
+  const query = {};
+
+  if (q) {
+    query.$text = { $search: q };
+  }
+
+  if (category) {
+    query.category = category;
+  }
+
+  const pageNum = parseInt(page, 10);
+  const limitNum = parseInt(limit, 10);
+  const skip = (pageNum - 1) * limitNum;
+
+  const products = await Product.find(query)
+    .limit(limitNum)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+
+  const total = await Product.countDocuments(query);
+  res.json({ products, page: pageNum, pages: Math.ceil(total / limitNum), total });
 };
 
 /**
@@ -32,14 +52,14 @@ const getProductById = async (req, res) => {
  * @access  Private/Admin
  */
 const createProduct = async (req, res) => {
-  // Assuming req.body contains product data and req.user is from auth middleware
-  const { name, price, description, image, brand, category, countInStock } = req.body;
+  const { name, pricing, description, image, brand, category, countInStock, sku } = req.body;
 
   const product = new Product({
     name,
-    price,
+    pricing,
     user: req.user._id,
     image,
+    sku: sku || name.replace(/\s+/g, '_').toUpperCase(), // Auto-generate SKU if not provided
     brand,
     category,
     countInStock,
@@ -56,13 +76,13 @@ const createProduct = async (req, res) => {
  * @access  Private/Admin
  */
 const updateProduct = async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } = req.body;
+  const { name, pricing, description, image, brand, category, countInStock } = req.body;
 
   const product = await Product.findById(req.params.id);
 
   if (product) {
     product.name = name || product.name;
-    product.price = price ?? product.price;
+    product.pricing = pricing || product.pricing;
     product.description = description || product.description;
     product.image = image || product.image;
     product.brand = brand || product.brand;
