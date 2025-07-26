@@ -23,7 +23,6 @@ const addOrderItems = async (req, res) => {
     const order = new Order({
       // Ensure req.user exists before trying to access its properties.
       // This will be populated by your 'protect' middleware.
-      user: req.user?._id,
       orderItems: orderItems.map((x) => ({
         ...x,
         product: x._id,
