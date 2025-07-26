@@ -45,7 +45,9 @@ const SuppliersPage: React.FC = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    return JSON.parse(localStorage.getItem('favoriteSuppliers') || '[]');
+  });
   const api = useApi();
 
   useEffect(() => {
@@ -80,13 +82,15 @@ const SuppliersPage: React.FC = () => {
   }, [isError]);
 
   const handleFavorite = (id: string) => {
-    const isCurrentlyFavorited = favorites.includes(id);
-    setFavorites(prev => 
-      isCurrentlyFavorited
-        ? prev.filter(fav => fav !== id)
-        : [...prev, id]
-    );
-    toast.success(isCurrentlyFavorited ? 'Removed from favorites' : 'Added to favorites!');
+    setFavorites(prevFavorites => {
+      const isCurrentlyFavorited = prevFavorites.includes(id);
+      const newFavorites = isCurrentlyFavorited
+        ? prevFavorites.filter(fav => fav !== id)
+        : [...prevFavorites, id];
+      localStorage.setItem('favoriteSuppliers', JSON.stringify(newFavorites));
+      toast.success(isCurrentlyFavorited ? 'Removed from favorites' : 'Added to favorites!');
+      return newFavorites;
+    });
   };
 
   return (
