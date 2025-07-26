@@ -1,34 +1,45 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
-import ErrorHandler from '../utils/errorHandler.js';
+import User from '../models/userModel.js';
 
-// Protect routes
+/**
+ * Middleware to protect routes that require authentication.
+ * It verifies the JWT from the cookie and attaches the user to the request object.
+ */
 export const protect = async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    try {
-      // Get token from header
-      token = req.headers.authorization.split(' ')[1];
-      // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      // Get user from the token (excluding password)
-      req.user = await User.findById(decoded.id).select('-password');
-      next();
-    } catch (error) {
-      return next(new ErrorHandler('Not authorized, token failed', 401));
-    }
-  }
+  // Read the JWT from the 'jwt' cookie
+  token = req.cookies.jwt;
 
   if (!token) {
-    return next(new ErrorHandler('Not authorized, no token', 401));
+    res.status(401);
+    throw new Error('Not authorized, no token');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Attach the user object to the request, excluding the password
+    req.user = await User.findById(decoded.id).select('-password');
+    next();
+  } catch (error) {
+    res.status(401);
+    throw new Error('Not authorized, token failed');
   }
 };
 
-// Grant access to specific roles
+/**
+ * Middleware to authorize users based on their role.
+ * Must be used *after* the protect middleware.
+ * @param {...string} roles - The roles allowed to access the route.
+ */
 export const authorize = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
-    return next(new ErrorHandler(`User role ${req.user.role} is not authorized to access this route`, 403));
+    res.status(403);
+    throw new Error('User has no role assigned');
+  }
+  if (!roles.includes(req.user.role)) {
+    res.status(403);
+    throw new Error(`Role '${req.user.role}' is not authorized to access this route`);
   }
   next();
 };

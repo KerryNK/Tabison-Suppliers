@@ -7,15 +7,16 @@ import {
   updateOrderToDelivered,
 } from '../controllers/orderController.js';
 
-// This middleware will be created later to protect routes
-// import { protect, admin } from '../middleware/authMiddleware.js';
+import { protect, authorize } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// The 'protect' and 'admin' middleware would be added to these routes
-router.route('/').post(/* protect, */ addOrderItems).get(/* protect, admin, */ getOrders);
-router.route('/myorders').get(/* protect, */ getMyOrders);
-router.route('/:id').get(/* protect, */ getOrderById);
-router.route('/:id/deliver').put(/* protect, admin, */ updateOrderToDelivered);
+// All routes below are protected
+router.use(protect);
+
+router.route('/').post(addOrderItems).get(authorize('admin'), getOrders);
+router.route('/myorders').get(getMyOrders);
+router.route('/:id').get(getOrderById);
+router.route('/:id/deliver').put(authorize('admin'), updateOrderToDelivered);
 
 export default router;
