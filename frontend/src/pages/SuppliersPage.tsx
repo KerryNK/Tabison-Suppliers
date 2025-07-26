@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { Search, Add, Business } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import { Link as RouterLink } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import SupplierCard from '../components/SupplierCard';
 
@@ -239,6 +240,8 @@ const SuppliersPage: React.FC = () => {
             {suppliers.length} supplier{suppliers.length !== 1 ? 's' : ''} found
           </Typography>
           <Button
+            component={RouterLink}
+            to="/register"
             variant="contained"
             startIcon={<Add />}
             sx={{
