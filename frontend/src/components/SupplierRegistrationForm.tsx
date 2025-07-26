@@ -25,6 +25,9 @@ import {
 import { Business, Person, LocationOn, Description } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
 import { useNavigate } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import BusinessHoursInput from './BusinessHoursInput'; // New component for business hours
 
 interface SupplierFormData {
@@ -153,151 +156,71 @@ const businessTypes = [
 
 const steps = ['Basic Info', 'Business Details', 'Location & Contact', 'Business Hours', 'Review & Submit'];
 
-// --- Reducer for complex state management ---
-type FormAction =
-  | { type: 'SET_FIELD'; field: keyof SupplierFormData; value: any }
-  | { type: 'SET_NESTED_FIELD'; parent: keyof SupplierFormData; field: string; value: any }
-  | { type: 'SET_BUSINESS_HOUR'; day: string; field: string; value: any }
-  | { type: 'RESET_FORM' };
+const validationSchema = z.object({
+  name: z.string().min(1, 'Company name is required'),
+  email: z.string().email('Please provide a valid email'),
+  phone: z.string().min(1, 'Phone number is required'),
+  website: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
+  businessType: z.string().min(1, 'Business type is required'),
+  registrationNumber: z.string().optional(),
+  taxNumber: z.string().optional(),
+  yearEstablished: z.union([z.number().min(1900).max(new Date().getFullYear()), z.literal('')]).optional(),
+  address: z.string().min(1, 'Business address is required'),
+  city: z.string().min(1, 'City is required'),
+  county: z.string().min(1, 'County is required'),
+  postalCode: z.string().optional(),
+  category: z.string().min(1, 'A primary category is required'),
+  specialties: z.array(z.string()).min(1, 'At least one specialty is required'),
+  description: z.string().min(50, 'Description must be at least 50 characters long'),
+  contactPerson: z.object({
+    name: z.string().min(1, 'Contact person name is required'),
+    position: z.string().optional(),
+    email: z.string().email('Please provide a valid contact person email'),
+    phone: z.string().optional(),
+  }),
+  businessHours: z.any(), // Business hours can have more complex validation if needed
+});
 
-const formReducer = (state: SupplierFormData, action: FormAction): SupplierFormData => {
-  switch (action.type) {
-    case 'SET_FIELD':
-      return { ...state, [action.field]: action.value };
-    case 'SET_NESTED_FIELD':
-      return {
-        ...state,
-        [action.parent]: {
-          ...(state[action.parent] as object),
-          [action.field]: action.value,
-        },
-      };
-    case 'SET_BUSINESS_HOUR':
-      return {
-        ...state,
-        businessHours: {
-          ...state.businessHours,
-          [action.day]: {
-            ...state.businessHours[action.day as keyof typeof state.businessHours],
-            [action.field]: action.value,
-          },
-        },
-      };
-    case 'RESET_FORM':
-      return initialFormData;
-    default:
-      return state;
-  }
-};
+type FormValues = z.infer<typeof validationSchema>;
 
 const SupplierRegistrationForm: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, dispatch] = useReducer(formReducer, initialFormData);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   
   const api = useApi();
   const navigate = useNavigate();
 
-  const handleInputChange = (field: keyof SupplierFormData, value: any) => {
-    dispatch({ type: 'SET_FIELD', field, value });
-    
-    // Clear validation error when user starts typing
-    if (validationErrors[field]) {
-      setValidationErrors(prev => ({
-        ...prev,
-        [field]: '',
-      }));
-    }
-  };
+  const {
+    control,
+    register,
+    handleSubmit,
+    trigger,
+    getValues,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    resolver: zodResolver(validationSchema),
+    defaultValues: initialFormData,
+    mode: 'onTouched',
+  });
 
-  const handleNestedInputChange = (parent: keyof SupplierFormData, field: string, value: any) => {
-    dispatch({ type: 'SET_NESTED_FIELD', parent, field, value });
-  };
-
-  const handleBusinessHoursChange = (day: string, field: string, value: any) => {
-    dispatch({ type: 'SET_BUSINESS_HOUR', day, field, value });
-  };
-  
-  const validateStep = (step: number): boolean => {
-    const errors: Record<string, string> = {};
-    
+  const handleNext = async () => {
+    let fieldsToValidate: (keyof FormValues)[] | (keyof FormValues)[][] = [];
     switch (step) {
-      case 0: // Basic Information
-        if (!formData.name.trim()) errors.name = 'Company name is required';
-        if (!formData.email.trim()) errors.email = 'Email is required';
-        if (!formData.phone.trim()) errors.phone = 'Phone number is required';
-        if (!formData.category) errors.category = 'Category is required';
+      case 0:
+        fieldsToValidate = ['name', 'email', 'phone', 'category'];
         break;
-        
-      case 1: // Business Details
-        if (!formData.businessType) errors.businessType = 'Business type is required';
-        if (!formData.description.trim() || formData.description.length < 50) {
-          errors.description = 'Description must be at least 50 characters';
-        }
-        if (formData.specialties.length === 0) errors.specialties = 'At least one specialty is required';
+      case 1:
+        fieldsToValidate = ['businessType', 'description', 'specialties'];
         break;
-        
-      case 2: // Contact & Location
-        if (!formData.address.trim()) errors.address = 'Address is required';
-        if (!formData.city.trim()) errors.city = 'City is required';
-        if (!formData.county) errors.county = 'County is required';
-        if (!formData.contactPerson.name.trim()) errors['contactPerson.name'] = 'Contact person name is required';
-        if (!formData.contactPerson.email.trim()) errors['contactPerson.email'] = 'Contact person email is required';
-        break;
-
-      case 3: // Business Hours - no validation needed for this step
-      case 4: // Review - no validation needed for this step
+      case 2:
+        fieldsToValidate = ['address', 'city', 'county', 'contactPerson.name', 'contactPerson.email'];
         break;
     }
-    
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
 
-  const validateAll = (): boolean => {
-    const errors: Record<string, string> = {};
-    // Step 0: Basic Information
-    if (!formData.name.trim()) errors.name = 'Company name is required';
-    if (!formData.email.trim()) errors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email is invalid';
-    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
-    if (!formData.category) errors.category = 'Category is required';
-
-    // Step 1: Business Details
-    if (!formData.businessType) errors.businessType = 'Business type is required';
-    if (!formData.description.trim() || formData.description.length < 50) {
-      errors.description = 'Description must be at least 50 characters';
-    }
-    if (formData.specialties.length === 0) errors.specialties = 'At least one specialty is required';
-
-    // Step 2: Contact & Location
-    if (!formData.address.trim()) errors.address = 'Address is required';
-    if (!formData.city.trim()) errors.city = 'City is required';
-    if (!formData.county) errors.county = 'County is required';
-    if (!formData.contactPerson.name.trim()) errors['contactPerson.name'] = 'Contact person name is required';
-    if (!formData.contactPerson.email.trim()) errors['contactPerson.email'] = 'Contact person email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.contactPerson.email)) {
-      errors['contactPerson.email'] = 'Contact person email is invalid';
-    }
-
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const findFirstErrorStep = (errors: Record<string, string>): number => {
-    const errorFields = Object.keys(errors);
-    if (errorFields.some(f => ['name', 'email', 'phone', 'category'].includes(f))) return 0;
-    if (errorFields.some(f => ['businessType', 'description', 'specialties'].includes(f))) return 1;
-    if (errorFields.some(f => ['address', 'city', 'county', 'contactPerson.name', 'contactPerson.email'].includes(f))) return 2;
-    return activeStep; // Stay on current step if no match
-  };
-
-  const handleNext = () => {
-    if (validateStep(activeStep)) {
-      setActiveStep(prev => prev + 1);
+    const isValid = await trigger(fieldsToValidate as any);
+    if (isValid) {
+      setActiveStep((prev) => prev + 1);
     }
   };
 
@@ -305,34 +228,14 @@ const SupplierRegistrationForm: React.FC = () => {
     setActiveStep(prev => prev - 1);
   };
 
-  const handleSubmit = async () => {
-    if (!validateAll()) {
-      const firstErrorStep = findFirstErrorStep(validationErrors);
-      setActiveStep(firstErrorStep);
-      return;
-    }
-    
-    setLoading(true);
+  const onSubmit = async (data: FormValues) => {
     setError(null);
     
     try {
-      await api.post('/suppliers/register', formData);
+      await api.post('/suppliers/register', data);
       setSuccess(true);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
-      // Handle validation errors from the backend
-      if (err.response?.data?.errors) {
-        const backendErrors: Record<string, string> = {};
-        err.response.data.errors.forEach((error: any) => {
-          // The 'path' field from express-validator corresponds to the field name
-          if (error.path) {
-            backendErrors[error.path] = error.msg;
-          }
-        });
-        setValidationErrors(backendErrors);
-      }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -377,10 +280,9 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Company Name"
-                value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                error={!!validationErrors.name}
-                helperText={validationErrors.name}
+                {...register('name')}
+                error={!!errors.name}
+                helperText={errors.name?.message}
                 required
               />
             </Grid>
@@ -390,10 +292,9 @@ const SupplierRegistrationForm: React.FC = () => {
                 fullWidth
                 label="Email Address"
                 type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                error={!!validationErrors.email}
-                helperText={validationErrors.email}
+                {...register('email')}
+                error={!!errors.email}
+                helperText={errors.email?.message}
                 required
               />
             </Grid>
@@ -402,10 +303,9 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Phone Number"
-                value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                error={!!validationErrors.phone}
-                helperText={validationErrors.phone}
+                {...register('phone')}
+                error={!!errors.phone}
+                helperText={errors.phone?.message}
                 required
               />
             </Grid>
@@ -414,29 +314,28 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Website (Optional)"
-                value={formData.website}
-                onChange={(e) => handleInputChange('website', e.target.value)}
+                {...register('website')}
+                error={!!errors.website}
+                helperText={errors.website?.message}
               />
             </Grid>
             
             <Grid item xs={12}>
-              <FormControl fullWidth error={!!validationErrors.category} required>
-                <InputLabel>Primary Category</InputLabel>
-                <Select
-                  value={formData.category}
-                  onChange={(e) => handleInputChange('category', e.target.value)}
-                  label="Primary Category"
-                >
-                  {categories.map((category) => (
-                    <MenuItem key={category} value={category}>
-                      {category}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {validationErrors.category && (
-                  <FormHelperText>{validationErrors.category}</FormHelperText>
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth error={!!errors.category} required>
+                    <InputLabel>Primary Category</InputLabel>
+                    <Select {...field} label="Primary Category">
+                      {categories.map((category) => (
+                        <MenuItem key={category} value={category}>{category}</MenuItem>
+                      ))}
+                    </Select>
+                    {errors.category && <FormHelperText>{errors.category.message}</FormHelperText>}
+                  </FormControl>
                 )}
-              </FormControl>
+              />
             </Grid>
           </Grid>
         );
@@ -451,23 +350,21 @@ const SupplierRegistrationForm: React.FC = () => {
             </Grid>
             
             <Grid item xs={12} md={6}>
-              <FormControl fullWidth error={!!validationErrors.businessType} required>
-                <InputLabel>Business Type</InputLabel>
-                <Select
-                  value={formData.businessType}
-                  onChange={(e) => handleInputChange('businessType', e.target.value)}
-                  label="Business Type"
-                >
-                  {businessTypes.map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {validationErrors.businessType && (
-                  <FormHelperText>{validationErrors.businessType}</FormHelperText>
+              <Controller
+                name="businessType"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth error={!!errors.businessType} required>
+                    <InputLabel>Business Type</InputLabel>
+                    <Select {...field} label="Business Type">
+                      {businessTypes.map((type) => (
+                        <MenuItem key={type} value={type}>{type}</MenuItem>
+                      ))}
+                    </Select>
+                    {errors.businessType && <FormHelperText>{errors.businessType.message}</FormHelperText>}
+                  </FormControl>
                 )}
-              </FormControl>
+              />
             </Grid>
             
             <Grid item xs={12} md={6}>
@@ -475,8 +372,9 @@ const SupplierRegistrationForm: React.FC = () => {
                 fullWidth
                 label="Year Established"
                 type="number"
-                value={formData.yearEstablished || ''}
-                onChange={(e) => handleInputChange('yearEstablished', e.target.value)}
+                {...register('yearEstablished', { setValueAs: (v) => v === "" ? "" : parseInt(v, 10) })}
+                error={!!errors.yearEstablished}
+                helperText={errors.yearEstablished?.message}
                 inputProps={{ min: 1900, max: new Date().getFullYear() }}
               />
             </Grid>
@@ -485,8 +383,6 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Business Registration Number"
-                value={formData.registrationNumber}
-                onChange={(e) => handleInputChange('registrationNumber', e.target.value)}
               />
             </Grid>
             
