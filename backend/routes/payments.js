@@ -1,5 +1,5 @@
 import express from 'express';
-import Order from '../models/Order.js';
+import PurchaseOrder from '../models/purchaseOrderModel.js';
 const router = express.Router();
 
 // POST /payments
@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
   // Simulate payment processing delay
   setTimeout(async () => {
     try {
-      const order = await Order.findById(orderId);
+      const order = await PurchaseOrder.findById(orderId);
       if (!order) return res.status(404).json({ message: 'Order not found' });
       order.paymentStatus = 'Paid';
       order.status = 'Confirmed';

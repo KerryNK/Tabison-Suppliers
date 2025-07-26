@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
-import Product from './models/Product.js';
-import Supplier from './models/Supplier.js';
+import Product from './models/productModel.js';
+import Supplier from './models/supplierModel.js';
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/tabison';
 const JSON_PATH = path.join(process.cwd(), '../TABISON SUPPLIERS.json');
