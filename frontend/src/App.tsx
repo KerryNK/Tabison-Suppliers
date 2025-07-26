@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "./components/Layout";
 import SuppliersPage from "./pages/SuppliersPage";
@@ -28,36 +27,34 @@ const queryClient = new QueryClient();
 
 const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
-    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-      <HelmetProvider>
-        <CustomThemeProvider>
-          <CartProvider>
-            <AuthProvider>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/supplier/:id" element={<SupplierDetailPage />} />
-                  <Route path="/suppliers/*" element={<SuppliersPage />} />
-                  <Route path="/products/*" element={<ProductsPage />} />
-                  <Route path="/orders/*" element={<OrdersPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/payment" element={<PaymentPage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/testimonials" element={<TestimonialsPage />} />
-                  <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-                <Footer />
-                <ChatWidget />
-                <PushNotifications />
-              </Layout>
-            </AuthProvider>
-          </CartProvider>
-        </CustomThemeProvider>
-      </HelmetProvider>
-    </SnackbarProvider>
+    <HelmetProvider>
+      <CustomThemeProvider>
+        <CartProvider>
+          <AuthProvider>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/supplier/:id" element={<SupplierDetailPage />} />
+                <Route path="/suppliers/*" element={<SuppliersPage />} />
+                <Route path="/products/*" element={<ProductsPage />} />
+                <Route path="/orders/*" element={<OrdersPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/payment" element={<PaymentPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/testimonials" element={<TestimonialsPage />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+              <Footer />
+              <ChatWidget />
+              <PushNotifications />
+            </Layout>
+          </AuthProvider>
+        </CartProvider>
+      </CustomThemeProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 

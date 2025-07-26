@@ -17,24 +17,13 @@ import {
 } from '@mui/material';
 import { Search, Add, Business } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import debounce from 'lodash.debounce';
 import { Link as RouterLink } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import SupplierCard from '../components/SupplierCard';
 
 const categories = ['All Categories', 'Military Footwear', 'Safety Footwear', 'Official Footwear', 'Security Footwear', 'Industrial Footwear', 'Professional Footwear'];
 const locations = ['All Locations', 'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika'];
-
-/**
- * A utility function to delay execution of a function.
- * It's defined outside the component to avoid being recreated on every render.
- */
-const debounce = (func: (...args: any[]) => void, delay: number) => {
-  let timeout: NodeJS.Timeout;
-  return function(...args: any[]) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), delay);
-  };
-};
 
 const LoadingSkeleton = () => (
   <Grid container spacing={3}>
