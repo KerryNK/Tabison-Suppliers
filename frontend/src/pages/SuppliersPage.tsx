@@ -1,6 +1,24 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
+  Button,
+  Fade,
+  Skeleton,
+} from '@mui/material';
+import { Search, Add, Business } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
 import toast from 'react-hot-toast';
+import SupplierCard from '../components/SupplierCard';
 
 const categories = ['All Categories', 'Military Footwear', 'Safety Footwear', 'Official Footwear', 'Security Footwear', 'Industrial Footwear', 'Professional Footwear'];
 const locations = ['All Locations', 'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika'];
@@ -70,12 +88,13 @@ const SuppliersPage: React.FC = () => {
   }, [debouncedFetchSuppliers]);
 
   const handleFavorite = (id: string) => {
+    const isCurrentlyFavorited = favorites.includes(id);
     setFavorites(prev => 
-      prev.includes(id) 
+      isCurrentlyFavorited
         ? prev.filter(fav => fav !== id)
         : [...prev, id]
     );
-    toast.success(favorites.includes(id) ? 'Removed from favorites' : 'Added to favorites!');
+    toast.success(isCurrentlyFavorited ? 'Removed from favorites' : 'Added to favorites!');
   };
 
   return (

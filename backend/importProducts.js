@@ -89,9 +89,20 @@ async function main() {
   const products = parseProductsFromJson(json);
   for (const prod of products) {
     await Product.findOneAndUpdate(
-      { sku: prod.sku },
-      { ...prod, supplier: supplier._id },
-      { upsert: true, new: true }
+      { sku: prod.sku }, // find by SKU
+      { // map the fields to the schema
+        name: prod.name,
+        sku: prod.sku,
+        category: prod.category,
+        description: prod.description,
+        features: prod.features,
+        images: prod.images,
+        pricing: { wholesale: prod.wholesalePrice, retail: prod.retailPrice },
+        countInStock: prod.stockQuantity,
+        supplier: supplier._id,
+        user: supplier.user || supplier._id, // Assign a user, fallback to supplier ID
+      },
+      { upsert: true, new: true } // create if it doesn't exist
     );
   }
   console.log(`Imported ${products.length} products.`);
