@@ -46,25 +46,6 @@ app.use('/api/suppliers', supplierRoutes);
 // app.use('/api/users', userRoutes);
 
 // --- Frontend & Static Asset Serving ---
-const __dirname = path.resolve();
-
-// Make the 'uploads' folder static so images can be served
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-
-if (process.env.NODE_ENV === 'production') {
-  // Set the frontend build folder as static
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
-
-  // For any request that doesn't match an API route or a static file,
-  // serve the frontend's index.html file. This is key for client-side routing.
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-  );
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running...');
-  });
-}
 
 // --- Error Handling Middleware (should be last) ---
 app.use(notFound);
