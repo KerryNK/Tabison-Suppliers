@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Container,
@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Search, Add, Business } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
-import debounce from 'lodash.debounce';
+import { useQuery } from '@tanstack/react-query';
 import { Link as RouterLink } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import SupplierCard from '../components/SupplierCard';
@@ -41,41 +41,43 @@ const LoadingSkeleton = () => (
 );
 
 const SuppliersPage: React.FC = () => {
-  const [suppliers, setSuppliers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [favorites, setFavorites] = useState<string[]>([]);
   const api = useApi();
-  
-  const fetchSuppliers = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      // Only add parameters if they have a value to avoid empty params
-      if (searchTerm) params.append('q', searchTerm);
-      if (selectedCategory !== 'All Categories') params.append('category', selectedCategory);
-      if (selectedLocation !== 'All Locations') params.append('location', selectedLocation);
-
-      const { data } = await api.get(`/suppliers/search?${params.toString()}`);
-      setSuppliers(data.suppliers);
-    } catch (err) {
-      toast.error('Failed to fetch suppliers.');
-    } finally {
-      setLoading(false);
-    }
-  }, [api, searchTerm, selectedCategory, selectedLocation]); // Dependencies are correct
-
-  // Memoize the debounced version of the fetch function
-  const debouncedFetchSuppliers = useCallback(
-    debounce(fetchSuppliers, 500),
-    [fetchSuppliers]
-  );
 
   useEffect(() => {
-    debouncedFetchSuppliers();
-  }, [debouncedFetchSuppliers]);
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  const fetchSuppliers = async ({ queryKey }: any) => {
+    const [_key, { search, category, location }] = queryKey;
+    const params = new URLSearchParams();
+    if (search) params.append('q', search);
+    if (category !== 'All Categories') params.append('category', category);
+    if (location !== 'All Locations') params.append('location', location);
+
+    const { data } = await api.get(`/suppliers/search?${params.toString()}`);
+    return data.suppliers || [];
+  };
+
+  const { data: suppliers = [], isLoading: loading, isError } = useQuery({
+    queryKey: ['suppliers', { search: debouncedSearchTerm, category: selectedCategory, location: selectedLocation }],
+    queryFn: fetchSuppliers,
+    placeholderData: (previousData) => previousData,
+  });
+
+  useEffect(() => {
+    if (isError) toast.error('Failed to fetch suppliers.');
+  }, [isError]);
 
   const handleFavorite = (id: string) => {
     const isCurrentlyFavorited = favorites.includes(id);

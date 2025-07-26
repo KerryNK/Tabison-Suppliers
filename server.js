@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser'; // Make sure this is installed
 import { notFound, errorHandler } from './backend/middleware/errorMiddleware.js';
 import connectDB from './backend/config/db.js';
 import supplierRoutes from './backend/routes/supplierRoutes.js';
