@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Card, CardContent, Typography, Grid, Paper, Container, CircularProgress, Alert } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useQuery } from "@tanstack/react-query";
-import { useApi } from "../hooks/useApi";
+import { useApi } from "../api/client";
 import HeroSection from "../components/HeroSection";
 
 const initialStats = { suppliers: 0, products: 0, orders: 0, orderData: [] };

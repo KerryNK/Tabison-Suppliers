@@ -4,7 +4,7 @@ import {
   Box, Container, Typography, Grid, Paper, CircularProgress, Alert,
   Chip, Avatar, List, ListItem, ListItemIcon, ListItemText, Divider
 } from '@mui/material';
-import { useSupplier } from '../hooks/useSupplier.ts';
+import { useSupplier } from '../hooks/useSupplier';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';

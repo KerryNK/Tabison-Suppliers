@@ -16,7 +16,7 @@ import {
   Skeleton,
 } from '@mui/material';
 import { Search, Add, Business } from '@mui/icons-material';
-import { useApi } from '../hooks/useApi';
+import { useApi } from '../api/client';
 import { useQuery } from '@tanstack/react-query';
 import { Link as RouterLink } from 'react-router-dom';
 import toast from 'react-hot-toast';
