@@ -5,34 +5,10 @@ import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CustomThemeProvider } from "./context/ThemeContext";
 import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
 
 // Create a client
 const queryClient = new QueryClient();
-
-// Simplified Auth Context for testing
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-}
-
-const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
-
-const SimpleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState(false);
-
-  return (
-    <AuthContext.Provider value={{ user, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 // Simple header without context dependencies
 const SimpleHeader: React.FC = () => (
@@ -90,7 +66,7 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <CustomThemeProvider>
         <CartProvider>
-          <SimpleAuthProvider>
+          <AuthProvider>
             <SimpleLayout>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -99,7 +75,7 @@ const App: React.FC = () => {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </SimpleLayout>
-          </SimpleAuthProvider>
+          </AuthProvider>
         </CartProvider>
       </CustomThemeProvider>
     </QueryClientProvider>
