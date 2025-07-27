@@ -1,23 +1,23 @@
-import app from './app.js';
-import connectDB from './config/db.js';
-import logger from './config/logger.js';
+import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
+import contactRoutes from './routes/contact.js';
 
-// Load env vars
 dotenv.config();
 
-// Connect to database
-connectDB();
+const app = express();
 
-const PORT = process.env.PORT || 5000;
+// Init Middleware
+app.use(express.json());
+app.use(cors({
+  origin: 'https://tabisonsuppliers.vercel.app/', // Your Vite frontend dev server
+  credentials: true,
+}));
 
-const server = app.listen(PORT, () => {
-  logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-});
+// Define Routes
+app.get('/api', (req, res) => res.send('API Running'));
+app.use('/api/contact', contactRoutes);
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
-  logger.error(`Unhandled Rejection: ${err.message}`);
-  // Close server & exit process
-  server.close(() => process.exit(1));
-});
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
