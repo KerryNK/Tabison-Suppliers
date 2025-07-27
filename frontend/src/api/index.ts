@@ -1,6 +1,6 @@
 import type { Product, Cart, ContactForm, ApiResponse } from "./types";
-import { cartApi } from "../api";
-
+// frontend/src/api/index.ts
+export * from './cartApi';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
 
