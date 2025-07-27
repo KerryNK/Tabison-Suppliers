@@ -206,7 +206,7 @@ const SupplierRegistrationForm: React.FC = () => {
 
   const handleNext = async () => {
     let fieldsToValidate: (keyof FormValues)[] | (keyof FormValues)[][] = [];
-    switch (step) {
+    switch (activeStep) {
       case 0:
         fieldsToValidate = ['name', 'email', 'phone', 'category'];
         break;
@@ -229,7 +229,7 @@ const SupplierRegistrationForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setError(null);
+    setError(null); // Clear previous errors
     
     try {
       await api.post('/suppliers/register', data);
@@ -266,7 +266,7 @@ const SupplierRegistrationForm: React.FC = () => {
 
   // The content for each step of the form
   const renderStepContent = (step: number) => {
-    switch (step) {
+    switch (step) { // Note: `getValues()` can be used here to read form values for review steps
       case 0:
         return (
           <Grid container spacing={3}>
@@ -382,38 +382,48 @@ const SupplierRegistrationForm: React.FC = () => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Business Registration Number"
+                label="Business Registration Number (Optional)"
+                {...register('registrationNumber')}
+                error={!!errors.registrationNumber}
+                helperText={errors.registrationNumber?.message}
               />
             </Grid>
             
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Tax Number (KRA PIN)"
-                value={formData.taxNumber}
-                onChange={(e) => handleInputChange('taxNumber', e.target.value)}
+                label="Tax Number (KRA PIN) (Optional)"
+                {...register('taxNumber')}
+                error={!!errors.taxNumber}
+                helperText={errors.taxNumber?.message}
               />
             </Grid>
             
             <Grid item xs={12}>
-              <Autocomplete
-                multiple
-                options={specialtyOptions}
-                value={formData.specialties}
-                onChange={(_, newValue) => handleInputChange('specialties', newValue)}
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Specialties"
-                    placeholder="Select your specialties"
-                    error={!!validationErrors.specialties}
-                    helperText={validationErrors.specialties || 'Select at least one specialty'}
-                    required
+              <Controller
+                name="specialties"
+                control={control}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...field}
+                    multiple
+                    options={specialtyOptions}
+                    onChange={(_, data) => field.onChange(data)}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Specialties"
+                        placeholder="Select your specialties"
+                        error={!!errors.specialties}
+                        helperText={errors.specialties?.message}
+                        required
+                      />
+                    )}
                   />
                 )}
               />
@@ -423,12 +433,11 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 multiline
-                rows={4}
+                rows={5}
                 label="Company Description"
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                error={!!validationErrors.description}
-                helperText={validationErrors.description || `${formData.description.length}/1000 characters (minimum 50)`}
+                {...register('description')}
+                error={!!errors.description}
+                helperText={errors.description?.message || 'Provide a detailed description of your company and services.'}
                 required
               />
             </Grid>
@@ -448,10 +457,9 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Business Address"
-                value={formData.address}
-                onChange={(e) => handleInputChange('address', e.target.value)}
-                error={!!validationErrors.address}
-                helperText={validationErrors.address}
+                {...register('address')}
+                error={!!errors.address}
+                helperText={errors.address?.message}
                 required
               />
             </Grid>
@@ -460,26 +468,25 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="City"
-                value={formData.city}
-                onChange={(e) => handleInputChange('city', e.target.value)}
-                error={!!validationErrors.city}
-                helperText={validationErrors.city}
+                {...register('city')}
+                error={!!errors.city}
+                helperText={errors.city?.message}
                 required
               />
             </Grid>
             
             <Grid item xs={12} md={4}>
-              <Autocomplete
-                options={kenyanCounties}
-                value={formData.county}
-                onChange={(_, newValue) => handleInputChange('county', newValue || '')}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="County"
-                    error={!!validationErrors.county}
-                    helperText={validationErrors.county}
-                    required
+              <Controller
+                name="county"
+                control={control}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...field}
+                    options={kenyanCounties}
+                    onChange={(_, data) => field.onChange(data || '')}
+                    renderInput={(params) => (
+                      <TextField {...params} label="County" error={!!errors.county} helperText={errors.county?.message} required />
+                    )}
                   />
                 )}
               />
@@ -488,9 +495,10 @@ const SupplierRegistrationForm: React.FC = () => {
             <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
-                label="Postal Code"
-                value={formData.postalCode}
-                onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                label="Postal Code (Optional)"
+                {...register('postalCode')}
+                error={!!errors.postalCode}
+                helperText={errors.postalCode?.message}
               />
             </Grid>
             
@@ -505,10 +513,9 @@ const SupplierRegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Contact Person Name"
-                value={formData.contactPerson.name}
-                onChange={(e) => handleNestedInputChange('contactPerson', 'name', e.target.value)}
-                error={!!validationErrors['contactPerson.name']}
-                helperText={validationErrors['contactPerson.name']}
+                {...register('contactPerson.name')}
+                error={!!errors.contactPerson?.name}
+                helperText={errors.contactPerson?.name?.message}
                 required
               />
             </Grid>
@@ -516,9 +523,10 @@ const SupplierRegistrationForm: React.FC = () => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Position/Title"
-                value={formData.contactPerson.position}
-                onChange={(e) => handleNestedInputChange('contactPerson', 'position', e.target.value)}
+                label="Position/Title (Optional)"
+                {...register('contactPerson.position')}
+                error={!!errors.contactPerson?.position}
+                helperText={errors.contactPerson?.position?.message}
               />
             </Grid>
             
@@ -527,10 +535,9 @@ const SupplierRegistrationForm: React.FC = () => {
                 fullWidth
                 label="Contact Email"
                 type="email"
-                value={formData.contactPerson.email}
-                onChange={(e) => handleNestedInputChange('contactPerson', 'email', e.target.value)}
-                error={!!validationErrors['contactPerson.email']}
-                helperText={validationErrors['contactPerson.email']}
+                {...register('contactPerson.email')}
+                error={!!errors.contactPerson?.email}
+                helperText={errors.contactPerson?.email?.message}
                 required
               />
             </Grid>
@@ -538,9 +545,10 @@ const SupplierRegistrationForm: React.FC = () => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Contact Phone"
-                value={formData.contactPerson.phone}
-                onChange={(e) => handleNestedInputChange('contactPerson', 'phone', e.target.value)}
+                label="Contact Phone (Optional)"
+                {...register('contactPerson.phone')}
+                error={!!errors.contactPerson?.phone}
+                helperText={errors.contactPerson?.phone?.message}
               />
             </Grid>
           </Grid>
@@ -553,19 +561,27 @@ const SupplierRegistrationForm: React.FC = () => {
               <Typography variant="h6" gutterBottom>
                 Business Hours
               </Typography>
-              {Object.entries(formData.businessHours).map(([day, value]) => (
-                <BusinessHoursInput
-                  key={day}
-                  day={day}
-                  label={day}
-                  value={value}
-                  onChange={handleBusinessHoursChange}
-                />
-              ))}
+              <Controller
+                name="businessHours"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    {Object.entries(field.value).map(([day, value]) => (
+                      <BusinessHoursInput
+                        key={day}
+                        day={day}
+                        label={day}
+                        value={value as any}
+                        onChange={(day, newValues) => field.onChange({ ...field.value, [day]: newValues })}
+                      />
+                    ))}
+                  </>
+                )}
+              />
             </Grid>
           </Grid>
         );
-
+        
       case 4:
         return (
           <Grid container spacing={3}>
@@ -580,39 +596,42 @@ const SupplierRegistrationForm: React.FC = () => {
             
             <Grid item xs={12}>
               <Paper sx={{ p: 3 }}>
+                {(() => {
+                  const values = getValues();
+                  return <>
                 <Typography variant="h6" gutterBottom>Basic Information</Typography>
-                <Typography><strong>Company:</strong> {formData.name}</Typography>
-                <Typography><strong>Email:</strong> {formData.email}</Typography>
-                <Typography><strong>Phone:</strong> {formData.phone}</Typography>
-                <Typography><strong>Category:</strong> {formData.category}</Typography>
-                {formData.website && <Typography><strong>Website:</strong> {formData.website}</Typography>}
+                <Typography><strong>Company:</strong> {values.name}</Typography>
+                <Typography><strong>Email:</strong> {values.email}</Typography>
+                <Typography><strong>Phone:</strong> {values.phone}</Typography>
+                <Typography><strong>Category:</strong> {values.category}</Typography>
+                {values.website && <Typography><strong>Website:</strong> {values.website}</Typography>}
               </Paper>
             </Grid>
             
             <Grid item xs={12}>
               <Paper sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>Business Details</Typography>
-                <Typography><strong>Type:</strong> {formData.businessType}</Typography>
-                {formData.yearEstablished && <Typography><strong>Established:</strong> {formData.yearEstablished}</Typography>}
-                <Typography><strong>Specialties:</strong> {formData.specialties.join(', ')}</Typography>
-                <Typography><strong>Description:</strong> {formData.description}</Typography>
+                <Typography><strong>Type:</strong> {values.businessType}</Typography>
+                {values.yearEstablished && <Typography><strong>Established:</strong> {values.yearEstablished}</Typography>}
+                <Typography><strong>Specialties:</strong> {values.specialties.join(', ')}</Typography>
+                <Typography><strong>Description:</strong> {values.description}</Typography>
               </Paper>
             </Grid>
             
             <Grid item xs={12}>
               <Paper sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>Location & Contact</Typography>
-                <Typography><strong>Address:</strong> {formData.address}</Typography>
-                <Typography><strong>City:</strong> {formData.city}, {formData.county}</Typography>
-                <Typography><strong>Contact Person:</strong> {formData.contactPerson.name}</Typography>
-                <Typography><strong>Contact Email:</strong> {formData.contactPerson.email}</Typography>
+                <Typography><strong>Address:</strong> {values.address}</Typography>
+                <Typography><strong>City:</strong> {values.city}, {values.county}</Typography>
+                <Typography><strong>Contact Person:</strong> {values.contactPerson.name}</Typography>
+                <Typography><strong>Contact Email:</strong> {values.contactPerson.email}</Typography>
               </Paper>
             </Grid>
 
             <Grid item xs={12}>
               <Paper sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>Business Hours</Typography>
-                <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(formData.businessHours, null, 2)}</Typography>
+                <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(values.businessHours, null, 2)}</Typography>
               </Paper>
             </Grid>
           </Grid>
@@ -664,11 +683,11 @@ const SupplierRegistrationForm: React.FC = () => {
             {activeStep === steps.length - 1 ? (
               <Button
                 variant="contained"
-                onClick={handleSubmit}
-                disabled={loading}
-                startIcon={loading ? <CircularProgress size={20} /> : null}
+                onClick={handleSubmit(onSubmit)}
+                disabled={isSubmitting}
+                startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
               >
-                {loading ? 'Submitting...' : 'Submit Registration'}
+                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
               </Button>
             ) : (
               <Button
