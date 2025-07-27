@@ -1,0 +1,25 @@
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Loading from '../components/Loading';
+
+// Lazily import page components. This tells Vite to split them into separate JS files.
+const Dashboard = lazy(() => import('../pages/Dashboard'));
+const SuppliersPage = lazy(() => import('../pages/SuppliersPage'));
+const SupplierRegistrationForm = lazy(() => import('../components/SupplierRegistrationForm'));
+// You can do the same for other pages like About, Contact, etc.
+
+const AppRoutes: React.FC = () => {
+  return (
+    // The Suspense component shows the 'fallback' UI while the lazy component is loading.
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/suppliers" element={<SuppliersPage />} />
+        <Route path="/register" element={<SupplierRegistrationForm />} />
+        {/* Add other lazy-loaded routes here */}
+      </Routes>
+    </Suspense>
+  );
+};
+
+export default AppRoutes;
