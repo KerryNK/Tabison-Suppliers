@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { CustomThemeProvider } from "./context/ThemeContext";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { HelmetProvider } from 'react-helmet-async';
+import HomePage from "./pages/HomePage";
+import SuppliersPage from "./pages/SuppliersPage";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -36,24 +39,6 @@ const SimpleLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 );
 
 // Simple placeholder components for testing
-const HomePage: React.FC = () => {
-  const [count, setCount] = React.useState(0);
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <p>Counter: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Test useState</button>
-    </div>
-  );
-};
-
-const SuppliersPage: React.FC = () => (
-  <div>
-    <h1>Suppliers Page</h1>
-    <p>This is a placeholder suppliers page.</p>
-  </div>
-);
-
 const ProductsPage: React.FC = () => (
   <div>
     <h1>Products Page</h1>
@@ -64,20 +49,22 @@ const ProductsPage: React.FC = () => (
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CustomThemeProvider>
-        <CartProvider>
-          <AuthProvider>
-            <SimpleLayout>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/suppliers" element={<SuppliersPage />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
-            </SimpleLayout>
-          </AuthProvider>
-        </CartProvider>
-      </CustomThemeProvider>
+      <HelmetProvider>
+        <CustomThemeProvider>
+          <CartProvider>
+            <AuthProvider>
+              <SimpleLayout>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/suppliers" element={<SuppliersPage />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </SimpleLayout>
+            </AuthProvider>
+          </CartProvider>
+        </CustomThemeProvider>
+      </HelmetProvider>
     </QueryClientProvider>
   );
 };
