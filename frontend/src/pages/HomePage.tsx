@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { Box, Typography, Container, Grid, Paper, Button, Icon } from '@mui/material';
 import { VerifiedUser, ShoppingCart, HeadsetMic, Search, HowToReg, GroupAdd } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
