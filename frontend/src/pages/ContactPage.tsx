@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Alert } from '@mui/material';
 import { useApi } from '../api/client';
 
@@ -95,4 +95,4 @@ const ContactPage: React.FC = () => {
   );
 };
 
-export default ContactPage; 
+export default ContactPage;

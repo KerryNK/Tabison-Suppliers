@@ -1,19 +1,23 @@
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import contactRoutes from './routes/contact.js';
+
+dotenv.config();
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-// Serve static files from frontend/dist
-app.use(express.static(path.join(__dirname, "frontend/dist")));
+// Init Middleware
+app.use(express.json());
+app.use(cors({
+  origin: 'https://tabisonsuppliers.vercel.app/', // Your Vite frontend dev server
+  credentials: true,
+}));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
-});
+// Define Routes
+app.get('/api', (req, res) => res.send('API Running'));
+app.use('/api/contact', contactRoutes);
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

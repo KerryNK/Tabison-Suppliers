@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import Recommendations from '../components/Recommendations';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -37,4 +37,4 @@ const Home: React.FC = () => (
   </>
 );
 
-export default Home; 
+export default Home;

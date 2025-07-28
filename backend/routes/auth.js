@@ -66,4 +66,4 @@ router.get('/profile', protect, async (req, res) => {
   }
 });
 
-export default router; 
+export default router;

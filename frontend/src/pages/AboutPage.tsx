@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Paper, Avatar, Grid } from '@mui/material';
 
 const team = [
@@ -38,4 +38,4 @@ const AboutPage: React.FC = () => (
   </Box>
 );
 
-export default AboutPage; 
+export default AboutPage;

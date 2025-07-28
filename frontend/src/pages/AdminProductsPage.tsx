@@ -305,4 +305,4 @@ const AdminProductsPage: React.FC = () => {
   );
 };
 
-export default AdminProductsPage; 
+export default AdminProductsPage;

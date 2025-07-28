@@ -1,89 +1,136 @@
-import express from 'express';
-import 'express-async-errors'; // Handles async errors in controllers
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import cors from 'cors';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import cookieParser from 'cookie-parser';
-import { rateLimit } from 'express-rate-limit';
+const express = require("express")
+const cors = require("cors")
+const helmet = require("helmet")
+const rateLimit = require("express-rate-limit")
+const mongoSanitize = require("express-mongo-sanitize")
+const compression = require("compression")
+const morgan = require("morgan")
+const path = require("path") // Declare the path variable
+require("dotenv").config()
 
-// Import Error Middleware
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-// Import Routes
-import authRoutes from './routes/auth.js';
-import contactRoutes from './routes/contact.js';
-import orderRoutes from './routes/orders.js';
-import paymentRoutes from './routes/payments.js';
-import productRoutes from './routes/products.js';
-import supplierRoutes from './routes/suppliers.js';
-import proxyRoutes from './routes/proxy.js';
+const connectDB = require("./config/db")
+const errorHandler = require("./middleware/errorMiddleware")
+const logger = require("./config/logger")
 
-// Load environment variables from .env file
-dotenv.config();
+// Import routes
+const authRoutes = require("./routes/auth")
+const supplierRoutes = require("./routes/suppliers")
+const productRoutes = require("./routes/products")
+const contactRoutes = require("./routes/contact")
+const cartRoutes = require("./routes/cart")
+const orderRoutes = require("./routes/orders")
 
-// Initialize Express app
-const app = express();
+const app = express()
 
-// Get directory name for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Connect to database
+connectDB()
 
-// --- Global Middleware ---
+// Security middleware
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        scriptSrc: ["'self'"],
+        connectSrc: ["'self'", "https://api.vercel.com"],
+      },
+    },
+  }),
+)
 
-// Set security HTTP headers
-app.use(helmet());
-
-app.use(cors()); // Enable Cross-Origin Resource Sharing
-app.use(express.json()); // To parse JSON request bodies
-app.use(cookieParser()); // To parse cookies from incoming requests
-
-// Logger: Use morgan for request logging in development
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-}
-
-// Rate limiting to prevent abuse
+// Rate limiting
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 200, // Limit each IP to 200 requests per window
-});
-app.use('/api', limiter); // Apply to all API routes
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+app.use("/api/", limiter)
 
-// Serve static files (e.g., for uploads)
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// --- API Routes ---
-app.use('/api/auth', authRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/suppliers', supplierRoutes);
-app.use('/api/proxy', proxyRoutes);
-
-// --- Serve Frontend in Production ---
-if (process.env.NODE_ENV === 'production') {
-  // Define the path to the frontend build directory
-  const frontendBuildPath = path.resolve(__dirname, '../frontend/build');
-
-  // Serve static files from the React app build directory
-  app.use(express.static(frontendBuildPath));
-
-  // For any other GET request that doesn't match an API route,
-  // send back the React app's index.html file.
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(frontendBuildPath, 'index.html'))
-  );
-} else {
-  app.get('/', (req, res) => {
-    res.send('Welcome to Tabison Suppliers API');
-  });
+// CORS configuration
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "https://tabisonsuppliers.vercel.app",
+    "https://suppliers-7zjy.onrender.com",
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  exposedHeaders: ["set-cookie"],
 }
 
-// --- Use Error Handling Middleware (must be last) ---
-app.use(notFound);
-app.use(errorHandler);
+app.use(cors(corsOptions))
 
-export default app;
+// Body parsing middleware
+app.use(express.json({ limit: "10mb" }))
+app.use(express.urlencoded({ extended: true, limit: "10mb" }))
+
+// Data sanitization
+app.use(mongoSanitize())
+
+// Compression middleware
+app.use(compression())
+
+// Logging
+if (process.env.NODE_ENV === "production") {
+  app.use(morgan("combined", { stream: { write: (message) => logger.info(message.trim()) } }))
+} else {
+  app.use(morgan("dev"))
+}
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+  })
+})
+
+// API routes
+app.use("/api/auth", authRoutes)
+app.use("/api/suppliers", supplierRoutes)
+app.use("/api/products", productRoutes)
+app.use("/api/contact", contactRoutes)
+app.use("/api/cart", cartRoutes)
+app.use("/api/orders", orderRoutes)
+
+// Serve static files in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"))
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  })
+}
+
+// 404 handler
+app.use("*", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  })
+})
+
+// Global error handler
+app.use(errorHandler)
+
+// Graceful shutdown
+process.on("SIGTERM", () => {
+  logger.info("SIGTERM received. Shutting down gracefully...")
+  process.exit(0)
+})
+
+process.on("SIGINT", () => {
+  logger.info("SIGINT received. Shutting down gracefully...")
+  process.exit(0)
+})
+
+module.exports = app
