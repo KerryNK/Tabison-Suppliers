@@ -1,31 +1,45 @@
-const express = require("express")
-const cors = require("cors")
-const helmet = require("helmet")
-const rateLimit = require("express-rate-limit")
-const mongoSanitize = require("express-mongo-sanitize")
-const compression = require("compression")
-const morgan = require("morgan")
-const path = require("path") // Declare the path variable
-require("dotenv").config()
+import express from "express"
+import "express-async-errors" // Handles async errors in controllers
+import dotenv from "dotenv"
+import path from "path"
+import { fileURLToPath } from "url"
+import cors from "cors"
+import morgan from "morgan"
+import helmet from "helmet"
+import cookieParser from "cookie-parser"
+import { rateLimit } from "express-rate-limit"
+import compression from "compression"
+import mongoSanitize from "express-mongo-sanitize"
 
-const connectDB = require("./config/db")
-const errorHandler = require("./middleware/errorMiddleware")
-const logger = require("./config/logger")
+// Import Error Middleware
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
+// Import Routes
+import authRoutes from "./routes/auth.js"
+import contactRoutes from "./routes/contact.js"
+import orderRoutes from "./routes/orders.js"
+import paymentRoutes from "./routes/payments.js"
+import productRoutes from "./routes/products.js"
+import supplierRoutes from "./routes/suppliers.js"
+import proxyRoutes from "./routes/proxy.js"
+import cartRoutes from "./routes/cart.js"
 
-// Import routes
-const authRoutes = require("./routes/auth")
-const supplierRoutes = require("./routes/suppliers")
-const productRoutes = require("./routes/products")
-const contactRoutes = require("./routes/contact")
-const cartRoutes = require("./routes/cart")
-const orderRoutes = require("./routes/orders")
+// Load environment variables from .env file
+dotenv.config()
 
+// Set MongoDB URI
+process.env.MONGO_URI =
+  process.env.MONGO_URI || "mongodb+srv://kerrym:W2DDlHaNZtvbg45u@cluster0.qjjen.mongodb.net/tabison-suppliers"
+
+// Initialize Express app
 const app = express()
 
-// Connect to database
-connectDB()
+// Get directory name for ES modules
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-// Security middleware
+// --- Global Middleware ---
+
+// Set security HTTP headers
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -41,16 +55,6 @@ app.use(
   }),
 )
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again later.",
-  standardHeaders: true,
-  legacyHeaders: false,
-})
-app.use("/api/", limiter)
-
 // CORS configuration
 const corsOptions = {
   origin: [
@@ -65,24 +69,33 @@ const corsOptions = {
   exposedHeaders: ["set-cookie"],
 }
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions)) // Enable Cross-Origin Resource Sharing
+app.use(express.json({ limit: "10mb" })) // To parse JSON request bodies
+app.use(express.urlencoded({ extended: true, limit: "10mb" })) // Parse URL-encoded bodies
+app.use(cookieParser()) // To parse cookies from incoming requests
 
-// Body parsing middleware
-app.use(express.json({ limit: "10mb" }))
-app.use(express.urlencoded({ extended: true, limit: "10mb" }))
-
-// Data sanitization
+// Data sanitization against NoSQL query injection
 app.use(mongoSanitize())
 
 // Compression middleware
 app.use(compression())
 
-// Logging
-if (process.env.NODE_ENV === "production") {
-  app.use(morgan("combined", { stream: { write: (message) => logger.info(message.trim()) } }))
-} else {
+// Logger: Use morgan for request logging in development
+if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"))
+} else {
+  app.use(morgan("combined"))
 }
+
+// Rate limiting to prevent abuse
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 200, // Limit each IP to 200 requests per window
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+app.use("/api", limiter) // Apply to all API routes
 
 // Health check endpoint
 app.get("/health", (req, res) => {
@@ -94,43 +107,60 @@ app.get("/health", (req, res) => {
   })
 })
 
-// API routes
+// Serve static files (e.g., for uploads)
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")))
+
+// --- API Routes ---
 app.use("/api/auth", authRoutes)
-app.use("/api/suppliers", supplierRoutes)
-app.use("/api/products", productRoutes)
 app.use("/api/contact", contactRoutes)
-app.use("/api/cart", cartRoutes)
 app.use("/api/orders", orderRoutes)
+app.use("/api/payments", paymentRoutes)
+app.use("/api/products", productRoutes)
+app.use("/api/suppliers", supplierRoutes)
+app.use("/api/proxy", proxyRoutes)
+app.use("/api/cart", cartRoutes)
 
-// Serve static files in production
+// --- Serve Frontend in Production ---
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("frontend/build"))
+  // Define the path to the frontend build directory
+  const frontendBuildPath = path.resolve(__dirname, "../frontend/build")
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  // Serve static files from the React app build directory
+  app.use(express.static(frontendBuildPath))
+
+  // For any other GET request that doesn't match an API route,
+  // send back the React app's index.html file.
+  app.get("*", (req, res) => res.sendFile(path.resolve(frontendBuildPath, "index.html")))
+} else {
+  app.get("/", (req, res) => {
+    res.json({
+      message: "Welcome to Tabison Suppliers API",
+      version: "1.0.0",
+      endpoints: {
+        auth: "/api/auth",
+        suppliers: "/api/suppliers",
+        products: "/api/products",
+        cart: "/api/cart",
+        orders: "/api/orders",
+        contact: "/api/contact",
+      },
+    })
   })
 }
 
-// 404 handler
-app.use("*", (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`,
-  })
-})
-
-// Global error handler
+// --- Use Error Handling Middleware (must be last) ---
+app.use(notFound)
 app.use(errorHandler)
 
 // Graceful shutdown
 process.on("SIGTERM", () => {
-  logger.info("SIGTERM received. Shutting down gracefully...")
+  console.log("SIGTERM received. Shutting down gracefully...")
   process.exit(0)
 })
 
 process.on("SIGINT", () => {
-  logger.info("SIGINT received. Shutting down gracefully...")
+  console.log("SIGINT received. Shutting down gracefully...")
   process.exit(0)
 })
 
-module.exports = app
+export default app

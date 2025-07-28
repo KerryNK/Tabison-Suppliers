@@ -1,23 +1,70 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import contactRoutes from './routes/contact.js';
+const express = require("express")
+const cors = require("cors")
+const dotenv = require("dotenv")
+const connectDB = require("./config/db")
+const { errorHandler, notFound } = require("./middleware/errorMiddleware")
 
-dotenv.config();
+// Load environment variables
+dotenv.config()
 
-const app = express();
+// Connect to database
+connectDB()
 
-// Init Middleware
-app.use(express.json());
-app.use(cors({
-  origin: 'https://tabisonsuppliers.vercel.app/', // Your Vite frontend dev server
-  credentials: true,
-}));
+const app = express()
 
-// Define Routes
-app.get('/api', (req, res) => res.send('API Running'));
-app.use('/api/contact', contactRoutes);
+// Middleware
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    credentials: true,
+  }),
+)
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-const PORT = process.env.PORT || 5001;
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Tabison Suppliers API",
+    version: "1.0.0",
+    status: "running",
+    endpoints: {
+      health: "/health",
+      api: "/api",
+      products: "/api/products",
+      suppliers: "/api/suppliers",
+      auth: "/api/auth",
+      cart: "/api/cart",
+    },
+  })
+})
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// Health check route
+app.get("/health", (req, res) => {
+  res.json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+  })
+})
+
+// API Routes
+app.use("/api/auth", require("./routes/auth"))
+app.use("/api/products", require("./routes/products"))
+app.use("/api/suppliers", require("./routes/suppliers"))
+app.use("/api/orders", require("./routes/orders"))
+app.use("/api/cart", require("./routes/cart"))
+app.use("/api/contact", require("./routes/contact"))
+
+// Error handling middleware
+app.use(notFound)
+app.use(errorHandler)
+
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+})
+
+module.exports = app

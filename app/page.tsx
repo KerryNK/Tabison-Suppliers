@@ -1,7 +1,7 @@
 "use client"
 
-import AdminRoute from "../frontend/src/components/AdminRoute"
+import ChatWidget from "../frontend/src/components/ChatWidget"
 
 export default function SyntheticV0PageForDeployment() {
-  return <AdminRoute />
+  return <ChatWidget />
 }
