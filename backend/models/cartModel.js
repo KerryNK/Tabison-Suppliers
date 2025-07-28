@@ -1,55 +1,60 @@
 const mongoose = require("mongoose")
 
-const cartItemSchema = mongoose.Schema(
-  {
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1,
-      default: 1,
-    },
+const cartItemSchema = new mongoose.Schema({
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
   },
-  {
-    timestamps: true,
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+    default: 1,
   },
-)
+  price: {
+    type: Number,
+    required: true,
+  },
+})
 
-const cartSchema = mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    items: [cartItemSchema],
-    totalAmount: {
-      type: Number,
-      default: 0,
-    },
+const cartSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
-  {
-    timestamps: true,
+  items: [cartItemSchema],
+  total: {
+    type: Number,
+    default: 0,
   },
-)
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+})
 
-// Calculate total amount before saving
+// Update the updatedAt field before saving
+cartSchema.pre("save", function (next) {
+  this.updatedAt = Date.now()
+  next()
+})
+
+// Calculate total before saving
 cartSchema.pre("save", async function (next) {
   if (this.items && this.items.length > 0) {
-    await this.populate("items.product")
-    this.totalAmount = this.items.reduce((total, item) => {
-      return total + item.product.retailPrice * item.quantity
+    this.total = this.items.reduce((total, item) => {
+      return total + item.price * item.quantity
     }, 0)
   } else {
-    this.totalAmount = 0
+    this.total = 0
   }
   next()
 })
 
-const Cart = mongoose.model("Cart", cartSchema)
-
-module.exports = Cart
+module.exports = mongoose.model("Cart", cartSchema)
