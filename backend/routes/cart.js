@@ -1,5 +1,4 @@
 const express = require("express")
-const { protect } = require("../middlewares/auth")
 const router = express.Router()
 
 // Sample cart data (in production, this would be user-specific and stored in database)
@@ -42,15 +41,11 @@ const calculateCartTotal = (items) => {
 // @desc    Get user cart
 // @route   GET /api/cart
 // @access  Private
-router.get("/", protect, (req, res) => {
+router.get("/", async (req, res) => {
   try {
     res.status(200).json({
       success: true,
-      data: {
-        items: userCart.items,
-        total: userCart.totalAmount,
-        itemCount: userCart.items.length,
-      },
+      data: userCart,
     })
   } catch (error) {
     res.status(500).json({
@@ -64,7 +59,7 @@ router.get("/", protect, (req, res) => {
 // @desc    Add item to cart
 // @route   POST /api/cart/add
 // @access  Private
-router.post("/add", protect, (req, res) => {
+router.post("/add", async (req, res) => {
   try {
     const { productId, quantity = 1 } = req.body
 
@@ -101,11 +96,7 @@ router.post("/add", protect, (req, res) => {
     res.status(200).json({
       success: true,
       message: "Item added to cart",
-      data: {
-        items: userCart.items,
-        total: userCart.totalAmount,
-        itemCount: userCart.items.length,
-      },
+      data: userCart,
     })
   } catch (error) {
     res.status(500).json({
@@ -119,7 +110,7 @@ router.post("/add", protect, (req, res) => {
 // @desc    Remove item from cart
 // @route   POST /api/cart/remove
 // @access  Private
-router.post("/remove", protect, (req, res) => {
+router.post("/remove", async (req, res) => {
   try {
     const { productId } = req.body
 
@@ -133,11 +124,7 @@ router.post("/remove", protect, (req, res) => {
     res.status(200).json({
       success: true,
       message: "Item removed from cart",
-      data: {
-        items: userCart.items,
-        total: userCart.totalAmount,
-        itemCount: userCart.items.length,
-      },
+      data: userCart,
     })
   } catch (error) {
     res.status(500).json({
@@ -151,7 +138,7 @@ router.post("/remove", protect, (req, res) => {
 // @desc    Update item quantity in cart
 // @route   PUT /api/cart/update
 // @access  Private
-router.put("/update", protect, (req, res) => {
+router.put("/update", async (req, res) => {
   try {
     const { productId, quantity } = req.body
 
@@ -180,11 +167,7 @@ router.put("/update", protect, (req, res) => {
     res.status(200).json({
       success: true,
       message: "Cart updated",
-      data: {
-        items: userCart.items,
-        total: userCart.totalAmount,
-        itemCount: userCart.items.length,
-      },
+      data: userCart,
     })
   } catch (error) {
     res.status(500).json({
@@ -198,7 +181,7 @@ router.put("/update", protect, (req, res) => {
 // @desc    Clear cart
 // @route   DELETE /api/cart/clear
 // @access  Private
-router.delete("/clear", protect, (req, res) => {
+router.delete("/clear", async (req, res) => {
   try {
     userCart.items = []
     userCart.totalAmount = 0
@@ -207,11 +190,7 @@ router.delete("/clear", protect, (req, res) => {
     res.status(200).json({
       success: true,
       message: "Cart cleared",
-      data: {
-        items: userCart.items,
-        total: userCart.totalAmount,
-        itemCount: userCart.items.length,
-      },
+      data: userCart,
     })
   } catch (error) {
     res.status(500).json({

@@ -7,16 +7,43 @@ const contactMessages = []
 // @desc    Submit contact form
 // @route   POST /api/contact
 // @access  Public
-router.post("/", (req, res) => {
-  const { name, email, subject, message } = req.body
+router.post("/", async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body
 
-  // Here you would typically save to database or send email
-  console.log("Contact form submission:", { name, email, subject, message })
+    // Validation
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all required fields",
+      })
+    }
 
-  res.json({
-    success: true,
-    message: "Thank you for your message. We will get back to you soon!",
-  })
+    // Create contact message
+    const contactMessage = {
+      _id: String(contactMessages.length + 1),
+      name,
+      email,
+      subject,
+      message,
+      createdAt: new Date().toISOString(),
+      status: "new",
+    }
+
+    contactMessages.push(contactMessage)
+
+    res.status(201).json({
+      success: true,
+      message: "Contact message sent successfully",
+      data: contactMessage,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
+  }
 })
 
 // @desc    Get all contact messages

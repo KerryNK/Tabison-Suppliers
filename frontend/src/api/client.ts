@@ -2,6 +2,19 @@ import axios, { type AxiosInstance, type AxiosResponse } from "axios"
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api"
 
+// Custom error class for API errors
+export class ApiError extends Error {
+  public status: number
+  public data: any
+
+  constructor(message: string, status: number, data?: any) {
+    super(message)
+    this.name = "ApiError"
+    this.status = status
+    this.data = data
+  }
+}
+
 class ApiClient {
   private client: AxiosInstance
 
@@ -41,7 +54,15 @@ class ApiClient {
           localStorage.removeItem("authToken")
           window.location.href = "/login"
         }
-        return Promise.reject(error)
+
+        // Create custom ApiError
+        const apiError = new ApiError(
+          error.response?.data?.message || error.message,
+          error.response?.status || 500,
+          error.response?.data,
+        )
+
+        return Promise.reject(apiError)
       },
     )
   }
