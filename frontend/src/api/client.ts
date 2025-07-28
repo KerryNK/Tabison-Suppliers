@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosResponse } from "axios"
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "https://suppliers-7zjy.onrender.com/api"
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
 
 class ApiClient {
   private client: AxiosInstance
@@ -8,24 +8,21 @@ class ApiClient {
   constructor() {
     this.client = axios.create({
       baseURL: API_BASE_URL,
-      timeout: 30000,
+      timeout: 10000,
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     })
 
-    // Request interceptor to add auth token
+    // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem("token")
+        // Add auth token if available
+        const token = localStorage.getItem("authToken")
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
-
-        // Add user ID for cart operations
-        const userId = localStorage.getItem("userId") || "guest"
-        config.headers["user-id"] = userId
-
         return config
       },
       (error) => {
@@ -33,14 +30,15 @@ class ApiClient {
       },
     )
 
-    // Response interceptor for error handling
+    // Response interceptor
     this.client.interceptors.response.use(
-      (response: AxiosResponse) => response,
+      (response: AxiosResponse) => {
+        return response
+      },
       (error) => {
         if (error.response?.status === 401) {
-          localStorage.removeItem("token")
-          localStorage.removeItem("user")
-          localStorage.removeItem("userId")
+          // Handle unauthorized access
+          localStorage.removeItem("authToken")
           window.location.href = "/login"
         }
         return Promise.reject(error)
@@ -48,37 +46,102 @@ class ApiClient {
     )
   }
 
-  async get<T>(url: string, params?: any): Promise<T> {
-    const response = await this.client.get<T>(url, { params })
-    return response.data
+  // Generic request methods
+  async get<T>(url: string, params?: any): Promise<AxiosResponse<T>> {
+    return this.client.get(url, { params })
   }
 
-  async post<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.post<T>(url, data)
-    return response.data
+  async post<T>(url: string, data?: any): Promise<AxiosResponse<T>> {
+    return this.client.post(url, data)
   }
 
-  async put<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.put<T>(url, data)
-    return response.data
+  async put<T>(url: string, data?: any): Promise<AxiosResponse<T>> {
+    return this.client.put(url, data)
   }
 
-  async delete<T>(url: string): Promise<T> {
-    const response = await this.client.delete<T>(url)
-    return response.data
+  async delete<T>(url: string): Promise<AxiosResponse<T>> {
+    return this.client.delete(url)
   }
 
-  async patch<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.patch<T>(url, data)
-    return response.data
+  // Auth methods
+  async login(email: string, password: string) {
+    return this.post("/auth/login", { email, password })
+  }
+
+  async register(userData: { name: string; email: string; password: string }) {
+    return this.post("/auth/register", userData)
+  }
+
+  async getCurrentUser() {
+    return this.get("/auth/me")
+  }
+
+  // Product methods
+  async getProducts(params?: { page?: number; limit?: number; search?: string; category?: string }) {
+    return this.get("/products", params)
+  }
+
+  async getProduct(id: string) {
+    return this.get(`/products/${id}`)
+  }
+
+  // Supplier methods
+  async getSuppliers(params?: { category?: string; location?: string; verified?: boolean }) {
+    return this.get("/suppliers", params)
+  }
+
+  async getSupplier(id: string) {
+    return this.get(`/suppliers/${id}`)
+  }
+
+  // Cart methods
+  async getCart() {
+    return this.get("/cart")
+  }
+
+  async addToCart(productId: string, quantity: number) {
+    return this.post("/cart/add", { productId, quantity })
+  }
+
+  async removeFromCart(productId: string) {
+    return this.post("/cart/remove", { productId })
+  }
+
+  async updateCartItem(productId: string, quantity: number) {
+    return this.put("/cart/update", { productId, quantity })
+  }
+
+  async clearCart() {
+    return this.delete("/cart/clear")
+  }
+
+  // Order methods
+  async getOrders() {
+    return this.get("/orders")
+  }
+
+  async getOrder(id: string) {
+    return this.get(`/orders/${id}`)
+  }
+
+  async createOrder(orderData: any) {
+    return this.post("/orders", orderData)
+  }
+
+  // Contact methods
+  async submitContact(contactData: { name: string; email: string; subject: string; message: string }) {
+    return this.post("/contact", contactData)
   }
 }
 
-export const apiClient = new ApiClient()
+// Create and export a singleton instance
+const apiClient = new ApiClient()
 
-// Hook for using the API client
+// Export both the class and instance
+export { ApiClient }
+export default apiClient
+
+// Hook for using the API client in React components
 export const useApi = () => {
   return apiClient
 }
-
-export default apiClient

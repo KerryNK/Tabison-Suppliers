@@ -3,19 +3,13 @@ const mongoose = require("mongoose")
 const connectDB = async () => {
   try {
     // MongoDB connection string
-    const mongoURI =
-      process.env.MONGO_URI ||
-      process.env.MONGODB_URI ||
-      "mongodb+srv://kerrym:W2DDlHaNZtvbg45u@cluster0.qjjen.mongodb.net/tabison-suppliers"
+    const mongoURI = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://localhost:27017/tabison-suppliers"
 
     console.log("🔄 Connecting to MongoDB...")
 
     const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
     })
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`)

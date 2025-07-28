@@ -1,27 +1,59 @@
 const express = require("express")
 const router = express.Router()
 
-// @desc    User login
-// @route   POST /api/auth/login
-// @access  Public
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body
+// Sample users data (in production, this would be from database)
+const sampleUsers = [
+  {
+    _id: "1",
+    name: "John Doe",
+    email: "john@example.com",
+    password: "password123", // In production, this would be hashed
+    role: "user",
+  },
+  {
+    _id: "2",
+    name: "Admin User",
+    email: "admin@tabison.com",
+    password: "admin123", // In production, this would be hashed
+    role: "admin",
+  },
+]
 
-    if (!email || !password) {
+// @desc    Register user
+// @route   POST /api/auth/register
+// @access  Public
+router.post("/register", async (req, res) => {
+  try {
+    const { name, email, password } = req.body
+
+    // Check if user already exists
+    const existingUser = sampleUsers.find((user) => user.email === email)
+    if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "Please provide email and password",
+        message: "User already exists",
       })
     }
 
-    // This is a placeholder - implement actual authentication
-    res.status(200).json({
+    // Create new user (in production, hash password)
+    const newUser = {
+      _id: String(sampleUsers.length + 1),
+      name,
+      email,
+      password, // In production, hash this
+      role: "user",
+    }
+
+    sampleUsers.push(newUser)
+
+    res.status(201).json({
       success: true,
-      message: "Login endpoint is working",
+      message: "User registered successfully",
       data: {
-        email,
-        message: "Authentication not yet implemented",
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
       },
     })
   } catch (error) {
@@ -33,28 +65,64 @@ router.post("/login", async (req, res) => {
   }
 })
 
-// @desc    User registration
-// @route   POST /api/auth/register
+// @desc    Login user
+// @route   POST /api/auth/login
 // @access  Public
-router.post("/register", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { email, password } = req.body
 
-    if (!name || !email || !password) {
-      return res.status(400).json({
+    // Find user
+    const user = sampleUsers.find((user) => user.email === email)
+    if (!user) {
+      return res.status(401).json({
         success: false,
-        message: "Please provide name, email, and password",
+        message: "Invalid credentials",
       })
     }
 
-    // This is a placeholder - implement actual registration
-    res.status(201).json({
+    // Check password (in production, compare hashed passwords)
+    if (user.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      })
+    }
+
+    res.status(200).json({
       success: true,
-      message: "Registration endpoint is working",
+      message: "Login successful",
       data: {
-        name,
-        email,
-        message: "User registration not yet implemented",
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
+  }
+})
+
+// @desc    Get current user
+// @route   GET /api/auth/me
+// @access  Private
+router.get("/me", async (req, res) => {
+  try {
+    // In production, get user from token
+    const user = sampleUsers[0] // Mock current user
+
+    res.status(200).json({
+      success: true,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
       },
     })
   } catch (error) {
