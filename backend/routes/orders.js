@@ -9,12 +9,12 @@ const sampleOrders = [
     items: [
       {
         productId: "1",
-        name: "Premium Office Chair",
-        price: 15000,
+        name: "Military Combat Boots",
+        price: 12500,
         quantity: 1,
       },
     ],
-    totalAmount: 15000,
+    totalAmount: 12500,
     status: "pending",
     shippingAddress: {
       street: "123 Main St",

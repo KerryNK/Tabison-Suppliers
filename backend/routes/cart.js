@@ -15,20 +15,20 @@ const userCart = {
 const sampleProducts = [
   {
     _id: "1",
-    name: "Premium Office Chair",
-    retailPrice: 15000,
+    name: "Military Combat Boots",
+    retailPrice: 12500,
     images: ["/placeholder.svg?height=200&width=200"],
   },
   {
     _id: "2",
-    name: "Wireless Bluetooth Headphones",
+    name: "Safety Work Boots",
     retailPrice: 8500,
     images: ["/placeholder.svg?height=200&width=200"],
   },
   {
     _id: "3",
-    name: "Stainless Steel Water Bottle",
-    retailPrice: 2500,
+    name: "Police Duty Boots",
+    retailPrice: 11000,
     images: ["/placeholder.svg?height=200&width=200"],
   },
 ]

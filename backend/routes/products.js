@@ -5,39 +5,113 @@ const router = express.Router()
 const sampleProducts = [
   {
     _id: "1",
-    name: "Premium Office Chair",
-    type: "Furniture",
-    retailPrice: 15000,
-    description: "Ergonomic office chair with lumbar support",
-    images: ["/placeholder.svg?height=200&width=200"],
+    name: "Military Combat Boots",
+    description: "High-quality military combat boots for professional use",
+    category: "Military Footwear",
+    type: "Combat Boots",
+    retailPrice: 12500,
+    wholesalePrice: 10000,
+    images: ["/placeholder.svg?height=300&width=300&text=Combat+Boots"],
+    features: ["Waterproof", "Steel toe", "Anti-slip sole", "Durable leather"],
     inStock: true,
-    stockQuantity: 25,
-    features: ["Adjustable height", "Lumbar support", "360° swivel"],
-    tags: ["New", "Best Seller"],
+    stockQuantity: 50,
+    supplier: "Tabison Suppliers",
+    tags: ["Military", "Professional", "Durable"],
+    specifications: {
+      material: "Genuine Leather",
+      sole: "Rubber",
+      closure: "Lace-up",
+      waterproof: true,
+    },
+    createdAt: new Date().toISOString(),
   },
   {
     _id: "2",
-    name: "Wireless Bluetooth Headphones",
-    type: "Electronics",
+    name: "Safety Work Boots",
+    description: "Industrial safety boots with steel toe protection",
+    category: "Safety Footwear",
+    type: "Work Boots",
     retailPrice: 8500,
-    description: "High-quality wireless headphones with noise cancellation",
-    images: ["/placeholder.svg?height=200&width=200"],
+    wholesalePrice: 7000,
+    images: ["/placeholder.svg?height=300&width=300&text=Safety+Boots"],
+    features: ["Steel toe cap", "Oil resistant", "Electrical hazard protection", "Comfortable fit"],
     inStock: true,
-    stockQuantity: 50,
-    features: ["Noise cancellation", "30-hour battery", "Quick charge"],
-    tags: ["New"],
+    stockQuantity: 75,
+    supplier: "Tabison Suppliers",
+    tags: ["Safety", "Industrial", "Protection"],
+    specifications: {
+      material: "Synthetic Leather",
+      sole: "PU/Rubber",
+      closure: "Lace-up",
+      safetyRating: "S3",
+    },
+    createdAt: new Date().toISOString(),
   },
   {
     _id: "3",
-    name: "Stainless Steel Water Bottle",
-    type: "Accessories",
-    retailPrice: 2500,
-    description: "Insulated water bottle keeps drinks cold for 24 hours",
-    images: ["/placeholder.svg?height=200&width=200"],
+    name: "Police Duty Boots",
+    description: "Professional police duty boots for law enforcement",
+    category: "Law Enforcement",
+    type: "Duty Boots",
+    retailPrice: 11000,
+    wholesalePrice: 9000,
+    images: ["/placeholder.svg?height=300&width=300&text=Police+Boots"],
+    features: ["Quick lacing system", "Moisture wicking", "Slip resistant", "Professional appearance"],
     inStock: true,
-    stockQuantity: 100,
-    features: ["24-hour insulation", "BPA-free", "Leak-proof"],
-    tags: ["Best Seller"],
+    stockQuantity: 30,
+    supplier: "Tabison Suppliers",
+    tags: ["Police", "Professional", "Duty"],
+    specifications: {
+      material: "Full Grain Leather",
+      sole: "Vibram",
+      closure: "Side Zip + Laces",
+      height: "8 inches",
+    },
+    createdAt: new Date().toISOString(),
+  },
+  {
+    _id: "4",
+    name: "Tactical Hiking Boots",
+    description: "Lightweight tactical boots for outdoor operations",
+    category: "Tactical Gear",
+    type: "Hiking Boots",
+    retailPrice: 9500,
+    wholesalePrice: 7500,
+    images: ["/placeholder.svg?height=300&width=300&text=Tactical+Boots"],
+    features: ["Lightweight design", "Breathable mesh", "Ankle support", "Multi-terrain grip"],
+    inStock: true,
+    stockQuantity: 40,
+    supplier: "Tabison Suppliers",
+    tags: ["Tactical", "Outdoor", "Lightweight"],
+    specifications: {
+      material: "Nylon/Leather",
+      sole: "EVA/Rubber",
+      closure: "Lace-up",
+      weight: "1.2kg per pair",
+    },
+    createdAt: new Date().toISOString(),
+  },
+  {
+    _id: "5",
+    name: "Desert Combat Boots",
+    description: "Specialized desert combat boots for arid environments",
+    category: "Military Footwear",
+    type: "Desert Boots",
+    retailPrice: 13500,
+    wholesalePrice: 11000,
+    images: ["/placeholder.svg?height=300&width=300&text=Desert+Boots"],
+    features: ["Sand resistant", "Breathable fabric", "Quick dry", "Desert camouflage"],
+    inStock: false,
+    stockQuantity: 0,
+    supplier: "Tabison Suppliers",
+    tags: ["Military", "Desert", "Specialized"],
+    specifications: {
+      material: "Suede/Canvas",
+      sole: "Vibram Desert",
+      closure: "Lace-up",
+      color: "Desert Tan",
+    },
+    createdAt: new Date().toISOString(),
   },
 ]
 
@@ -46,9 +120,16 @@ const sampleProducts = [
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const { page = 1, limit = 10, search, category } = req.query
+    const { page = 1, limit = 10, category, search, inStock } = req.query
 
     let filteredProducts = [...sampleProducts]
+
+    // Filter by category
+    if (category) {
+      filteredProducts = filteredProducts.filter((product) =>
+        product.category.toLowerCase().includes(category.toLowerCase()),
+      )
+    }
 
     // Filter by search term
     if (search) {
@@ -59,9 +140,9 @@ router.get("/", async (req, res) => {
       )
     }
 
-    // Filter by category
-    if (category) {
-      filteredProducts = filteredProducts.filter((product) => product.type.toLowerCase() === category.toLowerCase())
+    // Filter by stock status
+    if (inStock !== undefined) {
+      filteredProducts = filteredProducts.filter((product) => product.inStock === (inStock === "true"))
     }
 
     // Pagination
@@ -91,7 +172,7 @@ router.get("/", async (req, res) => {
 // @access  Public
 router.get("/:id", async (req, res) => {
   try {
-    const product = sampleProducts.find((p) => p._id === req.params.id)
+    const product = sampleProducts.find((product) => product._id === req.params.id)
 
     if (!product) {
       return res.status(404).json({
@@ -103,6 +184,27 @@ router.get("/:id", async (req, res) => {
     res.status(200).json({
       success: true,
       data: product,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
+  }
+})
+
+// @desc    Get product categories
+// @route   GET /api/products/categories
+// @access  Public
+router.get("/categories", async (req, res) => {
+  try {
+    const categories = [...new Set(sampleProducts.map((product) => product.category))]
+
+    res.status(200).json({
+      success: true,
+      count: categories.length,
+      data: categories,
     })
   } catch (error) {
     res.status(500).json({
