@@ -1,98 +1,193 @@
-import React, { useState } from 'react';
-import { Box, Typography, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Alert } from '@mui/material';
-import { useApi } from '../api/client';
+"use client"
+
+import type React from "react"
+import { useState } from "react"
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  TextField,
+  Button,
+  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material"
+import { Email, Phone, LocationOn } from "@mui/icons-material"
+import { useApi } from "../api/client"
+import toast from "react-hot-toast"
 
 const ContactPage: React.FC = () => {
-  const api = useApi();
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [errors, setErrors] = useState<{ [k: string]: string }>({});
-  const [success, setSuccess] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [serverMsg, setServerMsg] = useState('');
-
-  const validate = () => {
-    const errs: { [k: string]: string } = {};
-    if (!form.name.trim()) errs.name = 'Name is required';
-    if (!form.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) errs.email = 'Valid email is required';
-    if (!form.message.trim()) errs.message = 'Message is required';
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    category: "general",
+  })
+  const [loading, setLoading] = useState(false)
+  const api = useApi()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
-  };
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setSubmitting(true);
-    setServerMsg('');
+    e.preventDefault()
+    setLoading(true)
+
     try {
-      const res = await api.post('/contact', form);
-      setServerMsg(res.message || 'Message sent!');
-      setSuccess(true);
-      setForm({ name: '', email: '', message: '' });
-    } catch (err: any) {
-      setServerMsg(err.message || 'Failed to send message');
-      setSuccess(true);
+      await api.submitContact(formData)
+      toast.success("Message sent successfully!")
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+        category: "general",
+      })
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.")
     } finally {
-      setSubmitting(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <Box sx={{ maxWidth: 500, mx: 'auto', mt: 6, p: 3, bgcolor: '#fff', borderRadius: 2, boxShadow: 1 }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 3, textAlign: 'center' }}>Contact Us</Typography>
-      <form onSubmit={handleSubmit} noValidate>
-        <TextField
-          name="name"
-          label="Name"
-          value={form.name}
-          onChange={handleChange}
-          error={!!errors.name}
-          helperText={errors.name}
-          fullWidth
-          sx={{ mb: 2 }}
-        />
-        <TextField
-          name="email"
-          label="Email"
-          value={form.email}
-          onChange={handleChange}
-          error={!!errors.email}
-          helperText={errors.email}
-          fullWidth
-          sx={{ mb: 2 }}
-        />
-        <TextField
-          name="message"
-          label="Message"
-          value={form.message}
-          onChange={handleChange}
-          error={!!errors.message}
-          helperText={errors.message}
-          fullWidth
-          multiline
-          minRows={4}
-          sx={{ mb: 2 }}
-        />
-        <Button type="submit" variant="contained" color="primary" fullWidth size="large" disabled={submitting} sx={{ fontWeight: 700 }}>
-          {submitting ? 'Sending...' : 'Send Message'}
-        </Button>
-      </form>
-      <Dialog open={success} onClose={() => setSuccess(false)}>
-        <DialogTitle>Message Sent</DialogTitle>
-        <DialogContent>
-          <Alert severity={serverMsg === 'Message received' || serverMsg === 'Message sent!' ? 'success' : 'error'}>{serverMsg}</Alert>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setSuccess(false)} color="primary">Close</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
-  );
-};
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h3" component="h1" gutterBottom textAlign="center">
+        Contact Us
+      </Typography>
+      <Typography variant="body1" textAlign="center" color="text.secondary" sx={{ mb: 6 }}>
+        Get in touch with us for inquiries, orders, or partnership opportunities
+      </Typography>
 
-export default ContactPage;
+      <Grid container spacing={6}>
+        {/* Contact Information */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 4, height: "fit-content" }}>
+            <Typography variant="h5" gutterBottom>
+              Get in Touch
+            </Typography>
+
+            <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+              <Email sx={{ mr: 2, color: "primary.main" }} />
+              <Box>
+                <Typography variant="subtitle2">Email</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  info@tabisonsuppliers.com
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+              <Phone sx={{ mr: 2, color: "primary.main" }} />
+              <Box>
+                <Typography variant="subtitle2">Phone</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  +254 XXX XXX XXX
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <LocationOn sx={{ mr: 2, color: "primary.main" }} />
+              <Box>
+                <Typography variant="subtitle2">Address</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Nairobi, Kenya
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+
+        {/* Contact Form */}
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ p: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Send us a Message
+            </Typography>
+
+            <Box component="form" onSubmit={handleSubmit}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Category</InputLabel>
+                    <Select
+                      name="category"
+                      value={formData.category}
+                      label="Category"
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    >
+                      <MenuItem value="general">General Inquiry</MenuItem>
+                      <MenuItem value="products">Product Information</MenuItem>
+                      <MenuItem value="orders">Orders & Pricing</MenuItem>
+                      <MenuItem value="partnership">Partnership</MenuItem>
+                      <MenuItem value="support">Support</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Message"
+                    name="message"
+                    multiline
+                    rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button type="submit" variant="contained" size="large" disabled={loading} sx={{ minWidth: 120 }}>
+                    {loading ? "Sending..." : "Send Message"}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}
+
+export default ContactPage

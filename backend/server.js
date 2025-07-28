@@ -2,7 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const dotenv = require("dotenv")
 const connectDB = require("./config/db")
-const { errorHandler } = require("./middleware/errorMiddleware")
+const { errorHandler } = require("./middlewares/errorMiddleware")
 
 // Load environment variables
 dotenv.config()
@@ -24,10 +24,11 @@ app.use(
     credentials: true,
   }),
 )
+
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true, limit: "10mb" }))
 
-// Root route - THIS IS CRITICAL
+// Root route
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -60,58 +61,28 @@ app.get("/health", (req, res) => {
   })
 })
 
-// API info route
-app.get("/api", (req, res) => {
-  res.status(200).json({
-    message: "Tabison Suppliers API",
-    version: "1.0.0",
-    endpoints: [
-      "GET /api/products - Get all products",
-      "GET /api/suppliers - Get all suppliers",
-      "POST /api/auth/login - User login",
-      "POST /api/auth/register - User registration",
-      "GET /api/cart - Get user cart",
-      "POST /api/cart/add - Add item to cart",
-      "POST /api/contact - Send contact message",
-    ],
-  })
-})
-
 // Import and use routes
-try {
-  const authRoutes = require("./routes/auth")
-  const productRoutes = require("./routes/products")
-  const supplierRoutes = require("./routes/suppliers")
-  const cartRoutes = require("./routes/cart")
-  const orderRoutes = require("./routes/orders")
-  const contactRoutes = require("./routes/contact")
+const authRoutes = require("./routes/auth")
+const productRoutes = require("./routes/products")
+const supplierRoutes = require("./routes/suppliers")
+const cartRoutes = require("./routes/cart")
+const orderRoutes = require("./routes/orders")
+const contactRoutes = require("./routes/contact")
 
-  app.use("/api/auth", authRoutes)
-  app.use("/api/products", productRoutes)
-  app.use("/api/suppliers", supplierRoutes)
-  app.use("/api/cart", cartRoutes)
-  app.use("/api/orders", orderRoutes)
-  app.use("/api/contact", contactRoutes)
-} catch (error) {
-  console.log("Some routes may not be available:", error.message)
-}
+app.use("/api/auth", authRoutes)
+app.use("/api/products", productRoutes)
+app.use("/api/suppliers", supplierRoutes)
+app.use("/api/cart", cartRoutes)
+app.use("/api/orders", orderRoutes)
+app.use("/api/contact", contactRoutes)
 
-// 404 handler for undefined routes
+// 404 handler
 app.use("*", (req, res) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
     path: req.originalUrl,
     method: req.method,
-    availableEndpoints: [
-      "GET /",
-      "GET /health",
-      "GET /api",
-      "GET /api/products",
-      "GET /api/suppliers",
-      "POST /api/auth/login",
-      "POST /api/auth/register",
-    ],
   })
 })
 
@@ -124,7 +95,6 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`)
   console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`)
   console.log(`📊 Health check: http://localhost:${PORT}/health`)
-  console.log(`🏠 Root endpoint: http://localhost:${PORT}/`)
 })
 
 module.exports = app

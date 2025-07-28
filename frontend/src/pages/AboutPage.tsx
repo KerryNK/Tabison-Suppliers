@@ -1,41 +1,112 @@
-import React from 'react';
-import { Box, Typography, Paper, Avatar, Grid } from '@mui/material';
+import type React from "react"
+import { Box, Container, Typography, Grid, Paper } from "@mui/material"
 
-const team = [
-  { name: 'Jane Doe', role: 'Founder & CEO' },
-  { name: 'John Smith', role: 'Operations Manager' },
-  { name: 'Alice Johnson', role: 'Customer Success' },
-];
+const AboutPage: React.FC = () => {
+  return (
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h3" component="h1" gutterBottom textAlign="center">
+        About Tabison Suppliers
+      </Typography>
 
-const AboutPage: React.FC = () => (
-  <Box sx={{ maxWidth: 900, mx: 'auto', mt: 6, p: 3 }}>
-    <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 2 }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>About Tabison Suppliers</Typography>
-      <Typography variant="body1" sx={{ mb: 3 }}>
-        Tabison Suppliers is dedicated to delivering quality supplies with speed and reliability. Our mission is to empower businesses and individuals by providing access to the best products in the market, delivered tomorrow, today.
-      </Typography>
-      <Typography variant="h6" sx={{ color: 'secondary.main', mb: 1 }}>Our Mission</Typography>
-      <Typography variant="body2" sx={{ mb: 2 }}>
-        To be the most trusted supplier, known for exceptional service and innovative logistics.
-      </Typography>
-      <Typography variant="h6" sx={{ color: 'secondary.main', mb: 1 }}>Our Vision</Typography>
-      <Typography variant="body2" sx={{ mb: 3 }}>
-        To connect businesses and communities with the supplies they need, when they need them.
-      </Typography>
-      <Typography variant="h6" sx={{ color: 'secondary.main', mb: 2 }}>Our Team</Typography>
-      <Grid container spacing={3}>
-        {team.map(member => (
-          <Grid item xs={12} sm={4} key={member.name}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Avatar sx={{ width: 64, height: 64, mb: 1 }}>{member.name[0]}</Avatar>
-              <Typography fontWeight={700}>{member.name}</Typography>
-              <Typography variant="body2" color="text.secondary">{member.role}</Typography>
-            </Box>
-          </Grid>
-        ))}
+      <Box sx={{ mb: 6 }}>
+        <Typography variant="body1" paragraph>
+          Tabison Suppliers is a leading manufacturer and supplier of high-quality military, safety, and official
+          footwear in Kenya. With years of experience in the industry, we have built a reputation for delivering
+          durable, comfortable, and reliable boots that meet the demanding requirements of professionals across various
+          sectors.
+        </Typography>
+
+        <Typography variant="body1" paragraph>
+          Our commitment to quality, competitive pricing, and customer satisfaction has made us the preferred choice for
+          military personnel, police officers, security guards, and industrial workers throughout Kenya and beyond.
+        </Typography>
+      </Box>
+
+      <Grid container spacing={4} sx={{ mb: 6 }}>
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 4, textAlign: "center", height: "100%" }}>
+            <Typography variant="h5" gutterBottom color="primary">
+              Our Mission
+            </Typography>
+            <Typography variant="body1">
+              To provide high-quality, durable footwear solutions that protect and support professionals in their
+              demanding work environments while maintaining competitive pricing and excellent service.
+            </Typography>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 4, textAlign: "center", height: "100%" }}>
+            <Typography variant="h5" gutterBottom color="primary">
+              Our Vision
+            </Typography>
+            <Typography variant="body1">
+              To be the leading supplier of professional footwear in East Africa, known for innovation, quality, and
+              reliability in serving the needs of military, safety, and security professionals.
+            </Typography>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 4, textAlign: "center", height: "100%" }}>
+            <Typography variant="h5" gutterBottom color="primary">
+              Our Values
+            </Typography>
+            <Typography variant="body1">
+              Quality craftsmanship, customer satisfaction, competitive pricing, timely delivery, and continuous
+              innovation in product development and manufacturing processes.
+            </Typography>
+          </Paper>
+        </Grid>
       </Grid>
-    </Paper>
-  </Box>
-);
 
-export default AboutPage;
+      <Typography variant="h4" gutterBottom>
+        Why Choose Us?
+      </Typography>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h6" gutterBottom>
+            ✓ Quality Assurance
+          </Typography>
+          <Typography variant="body2" paragraph>
+            All our products undergo rigorous quality testing to ensure they meet international standards and can
+            withstand the toughest conditions.
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h6" gutterBottom>
+            ✓ Local Manufacturing
+          </Typography>
+          <Typography variant="body2" paragraph>
+            Proudly manufactured in Kenya, supporting local employment and contributing to the growth of the domestic
+            manufacturing sector.
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h6" gutterBottom>
+            ✓ Competitive Pricing
+          </Typography>
+          <Typography variant="body2" paragraph>
+            Direct manufacturer pricing with flexible wholesale and retail options to suit different budget requirements
+            and order quantities.
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h6" gutterBottom>
+            ✓ Reliable Service
+          </Typography>
+          <Typography variant="body2" paragraph>
+            Committed to timely delivery, responsive customer service, and building long-term partnerships with our
+            clients across Kenya.
+          </Typography>
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}
+
+export default AboutPage

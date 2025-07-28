@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const { registerSupplier, searchSuppliers, getStats } = require("../controllers/supplierController")
 
 // Sample suppliers data
 const sampleSuppliers = [
@@ -209,5 +210,20 @@ router.get("/:id", async (req, res) => {
     })
   }
 })
+
+// @desc    Register a new supplier
+// @route   POST /api/suppliers/register
+// @access  Public
+router.post("/register", registerSupplier)
+
+// @desc    Search suppliers
+// @route   GET /api/suppliers/search
+// @access  Public
+router.get("/search", searchSuppliers)
+
+// @desc    Get suppliers statistics
+// @route   GET /api/suppliers/stats
+// @access  Public
+router.get("/stats", getStats)
 
 module.exports = router

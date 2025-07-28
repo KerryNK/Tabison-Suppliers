@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosResponse } from "axios"
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api"
 
 class ApiClient {
   private client: AxiosInstance
@@ -87,7 +87,7 @@ class ApiClient {
 
   // Supplier methods
   async getSuppliers(params?: { category?: string; location?: string; verified?: boolean }) {
-    return this.get("/suppliers", params)
+    return this.get("/suppliers/search", params)
   }
 
   async getSupplier(id: string) {
@@ -103,31 +103,6 @@ class ApiClient {
     return this.post("/cart/add", { productId, quantity })
   }
 
-  async removeFromCart(productId: string) {
-    return this.post("/cart/remove", { productId })
-  }
-
-  async updateCartItem(productId: string, quantity: number) {
-    return this.put("/cart/update", { productId, quantity })
-  }
-
-  async clearCart() {
-    return this.delete("/cart/clear")
-  }
-
-  // Order methods
-  async getOrders() {
-    return this.get("/orders")
-  }
-
-  async getOrder(id: string) {
-    return this.get(`/orders/${id}`)
-  }
-
-  async createOrder(orderData: any) {
-    return this.post("/orders", orderData)
-  }
-
   // Contact methods
   async submitContact(contactData: { name: string; email: string; subject: string; message: string }) {
     return this.post("/contact", contactData)
@@ -137,8 +112,6 @@ class ApiClient {
 // Create and export a singleton instance
 const apiClient = new ApiClient()
 
-// Export both the class and instance
-export { ApiClient }
 export default apiClient
 
 // Hook for using the API client in React components

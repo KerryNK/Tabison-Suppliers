@@ -1,4 +1,6 @@
 const express = require("express")
+const { getProducts, getProduct, createProduct } = require("../controllers/productController")
+const { protect, admin } = require("../middlewares/auth")
 const router = express.Router()
 
 // Sample products data
@@ -118,81 +120,12 @@ const sampleProducts = [
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Public
-router.get("/", async (req, res) => {
-  try {
-    const { page = 1, limit = 10, category, search, inStock } = req.query
-
-    let filteredProducts = [...sampleProducts]
-
-    // Filter by category
-    if (category) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.category.toLowerCase().includes(category.toLowerCase()),
-      )
-    }
-
-    // Filter by search term
-    if (search) {
-      filteredProducts = filteredProducts.filter(
-        (product) =>
-          product.name.toLowerCase().includes(search.toLowerCase()) ||
-          product.description.toLowerCase().includes(search.toLowerCase()),
-      )
-    }
-
-    // Filter by stock status
-    if (inStock !== undefined) {
-      filteredProducts = filteredProducts.filter((product) => product.inStock === (inStock === "true"))
-    }
-
-    // Pagination
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-    const paginatedProducts = filteredProducts.slice(startIndex, endIndex)
-
-    res.status(200).json({
-      success: true,
-      count: paginatedProducts.length,
-      total: filteredProducts.length,
-      page: Number.parseInt(page),
-      pages: Math.ceil(filteredProducts.length / limit),
-      data: paginatedProducts,
-    })
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message,
-    })
-  }
-})
+router.get("/", getProducts)
 
 // @desc    Get single product
 // @route   GET /api/products/:id
 // @access  Public
-router.get("/:id", async (req, res) => {
-  try {
-    const product = sampleProducts.find((product) => product._id === req.params.id)
-
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      })
-    }
-
-    res.status(200).json({
-      success: true,
-      data: product,
-    })
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message,
-    })
-  }
-})
+router.get("/:id", getProduct)
 
 // @desc    Get product categories
 // @route   GET /api/products/categories

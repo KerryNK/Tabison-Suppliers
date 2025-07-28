@@ -1,14 +1,40 @@
 {
-  "name": "server",
+  "name": "tabison-suppliers-monorepo",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "main": "server.js",
+  "description": "Tabison Suppliers - Military, Safety & Professional Footwear Platform",
+  "keywords": [
+    "suppliers",
+    "military",
+    "safety",
+    "footwear",
+    "boots",
+    "kenya",
+    "e-commerce"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KerryNK/Tabison-Suppliers.git"
+  },
+  "license": "MIT",
+  "author": "Tabison Suppliers Team",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "start": "cd backend && npm start",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && npm test"
   },
   "dependencies": {
     "@emotion/react": "latest",
@@ -41,7 +67,6 @@
     "fs": "latest",
     "helmet": "latest",
     "jiti": "latest",
-    "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "latest",
     "less": "latest",
     "lightningcss": "latest",
@@ -62,24 +87,21 @@
     "sass-embedded": "latest",
     "stylus": "latest",
     "sugarss": "latest",
+    "supertest": "latest",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "terser": "latest",
     "tsx": "latest",
     "url": "latest",
     "vite": "latest",
-    "winston": "^3.13.0",
     "yaml": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "jest": "^29.7.0",
-    "mongodb-memory-server": "^9.1.6",
-    "nodemon": "^3.0.2",
+    "concurrently": "^8.2.0",
     "postcss": "^8.5",
-    "supertest": "^6.3.4",
     "typescript": "^5"
   }
 }

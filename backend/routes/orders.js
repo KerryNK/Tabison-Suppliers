@@ -1,4 +1,5 @@
 const express = require("express")
+const { protect } = require("../middlewares/auth")
 const router = express.Router()
 
 // Sample orders data
@@ -28,10 +29,10 @@ const sampleOrders = [
 // @desc    Get user orders
 // @route   GET /api/orders
 // @access  Private
-router.get("/", async (req, res) => {
+router.get("/", protect, async (req, res) => {
   try {
     // In production, filter by user ID from token
-    const userOrders = sampleOrders
+    const userOrders = sampleOrders.filter((order) => order.userId === req.user._id)
 
     res.status(200).json({
       success: true,
@@ -50,7 +51,7 @@ router.get("/", async (req, res) => {
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
   try {
     const { items, shippingAddress, paymentMethod } = req.body
 
@@ -66,7 +67,7 @@ router.post("/", async (req, res) => {
 
     const newOrder = {
       _id: String(sampleOrders.length + 1),
-      userId: "1", // In production, get from token
+      userId: req.user._id, // In production, get from token
       items,
       totalAmount,
       status: "pending",
@@ -94,9 +95,9 @@ router.post("/", async (req, res) => {
 // @desc    Get single order
 // @route   GET /api/orders/:id
 // @access  Private
-router.get("/:id", async (req, res) => {
+router.get("/:id", protect, async (req, res) => {
   try {
-    const order = sampleOrders.find((order) => order._id === req.params.id)
+    const order = sampleOrders.find((order) => order._id === req.params.id && order.userId === req.user._id)
 
     if (!order) {
       return res.status(404).json({

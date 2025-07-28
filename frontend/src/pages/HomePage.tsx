@@ -1,134 +1,176 @@
 import type React from "react"
-import { Container, Typography, Box, Button, Grid, Card, CardContent } from "@mui/material"
-import { Link } from "react-router-dom"
-import { Helmet } from "react-helmet-async"
+import { Box, Container, Typography, Button, Grid, Card, CardContent, CardMedia } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
 
 const HomePage: React.FC = () => {
-  const features = [
+  const featuredProducts = [
     {
-      title: "Military Footwear",
-      description: "High-quality combat boots and military gear for professional use",
-      icon: "🥾",
+      id: 1,
+      name: "Military Boots (Long)",
+      price: "KSh 2,000",
+      image: "/placeholder.svg?height=200&width=300",
+      description: "22cm Height, 8 Inches, PVC Material",
     },
     {
-      title: "Safety Equipment",
-      description: "Industrial safety boots and protective equipment for workplace safety",
-      icon: "🦺",
+      id: 2,
+      name: "Safety Boots",
+      price: "KSh 2,500",
+      image: "/placeholder.svg?height=200&width=300",
+      description: "Industrial grade safety footwear",
     },
     {
-      title: "Professional Gear",
-      description: "Police and law enforcement equipment for professional operations",
-      icon: "👮",
+      id: 3,
+      name: "Official Men Permanent Shine",
+      price: "KSh 2,000",
+      image: "/placeholder.svg?height=200&width=300",
+      description: "Professional formal footwear",
     },
   ]
 
   return (
-    <>
-      <Helmet>
-        <title>Tabison Suppliers - Military, Safety & Professional Footwear</title>
-        <meta
-          name="description"
-          content="Leading supplier of military boots, safety footwear, and professional equipment in Kenya. Quality products for military, police, and industrial use."
-        />
-      </Helmet>
-
-      <Container maxWidth="lg">
-        {/* Hero Section */}
-        <Box
-          sx={{
-            textAlign: "center",
-            py: 8,
-            background: "linear-gradient(135deg, #2c5530 0%, #4a7c59 100%)",
-            borderRadius: 3,
-            color: "white",
-            mb: 6,
-          }}
-        >
-          <Typography variant="h2" gutterBottom>
-            Welcome to Tabison Suppliers
+    <Box>
+      {/* Hero Section */}
+      <Box
+        sx={{
+          bgcolor: "primary.main",
+          color: "white",
+          py: 8,
+          textAlign: "center",
+        }}
+      >
+        <Container maxWidth="md">
+          <Typography variant="h2" component="h1" gutterBottom>
+            Quality Footwear for Professionals
           </Typography>
-          <Typography variant="h5" sx={{ mb: 4, opacity: 0.9 }}>
-            Your trusted partner for military, safety, and professional footwear in Kenya
+          <Typography variant="h5" gutterBottom>
+            Military, Safety & Official Boots - Made in Kenya
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Trusted supplier of high-quality boots for military, police, security, and industrial professionals across
+            Kenya.
           </Typography>
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
             <Button
-              component={Link}
-              to="/products"
               variant="contained"
               size="large"
-              sx={{ backgroundColor: "secondary.main", color: "black" }}
+              component={RouterLink}
+              to="/products"
+              sx={{ bgcolor: "white", color: "primary.main", "&:hover": { bgcolor: "grey.100" } }}
             >
-              View Products
+              Shop Products
             </Button>
             <Button
-              component={Link}
-              to="/suppliers"
               variant="outlined"
               size="large"
-              sx={{ borderColor: "white", color: "white" }}
+              component={RouterLink}
+              to="/suppliers"
+              sx={{ borderColor: "white", color: "white", "&:hover": { borderColor: "grey.300" } }}
             >
               Find Suppliers
             </Button>
           </Box>
+        </Container>
+      </Box>
+
+      {/* Featured Products */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Typography variant="h3" component="h2" textAlign="center" gutterBottom>
+          Featured Products
+        </Typography>
+        <Typography variant="body1" textAlign="center" color="text.secondary" sx={{ mb: 6 }}>
+          Discover our most popular military, safety, and professional footwear
+        </Typography>
+
+        <Grid container spacing={4}>
+          {featuredProducts.map((product) => (
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                <CardMedia component="img" height="200" image={product.image} alt={product.name} />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h6" component="h3">
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    {product.description}
+                  </Typography>
+                  <Typography variant="h6" color="primary.main" sx={{ mt: 2 }}>
+                    {product.price}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Box sx={{ textAlign: "center", mt: 6 }}>
+          <Button variant="contained" size="large" component={RouterLink} to="/products">
+            View All Products
+          </Button>
         </Box>
+      </Container>
 
-        {/* Features Section */}
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h3" textAlign="center" gutterBottom>
-            Our Specialties
+      {/* Why Choose Us */}
+      <Box sx={{ bgcolor: "grey.50", py: 8 }}>
+        <Container maxWidth="lg">
+          <Typography variant="h3" component="h2" textAlign="center" gutterBottom>
+            Why Choose Tabison Suppliers?
           </Typography>
-          <Typography variant="body1" textAlign="center" sx={{ mb: 4, color: "text.secondary" }}>
-            We specialize in providing high-quality footwear and equipment for various professional needs
-          </Typography>
-
-          <Grid container spacing={4}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Card sx={{ height: "100%", textAlign: "center", p: 2 }}>
-                  <CardContent>
-                    <Typography variant="h2" sx={{ mb: 2 }}>
-                      {feature.icon}
-                    </Typography>
-                    <Typography variant="h5" gutterBottom>
-                      {feature.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
+          <Grid container spacing={4} sx={{ mt: 4 }}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom>
+                  Quality Assured
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  All our products meet international quality standards and are built to last in demanding conditions.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom>
+                  Local Manufacturing
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  Proudly made in Kenya, supporting local industry and providing jobs to our communities.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom>
+                  Competitive Pricing
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  Direct from manufacturer pricing with wholesale and retail options available.
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-        </Box>
+        </Container>
+      </Box>
 
-        {/* CTA Section */}
-        <Box
-          sx={{
-            textAlign: "center",
-            py: 6,
-            backgroundColor: "background.paper",
-            borderRadius: 3,
-            border: "1px solid #e0e0e0",
-          }}
-        >
+      {/* Call to Action */}
+      <Box sx={{ bgcolor: "primary.main", color: "white", py: 8, textAlign: "center" }}>
+        <Container maxWidth="md">
           <Typography variant="h4" gutterBottom>
             Ready to Get Started?
           </Typography>
-          <Typography variant="body1" sx={{ mb: 3, color: "text.secondary" }}>
-            Browse our extensive catalog of products or get in touch with our team
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Contact us today for bulk orders, custom requirements, or to become a supplier partner.
           </Typography>
-          <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
-            <Button component={Link} to="/products" variant="contained" size="large">
-              Browse Products
-            </Button>
-            <Button component={Link} to="/contact" variant="outlined" size="large">
-              Contact Us
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </>
+          <Button
+            variant="contained"
+            size="large"
+            component={RouterLink}
+            to="/contact"
+            sx={{ bgcolor: "white", color: "primary.main", "&:hover": { bgcolor: "grey.100" } }}
+          >
+            Contact Us
+          </Button>
+        </Container>
+      </Box>
+    </Box>
   )
 }
 
