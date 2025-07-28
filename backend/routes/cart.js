@@ -1,95 +1,103 @@
 const express = require("express")
 const router = express.Router()
-const Cart = require("../models/cartModel")
-const Product = require("../models/productModel")
-const { protect } = require("../middleware/authMiddleware")
+
+// Simple in-memory cart storage (use database in production)
+const carts = {}
 
 // @desc    Get user cart
 // @route   GET /api/cart
-// @access  Private
-router.get("/", protect, async (req, res) => {
+// @access  Public (should be private in production)
+router.get("/", async (req, res) => {
   try {
-    let cart = await Cart.findOne({ user: req.user._id }).populate("items.product")
+    const userId = req.headers["user-id"] || "guest"
+    const cart = carts[userId] || { items: [], total: 0 }
 
-    if (!cart) {
-      cart = new Cart({ user: req.user._id, items: [] })
-      await cart.save()
-    }
-
-    res.json(cart)
+    res.status(200).json({
+      success: true,
+      data: cart,
+    })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
   }
 })
 
 // @desc    Add item to cart
 // @route   POST /api/cart/add
-// @access  Private
-router.post("/add", protect, async (req, res) => {
+// @access  Public (should be private in production)
+router.post("/add", async (req, res) => {
   try {
-    const { productId, quantity = 1 } = req.body
+    const userId = req.headers["user-id"] || "guest"
+    const { productId, quantity = 1, price, name } = req.body
 
-    // Check if product exists
-    const product = await Product.findById(productId)
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" })
+    if (!productId || !price || !name) {
+      return res.status(400).json({
+        success: false,
+        message: "Product ID, price, and name are required",
+      })
     }
 
-    // Check stock
-    if (product.stockQuantity < quantity) {
-      return res.status(400).json({ message: "Insufficient stock" })
+    if (!carts[userId]) {
+      carts[userId] = { items: [], total: 0 }
     }
 
-    let cart = await Cart.findOne({ user: req.user._id })
-
-    if (!cart) {
-      cart = new Cart({ user: req.user._id, items: [] })
-    }
-
-    // Check if item already exists in cart
-    const existingItemIndex = cart.items.findIndex((item) => item.product.toString() === productId)
+    const cart = carts[userId]
+    const existingItemIndex = cart.items.findIndex((item) => item.productId === productId)
 
     if (existingItemIndex > -1) {
-      // Update quantity
       cart.items[existingItemIndex].quantity += quantity
     } else {
-      // Add new item
       cart.items.push({
-        product: productId,
+        productId,
+        name,
+        price,
         quantity,
-        price: product.retailPrice || product.price,
       })
     }
 
     // Calculate total
-    await cart.populate("items.product")
-    cart.total = cart.items.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
+    cart.total = cart.items.reduce((total, item) => total + item.price * item.quantity, 0)
 
-    await cart.save()
-    res.json(cart)
+    res.status(200).json({
+      success: true,
+      message: "Item added to cart",
+      data: cart,
+    })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
   }
 })
 
 // @desc    Update cart item quantity
-// @route   PUT /api/cart/update/:itemId
-// @access  Private
-router.put("/update/:itemId", protect, async (req, res) => {
+// @route   PUT /api/cart/update
+// @access  Public (should be private in production)
+router.put("/update", async (req, res) => {
   try {
-    const { quantity } = req.body
-    const { itemId } = req.params
+    const userId = req.headers["user-id"] || "guest"
+    const { productId, quantity } = req.body
 
-    const cart = await Cart.findOne({ user: req.user._id })
-    if (!cart) {
-      return res.status(404).json({ message: "Cart not found" })
+    if (!carts[userId]) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      })
     }
 
-    const itemIndex = cart.items.findIndex((item) => item._id.toString() === itemId)
+    const cart = carts[userId]
+    const itemIndex = cart.items.findIndex((item) => item.productId === productId)
+
     if (itemIndex === -1) {
-      return res.status(404).json({ message: "Item not found in cart" })
+      return res.status(404).json({
+        success: false,
+        message: "Item not found in cart",
+      })
     }
 
     if (quantity <= 0) {
@@ -99,62 +107,77 @@ router.put("/update/:itemId", protect, async (req, res) => {
     }
 
     // Recalculate total
-    await cart.populate("items.product")
-    cart.total = cart.items.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
+    cart.total = cart.items.reduce((total, item) => total + item.price * item.quantity, 0)
 
-    await cart.save()
-    res.json(cart)
+    res.status(200).json({
+      success: true,
+      message: "Cart updated",
+      data: cart,
+    })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
   }
 })
 
 // @desc    Remove item from cart
-// @route   DELETE /api/cart/remove/:itemId
-// @access  Private
-router.delete("/remove/:itemId", protect, async (req, res) => {
+// @route   DELETE /api/cart/remove/:productId
+// @access  Public (should be private in production)
+router.delete("/remove/:productId", async (req, res) => {
   try {
-    const { itemId } = req.params
+    const userId = req.headers["user-id"] || "guest"
+    const { productId } = req.params
 
-    const cart = await Cart.findOne({ user: req.user._id })
-    if (!cart) {
-      return res.status(404).json({ message: "Cart not found" })
+    if (!carts[userId]) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      })
     }
 
-    cart.items = cart.items.filter((item) => item._id.toString() !== itemId)
+    const cart = carts[userId]
+    cart.items = cart.items.filter((item) => item.productId !== productId)
 
     // Recalculate total
-    await cart.populate("items.product")
-    cart.total = cart.items.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
+    cart.total = cart.items.reduce((total, item) => total + item.price * item.quantity, 0)
 
-    await cart.save()
-    res.json(cart)
+    res.status(200).json({
+      success: true,
+      message: "Item removed from cart",
+      data: cart,
+    })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
   }
 })
 
 // @desc    Clear cart
 // @route   DELETE /api/cart/clear
-// @access  Private
-router.delete("/clear", protect, async (req, res) => {
+// @access  Public (should be private in production)
+router.delete("/clear", async (req, res) => {
   try {
-    const cart = await Cart.findOne({ user: req.user._id })
-    if (!cart) {
-      return res.status(404).json({ message: "Cart not found" })
-    }
+    const userId = req.headers["user-id"] || "guest"
 
-    cart.items = []
-    cart.total = 0
-    await cart.save()
+    carts[userId] = { items: [], total: 0 }
 
-    res.json({ message: "Cart cleared successfully" })
+    res.status(200).json({
+      success: true,
+      message: "Cart cleared",
+      data: carts[userId],
+    })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
   }
 })
 

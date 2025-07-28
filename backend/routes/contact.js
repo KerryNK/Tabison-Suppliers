@@ -1,42 +1,73 @@
-import express from 'express';
-import { body, validationResult } from 'express-validator';
+const express = require("express")
+const router = express.Router()
 
-const router = express.Router();
-
-// @route   POST api/contact
-// @desc    Submit contact form
+// @desc    Send contact message
+// @route   POST /api/contact
 // @access  Public
-router.post(
-  '/',
-  [
-    body('name', 'Name is required').not().isEmpty(),
-    body('email', 'Please include a valid email').isEmail(),
-    body('message', 'Message is required').not().isEmpty(),
-    body('category', 'Category is required').isIn(['general', 'shoes', 'tech', 'gear']),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: 'Validation error', errors: errors.array() });
+router.post("/", async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body
+
+    // Basic validation
+    if (!name || !email || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide name, email, and message",
+      })
     }
 
-    try {
-      const { name, email, company, message, category } = req.body;
-
-      // In a real application, you would save this to a database or send an email.
-      console.log('Contact form submission received:', { name, email, company, message, category });
-
-      // Simulate processing time
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      res.json({
-        message: 'Thank you for your message. We will get back to you soon!',
-      });
-    } catch (error) {
-      console.error('Error processing contact form:', error.message);
-      res.status(500).json({ message: 'Server error: Failed to submit form' });
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid email address",
+      })
     }
+
+    // Here you would typically save to database or send email
+    console.log("📧 Contact form submission:", {
+      name,
+      email,
+      subject: subject || "No subject",
+      message,
+      timestamp: new Date().toISOString(),
+    })
+
+    res.status(200).json({
+      success: true,
+      message: "Thank you for your message. We'll get back to you soon!",
+      data: {
+        name,
+        email,
+        subject: subject || "No subject",
+        timestamp: new Date().toISOString(),
+      },
+    })
+  } catch (error) {
+    console.error("Contact form error:", error)
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+      error: error.message,
+    })
   }
-);
+})
 
-export default router;
+// @desc    Get contact info
+// @route   GET /api/contact
+// @access  Public
+router.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Contact endpoint is working",
+    data: {
+      email: "info@tabisonsuppliers.com",
+      phone: "+254-XXX-XXXX",
+      address: "Nairobi, Kenya",
+      businessHours: "Mon-Fri 8AM-6PM EAT",
+    },
+  })
+})
+
+module.exports = router

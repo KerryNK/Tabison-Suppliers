@@ -21,6 +21,11 @@ class ApiClient {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
+
+        // Add user ID for cart operations
+        const userId = localStorage.getItem("userId") || "guest"
+        config.headers["user-id"] = userId
+
         return config
       },
       (error) => {
@@ -35,6 +40,7 @@ class ApiClient {
         if (error.response?.status === 401) {
           localStorage.removeItem("token")
           localStorage.removeItem("user")
+          localStorage.removeItem("userId")
           window.location.href = "/login"
         }
         return Promise.reject(error)
