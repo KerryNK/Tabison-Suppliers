@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Typography, Button, RadioGroup, FormControlLabel, Radio, Alert } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApi } from '../api/client';

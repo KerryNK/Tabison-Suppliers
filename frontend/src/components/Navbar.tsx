@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   AppBar, Toolbar, Typography, Button, Box, IconButton,
   Menu, MenuItem, useTheme, useMediaQuery, Divider
