@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Button, Box, Typography, Alert, CircularProgress } from '@mui/material';
 import { useWallet } from '../hooks/useWallet';
 

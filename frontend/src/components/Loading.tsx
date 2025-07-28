@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 
 const Loading: React.FC = () => (

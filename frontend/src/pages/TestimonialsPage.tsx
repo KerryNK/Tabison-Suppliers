@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Typography, Paper, Grid, Avatar } from '@mui/material';
 
 const testimonials = [
