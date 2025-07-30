@@ -22,6 +22,7 @@ import productRoutes from "./routes/products.js"
 import supplierRoutes from "./routes/suppliers.js"
 import proxyRoutes from "./routes/proxy.js"
 import cartRoutes from "./routes/cart.js"
+import faqRoutes from "./routes/faqs.js"
 
 // Load environment variables from .env file
 dotenv.config()
@@ -119,6 +120,7 @@ app.use("/api/products", productRoutes)
 app.use("/api/suppliers", supplierRoutes)
 app.use("/api/proxy", proxyRoutes)
 app.use("/api/cart", cartRoutes)
+app.use("/api/faqs", faqRoutes)
 
 // --- Serve Frontend in Production ---
 if (process.env.NODE_ENV === "production") {
