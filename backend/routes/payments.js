@@ -1,23 +1,20 @@
-import express from 'express';
-import PurchaseOrder from '../models/purchaseOrderModel.js'; // Corrected import
-const router = express.Router();
+import express from "express"
+import { protect } from "../middleware/authMiddleware.js"
+import {
+  initiateMpesaSTKPush,
+  mpesaCallback,
+  getPaymentStatus,
+  processPayPalPayment,
+} from "../controllers/paymentController.js"
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const router = express.Router()
 
-// POST /payments
-router.post('/', async (req, res) => {
-  const { orderId, method } = req.body;
-  if (!orderId || !method) return res.status(400).json({ message: 'Missing orderId or method' });
+// M-PESA routes
+router.post("/mpesa/stk-push", protect, initiateMpesaSTKPush)
+router.post("/mpesa/callback", mpesaCallback) // Public callback for M-PESA
+router.get("/status/:orderId", protect, getPaymentStatus)
 
-  // Simulate payment processing delay in a safe way
-  await delay(1000);
+// PayPal routes
+router.post("/paypal", protect, processPayPalPayment)
 
-  const order = await PurchaseOrder.findById(orderId);
-  if (!order) return res.status(404).json({ message: 'Order not found' });
-  order.paymentStatus = 'Paid';
-  order.status = 'Confirmed';
-  await order.save();
-  res.json({ message: 'Payment successful', order });
-});
-
-export default router;
+export default router

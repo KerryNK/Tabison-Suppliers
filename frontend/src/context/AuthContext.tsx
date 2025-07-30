@@ -1,13 +1,15 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { useApi, ApiError } from '../api/client';
-import { User } from '../types';
+import { User, LoginCredentials, RegisterData } from '../types';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<void>;
+  register: (userData: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
-  // You can add a register function here as well
+  error: string | null;
+  clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,16 +17,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const api = useApi();
 
   useEffect(() => {
     const checkUserStatus = async () => {
       try {
-        const userData = await api.get('/auth/profile');
-        setUser(userData);
+        const token = localStorage.getItem("authToken");
+        if (token) {
+          const userData = await api.getCurrentUser();
+          setUser(userData);
+        }
       } catch (error) {
         if (error instanceof ApiError && error.status === 401) {
           // Not logged in, which is a normal state
+          localStorage.removeItem("authToken");
           setUser(null);
         } else {
           console.error('Failed to fetch user profile:', error);
@@ -36,18 +43,63 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     checkUserStatus();
   }, [api]);
 
-  const login = async (email: string, password: string) => {
-    const userData = await api.post('/auth/login', { email, password });
-    setUser(userData);
+  const login = async (credentials: LoginCredentials) => {
+    try {
+      setError(null);
+      const response = await api.login(credentials);
+      localStorage.setItem("authToken", response.token);
+      setUser(response.user);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred during login");
+      }
+      throw error;
+    }
+  };
+
+  const register = async (userData: RegisterData) => {
+    try {
+      setError(null);
+      const response = await api.register(userData);
+      localStorage.setItem("authToken", response.token);
+      setUser(response.user);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred during registration");
+      }
+      throw error;
+    }
   };
 
   const logout = async () => {
-    await api.post('/auth/logout', {});
-    setUser(null);
+    try {
+      await api.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem("authToken");
+      setUser(null);
+    }
+  };
+
+  const clearError = () => {
+    setError(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      loading, 
+      login, 
+      register, 
+      logout, 
+      error, 
+      clearError 
+    }}>
       {children}
     </AuthContext.Provider>
   );
