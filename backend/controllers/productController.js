@@ -6,7 +6,7 @@ import Product from '../models/productModel.js';
  * @access  Public
  */
 const getProducts = async (req, res) => {
-  const { q, category, page = 1, limit = 10 } = req.query;
+  const { q, category, page = 1, limit = 10, minPrice, maxPrice } = req.query;
   const query = {};
 
   if (q) {
@@ -15,6 +15,13 @@ const getProducts = async (req, res) => {
 
   if (category) {
     query.category = category;
+  }
+
+  // Optional price filtering on pricing.retail
+  if (minPrice || maxPrice) {
+    query['pricing.retail'] = {};
+    if (minPrice) query['pricing.retail'].$gte = Number(minPrice);
+    if (maxPrice) query['pricing.retail'].$lte = Number(maxPrice);
   }
 
   const pageNum = parseInt(page, 10);

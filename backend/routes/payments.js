@@ -1,11 +1,13 @@
 import express from 'express';
-import PurchaseOrder from '../models/purchaseOrderModel.js'; // Corrected import
+import PurchaseOrder from '../models/purchaseOrderModel.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { sendPaymentReceipt } from '../utils/receiptEmail.js';
 const router = express.Router();
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // POST /payments
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
   const { orderId, method } = req.body;
   if (!orderId || !method) return res.status(400).json({ message: 'Missing orderId or method' });
 
@@ -17,6 +19,12 @@ router.post('/', async (req, res) => {
   order.paymentStatus = 'Paid';
   order.status = 'Confirmed';
   await order.save();
+  try {
+    await sendPaymentReceipt({ order, user: req.user, method });
+  } catch (e) {
+    // Log but don't fail payment if email fails
+    console.error('Failed to send receipt email:', e);
+  }
   res.json({ message: 'Payment successful', order });
 });
 

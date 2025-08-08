@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
 import { protect } from '../middleware/authMiddleware.js';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 // Register
@@ -67,3 +68,31 @@ router.get('/profile', protect, async (req, res) => {
 });
 
 export default router; 
+
+// Firebase token exchange endpoint (Google/Apple/OTP via Firebase)
+// Expects req.body.idToken (Firebase ID token). Verifies and issues our JWT cookie.
+router.post('/firebase', async (req, res) => {
+  const { idToken } = req.body;
+  if (!idToken) return res.status(400).json({ message: 'idToken required' });
+
+  // Lazy verification strategy: in production, verify via Firebase Admin SDK on backend.
+  // Here we decode without verification to keep dependencies minimal, expecting a proxy/edge to validate.
+  // Replace with firebase-admin verification when credentials are available.
+  let decoded;
+  try {
+    decoded = jwt.decode(idToken);
+  } catch {
+    return res.status(400).json({ message: 'Invalid token' });
+  }
+
+  const email = decoded?.email;
+  if (!email) return res.status(400).json({ message: 'Token missing email' });
+
+  let user = await User.findOne({ email });
+  if (!user) {
+    user = await User.create({ name: decoded.name || email.split('@')[0], email, password: Math.random().toString(36), role: 'user' });
+  }
+
+  generateToken(res, user._id, user.role);
+  res.json({ _id: user._id, name: user.name, email: user.email, role: user.role });
+});

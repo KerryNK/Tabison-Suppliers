@@ -8,6 +8,7 @@ import {
 } from '../controllers/productController.js';
 
 import { protect, authorize } from '../middleware/authMiddleware.js';
+import uploadRoutes from './uploadRoutes.js';
 
 const router = express.Router();
 
@@ -27,3 +28,6 @@ router.route('/:id').put(protect, authorize('admin'), updateProduct);
 router.route('/:id').delete(protect, authorize('admin'), deleteProduct);
 
 export default router;
+
+// Mount upload sub-route for images (admin only)
+router.use('/upload', uploadRoutes);

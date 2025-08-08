@@ -17,8 +17,13 @@ import contactRoutes from './routes/contact.js';
 import orderRoutes from './routes/orders.js';
 import paymentRoutes from './routes/payments.js';
 import productRoutes from './routes/products.js';
-import supplierRoutes from './routes/suppliers.js';
+import supplierRoutes from './routes/supplierRoutes.js';
 import proxyRoutes from './routes/proxy.js';
+import cartRoutes from './routes/cartRoutes.js';
+import wishlistRoutes from './routes/wishlist.js';
+import quoteRoutes from './routes/quotes.js';
+import otpRoutes from './routes/otp.js';
+import deliveryRoutes from './routes/delivery.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -35,7 +40,11 @@ const __dirname = path.dirname(__filename);
 // Set security HTTP headers
 app.use(helmet());
 
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+// Enable Cross-Origin Resource Sharing with credentials support
+const allowedOrigin = process.env.NODE_ENV === 'production'
+  ? process.env.FRONTEND_URL
+  : 'http://localhost:5173';
+app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json()); // To parse JSON request bodies
 app.use(cookieParser()); // To parse cookies from incoming requests
 
@@ -62,6 +71,11 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/proxy', proxyRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/quotes', quoteRoutes);
+app.use('/api/otp', otpRoutes);
+app.use('/api/delivery', deliveryRoutes);
 
 // --- Serve Frontend in Production ---
 if (process.env.NODE_ENV === 'production') {

@@ -8,6 +8,15 @@ import { HelmetProvider } from 'react-helmet-async';
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 import SuppliersPage from "./pages/SuppliersPage";
+import ProductsPage from "./pages/ProductsPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import CartPage from "./pages/CartPage";
+import PaymentPage from "./pages/PaymentPage";
+import OrdersPage from "./pages/OrdersPage";
+import FavoritesPage from "./pages/FavoritesPage";
+import AdminProductsPage from "./pages/AdminProductsPage";
+import TrackOrderPage from "./pages/TrackOrderPage";
+import SettingsPage from "./pages/SettingsPage";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -15,12 +24,7 @@ const queryClient = new QueryClient();
 // Simple header without context dependencies
 
 // Simple placeholder components for testing
-const ProductsPage: React.FC = () => (
-  <div>
-    <h1>Products Page</h1>
-    <p>This is a placeholder products page.</p>
-  </div>
-);
+// removed placeholder ProductsPage
 
 const App: React.FC = () => {
   return (
@@ -34,6 +38,14 @@ const App: React.FC = () => {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/suppliers" element={<SuppliersPage />} />
                   <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/products/:id" element={<ProductDetailPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/payment" element={<PaymentPage />} />
+                  <Route path="/orders" element={<OrdersPage />} />
+                  <Route path="/favorites" element={<FavoritesPage />} />
+                  <Route path="/track-order" element={<TrackOrderPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/admin/products" element={<AdminProductsPage />} />
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </Layout>

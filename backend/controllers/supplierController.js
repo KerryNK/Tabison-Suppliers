@@ -1,6 +1,6 @@
 import Supplier from '../models/supplierModel.js';
 import Product from '../models/productModel.js';
-import Order from '../models/orderModel.js'; // Assuming this model exists
+import PurchaseOrder from '../models/purchaseOrderModel.js';
 
 /**
  * @desc    Register a new supplier
@@ -51,7 +51,7 @@ const searchSuppliers = async (req, res) => {
   if (category) query.category = category;
   if (location) query.city = { $regex: location, $options: 'i' };
 
-  const suppliers = await Supplier.find(query);
+  const suppliers = await Supplier.find(query).sort({ createdAt: -1 });
   res.json({ suppliers });
 };
 
@@ -64,10 +64,10 @@ const getStats = async (req, res) => {
   // countDocuments is much more efficient than fetching all documents to get the length.
   const supplierCount = await Supplier.countDocuments({ status: 'approved' });
   const productCount = await Product.countDocuments({});
-  const orderCount = await Order.countDocuments({});
+  const orderCount = await PurchaseOrder.countDocuments({});
 
   // You can also perform more complex aggregations efficiently here.
-  const ordersByStatus = await Order.aggregate([
+  const ordersByStatus = await PurchaseOrder.aggregate([
     { $group: { _id: '$status', count: { $sum: 1 } } },
     { $project: { _id: 0, status: '$_id', count: 1 } },
   ]);

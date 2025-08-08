@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
-import generateToken from '../utils/generateToken.js';
 
+// Header-based bearer auth (not used by default, but kept for integrations)
 export function authenticate(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'No token provided' });
-  jwt.verify(token, process.env.JWT_SECRET || 'secret', (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: 'Invalid token' });
     req.user = user;
     next();
