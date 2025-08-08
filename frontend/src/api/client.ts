@@ -1,68 +1,141 @@
-/**
- * A custom error class to hold more context from API responses,
- * such as the HTTP status and the error body.
- */
-export class ApiError extends Error {
-  status: number;
-  body: any;
+import axios, { type AxiosInstance, type AxiosResponse } from "axios"
 
-  constructor(status: number, message: string, body: any) {
-    super(message);
-    this.name = 'ApiError';
-    this.status = status;
-    this.body = body;
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+
+// Custom error class for API errors
+export class ApiError extends Error {
+  public status: number
+  public data: any
+
+  constructor(message: string, status: number, data?: any) {
+    super(message)
+    this.name = "ApiError"
+    this.status = status
+    this.data = data
   }
 }
 
-export function useApi() {
-  // The token is no longer needed for headers due to cookie-based auth.
-  // The browser will automatically send the 'jwt' cookie with each request.
-  const apiUrl = import.meta.env.VITE_API_BASE_URL || "https://suppliers-7zjy.onrender.com/api";
+class ApiClient {
+  private client: AxiosInstance
 
-  const apiFetch = async (path: string, options: RequestInit = {}) => {
-    const response = await fetch(`${apiUrl}${path}`, {
-      ...options,
+  constructor() {
+    this.client = axios.create({
+      baseURL: API_BASE_URL,
+      timeout: 10000,
       headers: {
         "Content-Type": "application/json",
-        ...options.headers,
       },
-      // This is crucial for sending cookies with cross-origin requests.
-      credentials: 'include',
-    });
+      withCredentials: true,
+    })
 
-    if (!response.ok) {
-      let errorBody;
-      try {
-        errorBody = await response.json();
-      } catch (e) {
-        errorBody = { message: response.statusText || 'An unknown error occurred.' };
-      }
-      throw new ApiError(response.status, errorBody.message, errorBody);
-    }
+    // Request interceptor
+    this.client.interceptors.request.use(
+      (config) => {
+        // Add auth token if available
+        const token = localStorage.getItem("authToken")
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`
+        }
+        return config
+      },
+      (error) => {
+        return Promise.reject(error)
+      },
+    )
 
-    // Handle responses that might not have a body (e.g., 204 No Content from a DELETE request)
-    if (response.status === 204) {
-      return;
-    }
+    // Response interceptor
+    this.client.interceptors.response.use(
+      (response: AxiosResponse) => {
+        return response
+      },
+      (error) => {
+        if (error.response?.status === 401) {
+          // Handle unauthorized access
+          localStorage.removeItem("authToken")
+          window.location.href = "/login"
+        }
 
-    return response.json();
-  };
+        // Create custom ApiError
+        const apiError = new ApiError(
+          error.response?.data?.message || error.message,
+          error.response?.status || 500,
+          error.response?.data,
+        )
 
-  return {
-    get: (path: string) => apiFetch(path),
-    post: <TBody>(path: string, body: TBody) =>
-      apiFetch(path, {
-        method: "POST",
-        body: JSON.stringify(body),
-      }),
-    put: <TBody>(path: string, body: TBody) =>
-      apiFetch(path, {
-        method: "PUT",
-        body: JSON.stringify(body),
-      }),
-    delete: (path: string) =>
-      apiFetch(path, {
-        method: "DELETE",
-      }),
-  };
-} 
+        return Promise.reject(apiError)
+      },
+    )
+  }
+
+  // Generic request methods
+  async get<T>(url: string, params?: any): Promise<AxiosResponse<T>> {
+    return this.client.get(url, { params })
+  }
+
+  async post<T>(url: string, data?: any): Promise<AxiosResponse<T>> {
+    return this.client.post(url, data)
+  }
+
+  async put<T>(url: string, data?: any): Promise<AxiosResponse<T>> {
+    return this.client.put(url, data)
+  }
+
+  async delete<T>(url: string): Promise<AxiosResponse<T>> {
+    return this.client.delete(url)
+  }
+
+  // Auth methods
+  async login(email: string, password: string) {
+    return this.post("/auth/login", { email, password })
+  }
+
+  async register(userData: { name: string; email: string; password: string }) {
+    return this.post("/auth/register", userData)
+  }
+
+  async getCurrentUser() {
+    return this.get("/auth/me")
+  }
+
+  // Product methods
+  async getProducts(params?: { page?: number; limit?: number; search?: string; category?: string }) {
+    return this.get("/products", params)
+  }
+
+  async getProduct(id: string) {
+    return this.get(`/products/${id}`)
+  }
+
+  // Supplier methods
+  async getSuppliers(params?: { category?: string; location?: string; verified?: boolean }) {
+    return this.get("/suppliers/search", params)
+  }
+
+  async getSupplier(id: string) {
+    return this.get(`/suppliers/${id}`)
+  }
+
+  // Cart methods
+  async getCart() {
+    return this.get("/cart")
+  }
+
+  async addToCart(productId: string, quantity: number) {
+    return this.post("/cart/add", { productId, quantity })
+  }
+
+  // Contact methods
+  async submitContact(contactData: { name: string; email: string; subject: string; message: string }) {
+    return this.post("/contact", contactData)
+  }
+}
+
+// Create and export a singleton instance
+const apiClient = new ApiClient()
+
+export default apiClient
+
+// Hook for using the API client in React components
+export const useApi = () => {
+  return apiClient
+}

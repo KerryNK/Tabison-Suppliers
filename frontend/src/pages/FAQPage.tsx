@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Paper, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -43,4 +43,4 @@ const FAQPage: React.FC = () => (
   </Box>
 );
 
-export default FAQPage; 
+export default FAQPage;

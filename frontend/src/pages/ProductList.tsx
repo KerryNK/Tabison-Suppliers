@@ -94,4 +94,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList; 
+export default ProductList;

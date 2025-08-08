@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Paper, Grid, Avatar } from '@mui/material';
 
 const testimonials = [
@@ -45,4 +45,4 @@ const TestimonialsPage: React.FC = () => (
   </Box>
 );
 
-export default TestimonialsPage; 
+export default TestimonialsPage;

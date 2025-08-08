@@ -1,66 +1,75 @@
-import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { login as loginApi } from "../api/auth";
-import { useNavigate, Link } from "react-router-dom";
-import { Box, TextField, Button, Typography, Alert, Paper } from '@mui/material';
+"use client"
+
+import type React from "react"
+import { useState } from "react"
+import { Box, Container, Typography, TextField, Button, Paper, Link } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
 
 const LoginPage: React.FC = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const { token, user } = await loginApi(email, password);
-      login(user, token);
-      navigate("/");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle login logic here
+    console.log("Login attempt:", formData)
+  }
 
   return (
-    <Box sx={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default' }}>
-      <Paper sx={{ p: 4, maxWidth: 400, width: '100%', borderRadius: 3, boxShadow: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 3, textAlign: 'center' }}>Login</Typography>
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            type="email"
-            fullWidth
-            required
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-            fullWidth
-            required
-            sx={{ mb: 2 }}
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth size="large" disabled={loading} sx={{ fontWeight: 700 }}>
-            {loading ? 'Logging in...' : 'Login'}
-          </Button>
-        </form>
-        <Typography sx={{ mt: 2, textAlign: 'center' }}>
-          Don't have an account? <Button component={Link} to="/register" color="secondary" size="small">Register</Button>
+    <Container maxWidth="sm" sx={{ py: 8 }}>
+      <Paper sx={{ p: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom textAlign="center">
+          Login
         </Typography>
-      </Paper>
-    </Box>
-  );
-};
 
-export default LoginPage; 
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <TextField
+            fullWidth
+            label="Email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            sx={{ mb: 3 }}
+          />
+
+          <TextField
+            fullWidth
+            label="Password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            sx={{ mb: 3 }}
+          />
+
+          <Button type="submit" fullWidth variant="contained" size="large" sx={{ mb: 2 }}>
+            Login
+          </Button>
+
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="body2">
+              Don't have an account?{" "}
+              <Link component={RouterLink} to="/register">
+                Register here
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+    </Container>
+  )
+}
+
+export default LoginPage

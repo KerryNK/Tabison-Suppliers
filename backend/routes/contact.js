@@ -1,42 +1,68 @@
-import express from 'express';
-import { body, validationResult } from 'express-validator';
+const express = require("express")
+const router = express.Router()
 
-const router = express.Router();
+// Sample contact messages storage (in production, save to database)
+const contactMessages = []
 
-// @route   POST api/contact
 // @desc    Submit contact form
+// @route   POST /api/contact
 // @access  Public
-router.post(
-  '/',
-  [
-    body('name', 'Name is required').not().isEmpty(),
-    body('email', 'Please include a valid email').isEmail(),
-    body('message', 'Message is required').not().isEmpty(),
-    body('category', 'Category is required').isIn(['general', 'shoes', 'tech', 'gear']),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: 'Validation error', errors: errors.array() });
+router.post("/", async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body
+
+    // Validation
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all required fields",
+      })
     }
 
-    try {
-      const { name, email, company, message, category } = req.body;
-
-      // In a real application, you would save this to a database or send an email.
-      console.log('Contact form submission received:', { name, email, company, message, category });
-
-      // Simulate processing time
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      res.json({
-        message: 'Thank you for your message. We will get back to you soon!',
-      });
-    } catch (error) {
-      console.error('Error processing contact form:', error.message);
-      res.status(500).json({ message: 'Server error: Failed to submit form' });
+    // Create contact message
+    const contactMessage = {
+      _id: String(contactMessages.length + 1),
+      name,
+      email,
+      subject,
+      message,
+      createdAt: new Date().toISOString(),
+      status: "new",
     }
+
+    contactMessages.push(contactMessage)
+
+    res.status(201).json({
+      success: true,
+      message: "Contact message sent successfully",
+      data: contactMessage,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
   }
-);
+})
 
-export default router;
+// @desc    Get all contact messages
+// @route   GET /api/contact
+// @access  Private (Admin only)
+router.get("/", async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      count: contactMessages.length,
+      data: contactMessages,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
+  }
+})
+
+module.exports = router

@@ -1,181 +1,177 @@
-import * as React from 'react';
-import { Box, Typography, Container, Grid, Paper, Button, Icon } from '@mui/material';
-import { VerifiedUser, ShoppingCart, HeadsetMic, Search, HowToReg, GroupAdd } from '@mui/icons-material';
-import { Link as RouterLink } from 'react-router-dom';
-
-import HeroSection from '../components/HeroSection';
-import SupplierCard from '../components/SupplierCard';
-import { useApi } from '../api/client';
-import { Supplier } from '../types';
-import toast from 'react-hot-toast';
-
-const WhyChooseUs = () => (
-  <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
-    <Container maxWidth="lg">
-      <Typography variant="h4" textAlign="center" sx={{ fontWeight: 700, mb: 6 }}>
-        Why Choose Us?
-      </Typography>
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={4}>
-          <Paper elevation={0} sx={{ p: 3, textAlign: 'center', bgcolor: 'transparent' }}>
-            <Icon component={VerifiedUser} sx={{ fontSize: 50, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>Verified Suppliers</Typography>
-            <Typography color="text.secondary">
-              Access a curated network of vetted and reliable suppliers, ensuring quality and trust.
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper elevation={0} sx={{ p: 3, textAlign: 'center', bgcolor: 'transparent' }}>
-            <Icon component={ShoppingCart} sx={{ fontSize: 50, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>Seamless Ordering</Typography>
-            <Typography color="text.secondary">
-              Our platform simplifies the procurement process from search to delivery.
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper elevation={0} sx={{ p: 3, textAlign: 'center', bgcolor: 'transparent' }}>
-            <Icon component={HeadsetMic} sx={{ fontSize: 50, color: 'primary.main', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>Expert Support</Typography>
-            <Typography color="text.secondary">
-              Our team is here to assist you at every step, ensuring a smooth experience.
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Container>
-  </Box>
-);
-
-const HowItWorks = () => (
-  <Box sx={{ py: 8 }}>
-    <Container maxWidth="lg">
-      <Typography variant="h4" textAlign="center" sx={{ fontWeight: 700, mb: 6 }}>
-        How It Works
-      </Typography>
-      <Grid container spacing={4} textAlign="center">
-        <Grid item xs={12} md={4}>
-          <Icon component={Search} sx={{ fontSize: 50, color: 'secondary.main', mb: 2 }} />
-          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>1. Search & Filter</Typography>
-          <Typography color="text.secondary">
-            Easily find the right suppliers using our powerful search and filtering tools.
-          </Typography>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Icon component={GroupAdd} sx={{ fontSize: 50, color: 'secondary.main', mb: 2 }} />
-          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>2. Connect & Order</Typography>
-          <Typography color="text.secondary">
-            Connect directly with suppliers, request quotes, and place orders seamlessly.
-          </Typography>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Icon component={HowToReg} sx={{ fontSize: 50, color: 'secondary.main', mb: 2 }} />
-          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>3. Grow Your Business</Typography>
-          <Typography color="text.secondary">
-            Build strong partnerships and streamline your supply chain for business growth.
-          </Typography>
-        </Grid>
-      </Grid>
-    </Container>
-  </Box>
-);
-
-const CtaSection = () => (
-  <Box sx={{ py: 8, bgcolor: 'primary.dark', color: 'white' }}>
-    <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-        Ready to Get Started?
-      </Typography>
-      <Typography sx={{ mb: 4, color: 'rgba(255,255,255,0.8)' }}>
-        Join our network today to find reliable partners or to showcase your products to a wider audience.
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-        <Button
-          component={RouterLink}
-          to="/register"
-          variant="contained"
-          size="large"
-          sx={{
-            bgcolor: '#4fd1c5',
-            color: '#1a202c',
-            fontWeight: 600,
-            '&:hover': { bgcolor: '#38b2ac' },
-          }}
-        >
-          Register as a Supplier
-        </Button>
-        <Button
-          component={RouterLink}
-          to="/products"
-          variant="outlined"
-          size="large"
-          sx={{
-            color: 'white',
-            borderColor: 'rgba(255,255,255,0.5)',
-            '&:hover': {
-              borderColor: 'white',
-              bgcolor: 'rgba(255,255,255,0.1)',
-            },
-          }}
-        >
-          Browse Products
-        </Button>
-      </Box>
-    </Container>
-  </Box>
-);
+import type React from "react"
+import { Box, Container, Typography, Button, Grid, Card, CardContent, CardMedia } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
 
 const HomePage: React.FC = () => {
-  const [featuredSuppliers, setFeaturedSuppliers] = useState<Supplier[]>([]);
-  const [loading, setLoading] = useState(true);
-  const api = useApi();
-
-  useEffect(() => {
-    const fetchFeaturedSuppliers = async () => {
-      try {
-        // Fetch a limited number of suppliers for the homepage
-        const { data } = await api.get('/suppliers?limit=6');
-        setFeaturedSuppliers(data.suppliers);
-      } catch (err) {
-        toast.error('Could not load featured suppliers.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeaturedSuppliers();
-  }, [api]);
+  const featuredProducts = [
+    {
+      id: 1,
+      name: "Military Boots (Long)",
+      price: "KSh 2,000",
+      image: "/placeholder.svg?height=200&width=300",
+      description: "22cm Height, 8 Inches, PVC Material",
+    },
+    {
+      id: 2,
+      name: "Safety Boots",
+      price: "KSh 2,500",
+      image: "/placeholder.svg?height=200&width=300",
+      description: "Industrial grade safety footwear",
+    },
+    {
+      id: 3,
+      name: "Official Men Permanent Shine",
+      price: "KSh 2,000",
+      image: "/placeholder.svg?height=200&width=300",
+      description: "Professional formal footwear",
+    },
+  ]
 
   return (
     <Box>
-      <HeroSection />
-      <WhyChooseUs />
-
-      {/* Featured Suppliers Section */}
-      <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
-        <Container maxWidth="lg">
-          <Typography variant="h4" textAlign="center" sx={{ fontWeight: 700, mb: 6 }}>
-            Featured Suppliers
+      {/* Hero Section */}
+      <Box
+        sx={{
+          bgcolor: "primary.main",
+          color: "white",
+          py: 8,
+          textAlign: "center",
+        }}
+      >
+        <Container maxWidth="md">
+          <Typography variant="h2" component="h1" gutterBottom>
+            Quality Footwear for Professionals
           </Typography>
-          {loading ? (
-            <Typography textAlign="center">Loading suppliers...</Typography>
-          ) : (
-            <Grid container spacing={4}>
-              {featuredSuppliers.map((supplier) => (
-                <Grid item xs={12} sm={6} md={4} key={supplier._id}>
-                  <SupplierCard supplier={supplier} />
-                </Grid>
-              ))}
-            </Grid>
-          )}
+          <Typography variant="h5" gutterBottom>
+            Military, Safety & Official Boots - Made in Kenya
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Trusted supplier of high-quality boots for military, police, security, and industrial professionals across
+            Kenya.
+          </Typography>
+          <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
+            <Button
+              variant="contained"
+              size="large"
+              component={RouterLink}
+              to="/products"
+              sx={{ bgcolor: "white", color: "primary.main", "&:hover": { bgcolor: "grey.100" } }}
+            >
+              Shop Products
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              component={RouterLink}
+              to="/suppliers"
+              sx={{ borderColor: "white", color: "white", "&:hover": { borderColor: "grey.300" } }}
+            >
+              Find Suppliers
+            </Button>
+          </Box>
         </Container>
       </Box>
 
-      <HowItWorks />
-      <CtaSection />
-    </Box>
-  );
-};
+      {/* Featured Products */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Typography variant="h3" component="h2" textAlign="center" gutterBottom>
+          Featured Products
+        </Typography>
+        <Typography variant="body1" textAlign="center" color="text.secondary" sx={{ mb: 6 }}>
+          Discover our most popular military, safety, and professional footwear
+        </Typography>
 
-export default HomePage;
+        <Grid container spacing={4}>
+          {featuredProducts.map((product) => (
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                <CardMedia component="img" height="200" image={product.image} alt={product.name} />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h6" component="h3">
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    {product.description}
+                  </Typography>
+                  <Typography variant="h6" color="primary.main" sx={{ mt: 2 }}>
+                    {product.price}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Box sx={{ textAlign: "center", mt: 6 }}>
+          <Button variant="contained" size="large" component={RouterLink} to="/products">
+            View All Products
+          </Button>
+        </Box>
+      </Container>
+
+      {/* Why Choose Us */}
+      <Box sx={{ bgcolor: "grey.50", py: 8 }}>
+        <Container maxWidth="lg">
+          <Typography variant="h3" component="h2" textAlign="center" gutterBottom>
+            Why Choose Tabison Suppliers?
+          </Typography>
+          <Grid container spacing={4} sx={{ mt: 4 }}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom>
+                  Quality Assured
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  All our products meet international quality standards and are built to last in demanding conditions.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom>
+                  Local Manufacturing
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  Proudly made in Kenya, supporting local industry and providing jobs to our communities.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom>
+                  Competitive Pricing
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  Direct from manufacturer pricing with wholesale and retail options available.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Call to Action */}
+      <Box sx={{ bgcolor: "primary.main", color: "white", py: 8, textAlign: "center" }}>
+        <Container maxWidth="md">
+          <Typography variant="h4" gutterBottom>
+            Ready to Get Started?
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Contact us today for bulk orders, custom requirements, or to become a supplier partner.
+          </Typography>
+          <Button
+            variant="contained"
+            size="large"
+            component={RouterLink}
+            to="/contact"
+            sx={{ bgcolor: "white", color: "primary.main", "&:hover": { bgcolor: "grey.100" } }}
+          >
+            Contact Us
+          </Button>
+        </Container>
+      </Box>
+    </Box>
+  )
+}
+
+export default HomePage

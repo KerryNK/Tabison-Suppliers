@@ -1,26 +1,22 @@
-import React from "react";
-import { Box, Toolbar } from "@mui/material";
-import Header from "./Header";
-import { Toaster } from "react-hot-toast";
-import Footer from "./Footer";
+import type React from "react"
+import { Box } from "@mui/material"
+import Header from "./Header"
+import Footer from "./Footer"
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface LayoutProps {
+  children: React.ReactNode
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <Box sx={{ 
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: "100vh", 
-      bgcolor: "background.default" 
-    }}>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
-      <Toaster position="top-center" reverseOrder={false} />
-      <Toolbar /> {/* Spacer for fixed header */}
       <Box component="main" sx={{ flexGrow: 1 }}>
         {children}
       </Box>
       <Footer />
     </Box>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

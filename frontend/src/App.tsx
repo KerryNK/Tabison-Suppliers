@@ -1,30 +1,37 @@
-import * as React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CustomThemeProvider } from "./context/ThemeContext";
-import { CartProvider } from "./context/CartContext";
-import { AuthProvider } from "./context/AuthContext";
-import { HelmetProvider } from 'react-helmet-async';
-import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
-import SuppliersPage from "./pages/SuppliersPage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetailPage from "./pages/ProductDetailPage";
-import CartPage from "./pages/CartPage";
-import PaymentPage from "./pages/PaymentPage";
-import OrdersPage from "./pages/OrdersPage";
-import FavoritesPage from "./pages/FavoritesPage";
-import AdminProductsPage from "./pages/AdminProductsPage";
-import TrackOrderPage from "./pages/TrackOrderPage";
-import SettingsPage from "./pages/SettingsPage";
+import * as React from "react"
+import { Routes, Route, Navigate } from "react-router-dom"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { HelmetProvider } from "react-helmet-async"
 
-// Create a client
-const queryClient = new QueryClient();
+import { CustomThemeProvider } from "./context/ThemeContext"
+import { CartProvider } from "./context/CartContext"
+import { AuthProvider } from "./context/AuthContext"
 
-// Simple header without context dependencies
+import Layout from "./components/Layout"
 
-// Simple placeholder components for testing
-// removed placeholder ProductsPage
+// Pages
+import HomePage from "./pages/HomePage"
+import SuppliersPage from "./pages/SuppliersPage"
+import ProductsPage from "./pages/ProductsPage"
+import ProductDetailPage from "./pages/ProductDetailPage"
+import CartPage from "./pages/CartPage"
+import PaymentPage from "./pages/PaymentPage"
+import OrdersPage from "./pages/OrdersPage"
+import FavoritesPage from "./pages/FavoritesPage"
+import AdminProductsPage from "./pages/AdminProductsPage"
+import TrackOrderPage from "./pages/TrackOrderPage"
+import SettingsPage from "./pages/SettingsPage"
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      cacheTime: 1000 * 60 * 10,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 const App: React.FC = () => {
   return (
@@ -54,7 +61,9 @@ const App: React.FC = () => {
         </CustomThemeProvider>
       </HelmetProvider>
     </QueryClientProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
+
+
