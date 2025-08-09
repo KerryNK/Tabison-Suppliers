@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const connectDB = async () => {
   try {
     // MongoDB connection string
-    const mongoURI = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://localhost:27017/tabison-suppliers"
+    const mongoURI = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/suppliers-db"
 
     console.log("🔄 Connecting to MongoDB...")
 
