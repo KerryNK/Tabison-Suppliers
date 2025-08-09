@@ -27,61 +27,132 @@ const verifyFirebaseToken = async (req, res, next) => {
       ]
     })
     
-    if (!user && decodedToken.email) {
+    if (!user) {
       // Create new user if doesn't exist
       user = new User({
-        name: decodedToken.name || decodedToken.email.split('@')[0],
+        name: decodedToken.name || decodedToken.email?.split('@')[0] || 'User',
         email: decodedToken.email,
+        authProvider: decodedToken.firebase?.sign_in_provider || 'email',
+        googleId: decodedToken.firebase?.sign_in_provider === 'google.com' ? decodedToken.uid : undefined,
+        appleId: decodedToken.firebase?.sign_in_provider === 'apple.com' ? decodedToken.uid : undefined,
         emailVerified: decodedToken.email_verified || false,
-        phoneNumber: decodedToken.phone_number,
-        phoneVerified: !!decodedToken.phone_number,
-        avatar: decodedToken.picture,
-        authProvider: decodedToken.firebase?.sign_in_provider || 'firebase',
-        verified: decodedToken.email_verified || false,
+        photoURL: decodedToken.picture,
+        isActive: true,
+        role: 'user' // Default role
       })
-      
-      // Set provider-specific ID
-      if (decodedToken.firebase?.sign_in_provider === 'google.com') {
-        user.googleId = decodedToken.uid
-        user.authProvider = 'google'
-      } else if (decodedToken.firebase?.sign_in_provider === 'apple.com') {
-        user.appleId = decodedToken.uid
-        user.authProvider = 'apple'
-      } else if (decodedToken.firebase?.sign_in_provider === 'phone') {
-        user.authProvider = 'otp'
-      }
-      
       await user.save()
     }
     
-    // Update last login
-    if (user) {
-      user.lastLogin = new Date()
-      await user.save()
+    // Check if user account is active
+    if (!user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: 'Account has been deactivated. Please contact support.',
+      })
     }
     
-    // Attach user and Firebase token info to request
     req.user = user
     req.firebaseUser = decodedToken
-    
     next()
   } catch (error) {
-    console.error('Firebase auth middleware error:', error.message)
+    console.error('Firebase token verification error:', error)
     return res.status(401).json({
       success: false,
-      message: 'Invalid token',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      message: 'Invalid or expired token.',
     })
   }
 }
 
-// Middleware to check if user exists (optional Firebase auth)
+// Middleware to check if user has admin role
+const requireAdmin = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required.',
+      })
+    }
+    
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin access required.',
+      })
+    }
+    
+    next()
+  } catch (error) {
+    console.error('Admin access check error:', error)
+    return res.status(500).json({
+      success: false,
+      message: 'Server error during authorization check.',
+    })
+  }
+}
+
+// Middleware to check if user has supplier role or higher
+const requireSupplier = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required.',
+      })
+    }
+    
+    if (!['supplier', 'admin'].includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Supplier access required.',
+      })
+    }
+    
+    next()
+  } catch (error) {
+    console.error('Supplier access check error:', error)
+    return res.status(500).json({
+      success: false,
+      message: 'Server error during authorization check.',
+    })
+  }
+}
+
+// Middleware to require active account
+const requireActiveAccount = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required.',
+      })
+    }
+    
+    if (!req.user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: 'Account is inactive. Please contact support.',
+      })
+    }
+    
+    next()
+  } catch (error) {
+    console.error('Active account check error:', error)
+    return res.status(500).json({
+      success: false,
+      message: 'Server error during account status check.',
+    })
+  }
+}
+
+// Optional authentication middleware (doesn't fail if no token)
 const optionalFirebaseAuth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return next() // Continue without authentication
+      req.user = null
+      req.firebaseUser = null
+      return next()
     }
     
     const token = authHeader.split(' ')[1]
@@ -97,153 +168,27 @@ const optionalFirebaseAuth = async (req, res, next) => {
         ]
       })
       
-      if (user) {
-        req.user = user
-        req.firebaseUser = decodedToken
-      }
+      req.user = user
+      req.firebaseUser = decodedToken
     } catch (tokenError) {
-      // Invalid token, but continue without auth
-      console.warn('Optional auth token invalid:', tokenError.message)
+      // Token is invalid, but we continue without authentication
+      req.user = null
+      req.firebaseUser = null
     }
     
     next()
   } catch (error) {
-    // Don't block request for optional auth errors
-    console.error('Optional Firebase auth error:', error.message)
+    console.error('Optional Firebase auth error:', error)
+    req.user = null
+    req.firebaseUser = null
     next()
   }
-}
-
-// Middleware to check user role
-const requireRole = (requiredRole) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Authentication required',
-      })
-    }
-    
-    if (req.user.role !== requiredRole) {
-      return res.status(403).json({
-        success: false,
-        message: `Access denied. ${requiredRole} role required.`,
-      })
-    }
-    
-    next()
-  }
-}
-
-// Middleware to check if user is admin
-const requireAdmin = requireRole('admin')
-
-// Middleware to check if user is supplier
-const requireSupplier = requireRole('supplier')
-
-// Middleware to check multiple roles
-const requireAnyRole = (roles) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Authentication required',
-      })
-    }
-    
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: `Access denied. One of these roles required: ${roles.join(', ')}`,
-      })
-    }
-    
-    next()
-  }
-}
-
-// Middleware to check if user owns resource or is admin
-const requireOwnershipOrAdmin = (userIdField = 'user') => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Authentication required',
-      })
-    }
-    
-    // Admin can access anything
-    if (req.user.role === 'admin') {
-      return next()
-    }
-    
-    // Check if user owns the resource
-    const resourceUserId = req.params.id || req.body[userIdField] || req.body.user
-    
-    if (req.user._id.toString() !== resourceUserId.toString()) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. You can only access your own resources.',
-      })
-    }
-    
-    next()
-  }
-}
-
-// Middleware to check if user account is active
-const requireActiveAccount = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({
-      success: false,
-      message: 'Authentication required',
-    })
-  }
-  
-  if (!req.user.isActive) {
-    return res.status(403).json({
-      success: false,
-      message: 'Account is deactivated. Please contact support.',
-    })
-  }
-  
-  if (req.user.isBlocked) {
-    return res.status(403).json({
-      success: false,
-      message: 'Account is blocked. Please contact support.',
-    })
-  }
-  
-  next()
-}
-
-// Middleware to check if email is verified
-const requireEmailVerification = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({
-      success: false,
-      message: 'Authentication required',
-    })
-  }
-  
-  if (!req.user.emailVerified && !req.user.verified) {
-    return res.status(403).json({
-      success: false,
-      message: 'Email verification required. Please verify your email address.',
-    })
-  }
-  
-  next()
 }
 
 module.exports = {
   verifyFirebaseToken,
-  optionalFirebaseAuth,
-  requireRole,
   requireAdmin,
   requireSupplier,
-  requireAnyRole,
-  requireOwnershipOrAdmin,
   requireActiveAccount,
-  requireEmailVerification,
+  optionalFirebaseAuth
 }

@@ -61,6 +61,7 @@ app.get("/", (req, res) => {
       cart: "/api/cart",
       orders: "/api/orders",
       payments: "/api/payments",
+      admin: "/api/admin",
       contact: "/api/contact",
     },
     timestamp: new Date().toISOString(),
@@ -87,6 +88,7 @@ const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/orders");
 const contactRoutes = require("./routes/contact");
 const paymentRoutes = require("./routes/payments");
+const adminRoutes = require("./routes/admin");
 
 // Mount route modules
 app.use("/api/auth", authRoutes);
@@ -96,6 +98,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/admin", adminRoutes);
 
 // 404 handler for unknown routes
 app.use("*", (req, res) => {
@@ -117,6 +120,7 @@ app.listen(PORT, () => {
   console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
   console.log(`💳 Payment endpoints ready: Stripe, M-Pesa, PayPal`);
+  console.log(`🔧 Admin dashboard available at /api/admin`);
 });
 
 module.exports = app;
