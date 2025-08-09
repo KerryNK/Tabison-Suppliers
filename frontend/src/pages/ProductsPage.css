@@ -1,0 +1,19 @@
+.product-modal-img {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: 8px;
+}
+.product-modal-list {
+  margin: 0;
+  padding-left: 18px;
+}
+.product-modal-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+}
+.product-modal-breakdown-key {
+  text-transform: capitalize;
+}
+.product-modal-breakdown-value {
+  font-family: monospace;
+}
