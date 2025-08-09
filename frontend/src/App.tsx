@@ -21,6 +21,7 @@ import FavoritesPage from "./pages/FavoritesPage"
 import AdminProductsPage from "./pages/AdminProductsPage"
 import TrackOrderPage from "./pages/TrackOrderPage"
 import SettingsPage from "./pages/SettingsPage"
+import RequestQuotePage from "./pages/RequestQuotePage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,6 +54,7 @@ const App: React.FC = () => {
                   <Route path="/track-order" element={<TrackOrderPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
                   <Route path="/admin/products" element={<AdminProductsPage />} />
+                  <Route path="/request-quote" element={<RequestQuotePage />} />
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </Layout>
