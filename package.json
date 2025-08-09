@@ -97,6 +97,7 @@
     "yaml": "latest"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
