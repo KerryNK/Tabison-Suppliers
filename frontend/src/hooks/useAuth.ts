@@ -1,6 +1,6 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  User as FirebaseUser,
+  User,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -14,8 +14,6 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, googleProvider, appleProvider, db } from '../config/firebase';
-import { useApi, ApiError } from '../api/client';
-import { User } from '../types';
 import toast from 'react-hot-toast';
 
 interface UserProfile {
@@ -29,53 +27,19 @@ interface UserProfile {
   lastLoginAt: Date;
 }
 
-interface AuthContextType {
-  // Firebase user
-  firebaseUser: FirebaseUser | null;
-  // Backend user (for compatibility)
-  user: User | null;
-  userProfile: UserProfile | null;
-  loading: boolean;
-  otpSent: boolean;
-  
-  // Authentication methods
-  signUpWithEmail: (email: string, password: string, displayName: string) => Promise<FirebaseUser>;
-  signInWithEmail: (email: string, password: string) => Promise<FirebaseUser>;
-  signInWithGoogle: () => Promise<FirebaseUser>;
-  signInWithApple: () => Promise<FirebaseUser>;
-  sendOTP: (phoneNumber: string, recaptchaVerifier: RecaptchaVerifier) => Promise<ConfirmationResult>;
-  verifyOTP: (otp: string) => Promise<FirebaseUser>;
-  resetPassword: (email: string) => Promise<void>;
-  logout: () => Promise<void>;
-  
-  // Legacy methods (for compatibility)
-  login: (email: string, password: string) => Promise<void>;
-  
-  // Status
-  isAuthenticated: boolean;
-  isAdmin: boolean;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [otpSent, setOtpSent] = useState(false);
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
-  
-  const api = useApi();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setFirebaseUser(user);
+        setUser(user);
         await loadUserProfile(user.uid);
-        await syncWithBackend(user);
       } else {
-        setFirebaseUser(null);
         setUser(null);
         setUserProfile(null);
       }
@@ -96,28 +60,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const syncWithBackend = async (firebaseUser: FirebaseUser) => {
-    try {
-      // Get Firebase ID token to authenticate with backend
-      const idToken = await firebaseUser.getIdToken();
-      
-      // Send Firebase user data to backend for synchronization
-      const backendUser = await api.post('/auth/firebase-login', {
-        idToken,
-        uid: firebaseUser.uid,
-        email: firebaseUser.email,
-        displayName: firebaseUser.displayName,
-        photoURL: firebaseUser.photoURL,
-      });
-      
-      setUser(backendUser);
-    } catch (error) {
-      console.error('Error syncing with backend:', error);
-      // Continue even if backend sync fails
-    }
-  };
-
-  const createUserProfile = async (user: FirebaseUser, additionalData: Partial<UserProfile> = {}) => {
+  const createUserProfile = async (user: User, additionalData: Partial<UserProfile> = {}) => {
     const userDocRef = doc(db, 'users', user.uid);
     const userDoc = await getDoc(userDocRef);
 
@@ -270,16 +213,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  // Legacy login method (for compatibility)
-  const login = async (email: string, password: string) => {
-    await signInWithEmail(email, password);
-  };
-
   // Sign Out
   const logout = async () => {
     try {
       await signOut(auth);
-      setFirebaseUser(null);
       setUser(null);
       setUserProfile(null);
       setOtpSent(false);
@@ -291,8 +228,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const value: AuthContextType = {
-    firebaseUser,
+  return {
     user,
     userProfile,
     loading,
@@ -304,23 +240,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     sendOTP,
     verifyOTP,
     resetPassword,
-    login,
     logout,
-    isAuthenticated: !!firebaseUser,
+    isAuthenticated: !!user,
     isAdmin: userProfile?.role === 'admin',
   };
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };
