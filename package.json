@@ -102,6 +102,6 @@
     "@types/react-dom": "^19",
     "concurrently": "^8.2.0",
     "postcss": "^8.5",
-    "typescript": "^5"
+    "typescript": "^5.9.2"
   }
 }
