@@ -1,6 +1,6 @@
 import React, { Suspense } from "react"
 import { Routes, Route } from "react-router-dom"
-import { Loading } from "../components/Loading"
+import { Loading } from "../../frontend/src/components/Loading"
 
 // Lazy load components for better performance
 const SupplierRegistrationForm = React.lazy(() => import("../components/SupplierRegistrationForm"))
