@@ -1,10 +1,8 @@
-import productRoutes from './routes/product.js';
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const { errorHandler } = require("./middlewares/errorMiddleware");
-app.use('/api/products', productRoutes);
 
 // Load environment variables from .env file
 dotenv.config();
@@ -114,20 +112,4 @@ app.listen(PORT, () => {
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
 });
 
-import express from 'express';
-import connectDB from './config/db.js';
 
-const app = express();
-
-connectDB()
-  .then(() => {
-    app.listen(5000, () => {
-      console.log('🚀 Server running on port 5000');
-    });
-  })
-  .catch((err) => {
-    console.error('Failed to connect to DB, exiting...');
-    process.exit(1);
-  });
-
-module.exports = app;
