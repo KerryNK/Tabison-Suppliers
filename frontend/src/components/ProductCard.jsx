@@ -1,153 +1,202 @@
-"use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardMedia, Typography, Button, Box, Chip, IconButton } from "@mui/material"
-import { ShoppingCart, Favorite, FavoriteBorder, Visibility } from "@mui/icons-material"
+import React, { useState } from "react"
+import { 
+  Card, 
+  CardContent, 
+  CardMedia, 
+  Typography, 
+  Button, 
+  Box, 
+  IconButton,
+  Chip
+} from "@mui/material"
+import { 
+  ShoppingCart, 
+  Favorite, 
+  FavoriteBorder, 
+  Visibility 
+} from "@mui/icons-material"
+import { Link } from "react-router-dom"
 import Counter from "./Counter"
 
-const ProductCard = ({ product, onAddToCart, onToggleFavorite, isFavorited = false }) => {
+const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1)
-  const [isHovered, setIsHovered] = useState(false)
-
-  const handleAddToCart = () => {
-    if (onAddToCart) {
-      onAddToCart(product._id, quantity)
-    }
-  }
-
-  const handleToggleFavorite = () => {
-    if (onToggleFavorite) {
-      onToggleFavorite(product._id)
-    }
-  }
+  const [isFavorite, setIsFavorite] = useState(false)
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-KE", {
-      style: "currency",
-      currency: "KES",
+    return new Intl.NumberFormat('en-KE', {
+      style: 'currency',
+      currency: 'KES',
+      minimumFractionDigits: 0,
     }).format(price)
+  }
+
+  const handleAddToCart = () => {
+    console.log("Added to cart:", { product: product._id, quantity })
+  }
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite)
   }
 
   return (
     <Card
+      elevation={0}
       sx={{
-        maxWidth: 345,
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        position: "relative",
-        transition: "all 0.3s ease",
-        "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
-        },
+        border: '1px solid #e9ecef',
+        borderRadius: 2,
+        transition: 'all 0.2s ease-in-out',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+          '& .product-image': {
+            transform: 'scale(1.05)'
+          }
+        }
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <Box sx={{ position: "relative" }}>
+      <Box sx={{ position: 'relative', overflow: 'hidden' }}>
         <CardMedia
           component="img"
           height="200"
-          image={product.images?.[0] || "/placeholder.svg?height=200&width=300"}
+          image={product.images?.[0] || "/api/placeholder/300/200"}
           alt={product.name}
-          sx={{ objectFit: "cover" }}
+          className="product-image"
+          sx={{
+            objectFit: "cover",
+            transition: 'transform 0.3s ease-in-out'
+          }}
         />
+        
+        {/* Stock Status */}
+        {!product.inStock && (
+          <Chip
+            label="Out of Stock"
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 8,
+              left: 8,
+              backgroundColor: '#ff4444',
+              color: '#fff',
+              fontWeight: 600
+            }}
+          />
+        )}
 
         {/* Favorite Button */}
         <IconButton
-          onClick={handleToggleFavorite}
+          onClick={toggleFavorite}
           sx={{
-            position: "absolute",
+            position: 'absolute',
             top: 8,
             right: 8,
-            backgroundColor: "rgba(255,255,255,0.9)",
-            "&:hover": { backgroundColor: "rgba(255,255,255,1)" },
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            '&:hover': {
+              backgroundColor: '#fff'
+            }
           }}
         >
-          {isFavorited ? <Favorite sx={{ color: "#e91e63" }} /> : <FavoriteBorder />}
+          {isFavorite ? (
+            <Favorite sx={{ color: '#ff4444' }} />
+          ) : (
+            <FavoriteBorder />
+          )}
         </IconButton>
-
-        {/* Product Tags */}
-        {product.tags && product.tags.length > 0 && (
-          <Box sx={{ position: "absolute", top: 8, left: 8 }}>
-            {product.tags.slice(0, 2).map((tag, index) => (
-              <Chip
-                key={index}
-                label={tag}
-                size="small"
-                sx={{
-                  backgroundColor: tag === "New" ? "#4caf50" : "#ff9800",
-                  color: "white",
-                  fontSize: "0.75rem",
-                  height: "20px",
-                  mr: 0.5,
-                  mb: 0.5,
-                }}
-              />
-            ))}
-          </Box>
-        )}
-
-        {/* Stock Status */}
-        {!product.inStock && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: "rgba(0,0,0,0.7)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography variant="h6" sx={{ color: "white", fontWeight: "bold" }}>
-              Out of Stock
-            </Typography>
-          </Box>
-        )}
       </Box>
 
-      {/* Product Details */}
-      <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600 }}>
+      <CardContent sx={{ flexGrow: 1, p: 3 }}>
+        {/* Category */}
+        {product.category && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: '#1D6D73',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
+              mb: 1,
+              display: 'block'
+            }}
+          >
+            {product.category}
+          </Typography>
+        )}
+
+        {/* Product Name */}
+        <Typography
+          variant="h6"
+          component={Link}
+          to={`/products/${product._id}`}
+          sx={{
+            fontWeight: 600,
+            color: '#000',
+            textDecoration: 'none',
+            mb: 1,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            lineHeight: 1.4,
+            '&:hover': {
+              color: '#1D6D73'
+            }
+          }}
+        >
           {product.name}
         </Typography>
 
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2, flexGrow: 1 }}>
-          {product.description}
-        </Typography>
-
-        {/* Product Features */}
-        {product.features && product.features.length > 0 && (
-          <Box sx={{ mb: 2 }}>
-            {product.features.slice(0, 3).map((feature, index) => (
-              <Typography key={index} variant="caption" display="block" color="text.secondary">
-                • {feature}
-              </Typography>
-            ))}
-          </Box>
+        {/* Description */}
+        {product.description && (
+          <Typography
+            variant="body2"
+            sx={{
+              color: '#666',
+              mb: 2,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              lineHeight: 1.5
+            }}
+          >
+            {product.description}
+          </Typography>
         )}
 
         {/* Price */}
-        <Typography variant="h5" color="primary" sx={{ fontWeight: "bold", mb: 2 }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            color: '#1D6D73',
+            mb: 2
+          }}
+        >
           {formatPrice(product.retailPrice)}
         </Typography>
 
-        {/* Quantity and Add to Cart */}
+        {/* Quantity Counter */}
         {product.inStock && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-            <Typography variant="body2">Qty:</Typography>
-            <Counter initialValue={quantity} min={1} max={product.stockQuantity || 10} onChange={setQuantity} />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+            <Typography variant="body2" sx={{ color: '#666' }}>
+              Qty:
+            </Typography>
+            <Counter
+              initialValue={quantity}
+              min={1}
+              max={product.stockQuantity || 10}
+              onChange={setQuantity}
+            />
           </Box>
         )}
 
         {/* Action Buttons */}
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{ display: "flex", gap: 1, mt: 'auto' }}>
           <Button
             variant="contained"
             startIcon={<ShoppingCart />}
@@ -155,21 +204,51 @@ const ProductCard = ({ product, onAddToCart, onToggleFavorite, isFavorited = fal
             disabled={!product.inStock}
             sx={{
               flexGrow: 1,
-              backgroundColor: "#4fd1c5",
-              "&:hover": { backgroundColor: "#38b2ac" },
+              backgroundColor: "#1D6D73",
+              color: '#fff',
+              textTransform: 'none',
+              fontWeight: 600,
+              py: 1,
+              borderRadius: 1.5,
+              "&:hover": { 
+                backgroundColor: "#155a5f" 
+              },
+              "&:disabled": {
+                backgroundColor: '#ccc',
+                color: '#999'
+              }
             }}
           >
-            Add to Cart
+            {product.inStock ? 'Add to Cart' : 'Out of Stock'}
           </Button>
 
-          <IconButton color="primary" sx={{ border: "1px solid #e0e0e0" }}>
+          <IconButton
+            component={Link}
+            to={`/products/${product._id}`}
+            sx={{
+              border: "1px solid #e0e0e0",
+              borderRadius: 1.5,
+              '&:hover': {
+                borderColor: '#1D6D73',
+                backgroundColor: 'rgba(29, 109, 115, 0.05)'
+              }
+            }}
+          >
             <Visibility />
           </IconButton>
         </Box>
 
-        {/* Stock Quantity Info */}
+        {/* Stock Info */}
         {product.inStock && product.stockQuantity && (
-          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, textAlign: "center" }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: '#666',
+              mt: 2,
+              textAlign: 'center',
+              display: 'block'
+            }}
+          >
             {product.stockQuantity} items available
           </Typography>
         )}
