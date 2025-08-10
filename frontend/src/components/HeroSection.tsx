@@ -1,78 +1,127 @@
-import React from 'react';
-import { Box, Typography, Button, TextField, InputAdornment, Container } from '@mui/material';
-import { Search, ArrowForward } from '@mui/icons-material';
-import { Link as RouterLink } from 'react-router-dom';
+
+import React from 'react'
+import { Box, Container, Typography, Button, Grid } from '@mui/material'
+import { Link } from 'react-router-dom'
+import { ArrowForward, Search, RequestQuote } from '@mui/icons-material'
 
 const HeroSection: React.FC = () => {
   return (
     <Box
       sx={{
-        pt: { xs: 12, md: 16 },
-        pb: { xs: 12, md: 16 },
-        textAlign: 'center',
-        color: 'white',
-        background: 'linear-gradient(45deg, #2d3748 30%, #4a5568 90%)',
+        backgroundColor: '#fff',
+        py: { xs: 8, md: 12 },
+        borderBottom: '1px solid #f0f0f0'
       }}
     >
-      <Container maxWidth="md">
-        <Typography
-          variant="h2"
-          component="h1"
-          sx={{
-            fontWeight: 800,
-            mb: 2,
-            fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
-            letterSpacing: '-1px',
-          }}
-        >
-          Find Verified Suppliers for Your Business
-        </Typography>
-        <Typography
-          variant="h6"
-          component="p"
-          sx={{
-            mb: 4,
-            color: 'rgba(255, 255, 255, 0.8)',
-            maxWidth: '700px',
-            mx: 'auto',
-          }}
-        >
-          Connect with trusted partners for military, safety, and official footwear.
-          Streamline your procurement process with Tabison Suppliers.
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            gap: 2,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            component={RouterLink}
-            to="/suppliers"
-            variant="contained"
-            size="large"
-            endIcon={<ArrowForward />}
-            sx={{
-              bgcolor: '#4fd1c5',
-              color: '#1a202c',
-              fontWeight: 600,
-              py: 1.5,
-              px: 4,
-              borderRadius: 2,
-              '&:hover': {
-                bgcolor: '#38b2ac',
-              },
-            }}
-          >
-            Browse Suppliers
-          </Button>
-        </Box>
+      <Container maxWidth="lg">
+        <Grid container spacing={4} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{
+                fontWeight: 700,
+                color: '#000',
+                mb: 3,
+                fontSize: { xs: '2.5rem', md: '3.5rem' },
+                lineHeight: 1.2
+              }}
+            >
+              Premium Suppliers.
+              <br />
+              <Box component="span" sx={{ color: '#1D6D73' }}>
+                Delivered Daily.
+              </Box>
+            </Typography>
+
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#666',
+                mb: 4,
+                fontWeight: 400,
+                lineHeight: 1.6,
+                maxWidth: '500px'
+              }}
+            >
+              Connect with verified suppliers across Kenya. Get quality products, 
+              competitive prices, and reliable delivery for your business needs.
+            </Typography>
+
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button
+                component={Link}
+                to="/products"
+                variant="contained"
+                size="large"
+                endIcon={<ArrowForward />}
+                sx={{
+                  backgroundColor: '#1D6D73',
+                  color: '#fff',
+                  px: 4,
+                  py: 1.5,
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  borderRadius: 2,
+                  '&:hover': {
+                    backgroundColor: '#155a5f'
+                  }
+                }}
+              >
+                Browse Products
+              </Button>
+
+              <Button
+                component={Link}
+                to="/request-quote"
+                variant="outlined"
+                size="large"
+                startIcon={<RequestQuote />}
+                sx={{
+                  borderColor: '#1D6D73',
+                  color: '#1D6D73',
+                  px: 4,
+                  py: 1.5,
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  borderRadius: 2,
+                  '&:hover': {
+                    borderColor: '#155a5f',
+                    backgroundColor: 'rgba(29, 109, 115, 0.05)'
+                  }
+                }}
+              >
+                Request Quote
+              </Button>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                height: { xs: 300, md: 400 },
+                backgroundColor: '#f8f9fa',
+                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid #e9ecef'
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ color: '#6c757d', textAlign: 'center' }}
+              >
+                Hero Image/Video
+                <br />
+                (Supply Chain Visual)
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection
