@@ -1,0 +1,451 @@
+Tekiria's website is:
+🧘🏽‍♀️ Minimalistic
+🎯 Focused (Clean navigation, uncluttered pages)
+🖼️ Visually sharp (consistent fonts, lots of white space, subtle animations)
+🟢 Feature-light on the surface but supports deep functionality (forms, shop, etc.)
+🌟 How You Can Have Both
+To match Tekiria’s look while integrating your rich feature set, here’s what to do:
+✅ 1. Use Modular Design
+Show essential features only when needed (e.g. hide admin & inventory tools unless logged in as admin)
+Use modals, dropdowns, and accordions to keep screens minimal
+✅ 2. Separate Admin Panel
+Put all complex admin tools on a separate subdomain (e.g. admin.tabisonsuppliers.com)
+That way the main site (tabisonsuppliers.com) can stay sleek and customer-focused
+✅ 3. Prioritize User Flow
+Like Tekiria, focus on product discovery, browsing, and quotes for the homepage
+Keep complex flows like checkout, login, etc. neatly guided
+✅ 4. Use Clean UI Libraries or Components
+Use Tailwind with Headless UI or shadcn/ui for smooth animations and crisp transitions
+Keep fonts, button styles, and card layouts uniform
+✅ 5. Optimize for Mobile First
+Tekiria is very mobile friendly
+
+Make sure all features collapse well into menus, modals, or tabs on mobile
+
+
+
+---
+
+🖼️ Suggested Pages to Look Like Tekiria
+
+PageTekiria-Inspired Look
+
+HomepageClean hero banner, 2–3 featured products, CTA buttons
+Product ListingGrid layout, image hover zoom, light filter sidebar
+Request QuoteMinimal form like Tekiria’s “Talk to Us”
+Login/RegisterModal or overlay, not full page
+Product DetailsLarge image, brief spec, Add to Cart/Quote button
+NavigationTop bar + burger menu on mobile, just like Tekiria
+Core Features Overview
+
+1. Authentication & User Access
+
+[ ] Google login
+
+[ ] Apple login
+
+[ ] Email & phone-based OTP verification
+
+[ ] User registration with secure authentication (JWT/session)
+
+[ ] Role-based login (Admin vs Client)
+
+[ ] Logout/Sign out functionality
+
+
+2. Client Features
+
+[ ] Homepage with featured products, search, filters
+
+[ ] Product listing & detail pages
+
+[ ] Wishlist page
+
+[ ] Inventory visibility (stock availability per item)
+
+[ ] Request a Quote for bulk orders
+
+[ ] Order tracking page (tracking number/status updates)
+
+[ ] Profile settings & edit functionality
+
+[ ] Receive receipts via email in PDF format
+
+[ ] Checkout & cart functionality
+
+[ ] Payment integration (suggestions: M-Pesa, Stripe, PayPal)
+
+
+3. Admin Features
+
+[ ] Admin dashboard with authentication
+
+[ ] CRUD operations: Add/Edit/Delete products
+
+[ ] Add product descriptions/images/SEO metadata
+
+[ ] Manage categories (CRUD)
+
+[ ] Manage users (view/edit/block)
+
+[ ] View, manage and update orders
+
+[ ] Process and monitor payments
+
+[ ] Manage inventory (add stock levels manually or auto)
+
+
+4. System Features
+
+[ ] REST APIs for:
+
+Products
+
+Cart
+
+Checkout
+
+Admin panel
+
+
+[ ] Delivery options selector at checkout
+
+[ ] SEO optimization for better Google indexing
+
+[ ] PDF generator for receipts
+
+[ ] Email notifications (order confirmation, delivery updates, etc.)
+
+[ ] Secure database setup (MongoDB, PostgreSQL, MySQL)
+
+
+
+---
+
+🎯 Tech Stack Suggestions
+
+Frontend: React + Vite + Tailwind CSS
+
+Backend: Node.js + Express.js or NestJS
+
+Database: MongoDB (NoSQL) or PostgreSQL (Relational)
+
+Authentication: Firebase Auth / Auth0 / NextAuth
+
+PDF & Email:
+
+PDF: pdf-lib, jspdf, or puppeteer
+
+Email: Nodemailer or third-party like SendGrid
+
+
+Payment Integration:
+
+M-Pesa API (for Kenya)
+
+Stripe (for card payments)
+
+PayPal (for international clients)
+
+
+
+
+---
+
+🆕 Additional Suggestions
+
+FeatureReason
+
+📦 Product VariantsColor, size, packaging options
+🌐 Language SwitcherFor multilingual audiences (optional)
+🔐 2FAFor admin accounts (via email or app)
+📝 Blog/News PageBoost SEO + keep users informed
+📊 Analytics Dashboard (Admin)Monitor orders, revenue, traffic
+🧾 InvoicesDownloadable invoice with each order
+📮 Newsletter SignupCollect emails for campaigns
+📁 Order HistoryClients can view past orders
+Pages
+
+[ ] / – Homepage with Hero, Products, About
+
+[ ] /products – All products, filter options
+
+[ ] /about – Company background
+
+[ ] /contact – Form with email and phone
+
+[ ] /cart – (optional for future)Navbar.tsx/components/Navbar.tsxSticky top nav with logo and links
+Hero.tsx/sections/Hero.tsxMain banner + tagline + CTA
+CategoryGrid.tsx/sections/CategoryGridCards for product categories
+ProductCard.tsx/components/ProductCardReusable for all product displays
+Footer.tsx/components/Footer.tsxInfo, copyright, social links
+Hero Section
+
+Logo, slogan ("Delivering Tomorrow, Today"), and CTA (e.g., “Shop Now”)
+
+Background image or simple gradient
+
+
+
+2. Product Categories
+
+3-column grid with icons or thumbnails
+
+
+
+3. Why Tabison?
+
+Short text, icons (e.g., Delivery, Support)
+
+
+
+4. Featured Products
+
+Cards with image, name, price
+
+
+
+5. Testimonials / Partners
+
+
+6. Contact Info + Footer
+
+Extracted Brand Colors from Logo
+
+Color UseHex CodeNotes
+
+Primary Teal#1D6D73For headers, buttons, accents
+Deep Black (Truck)#000000For text, nav, and bold areas
+Light Gray Background#DCDCDC or #F4F4F4Clean soft sections
+White#FFFFFFBackgrounds, cards, spacing💡 Project: Tabison Suppliers — Full-Stack E-commerce Platform
+
+🛠️ Tech Stack:
+- Frontend: React + Vite + TailwindCSS
+- Backend: Node.js + Express
+- Database: MongoDB (via Mongoose)
+- Deployment: Vercel (Frontend), Render (Backend)
+- Email: Nodemailer
+- Auth: JWT + Firebase Auth (for OTP/Google/Apple logins)
+- Image Hosting: Cloudinary
+- PDF Receipts: PDFKit
+
+📁 File structure:
+- /frontend
+  - /src/components, /pages, /context, /hooks
+- /backend
+  - /routes, /controllers, /models, /middleware, /utils, server.js
+- Tailwind setup
+- MongoDB connection
+- Vite config
+
+✨ Core Features to Implement:
+
+🔐 **Authentication**
+- User registration, login, logout
+- Auth via email/password, Google, and Apple
+- OTP-based login via Firebase (phone or email)
+- JWT token handling
+- Role-based auth: client vs admin
+
+🛒 **E-commerce Features**
+- Product listing page with filters (category, price)
+- Product detail page
+- Add to cart, wishlist, and bulk "Request Quote" form
+- Checkout flow with payment integration (e.g., Stripe or M-Pesa)
+- Inventory count system
+
+📦 **Order Tracking**
+- Clients can track orders via unique order ID or status
+- Admins can update order status
+
+📄 **Receipts & Emails**
+- After payment, client receives PDF receipt via email
+- Use Nodemailer + PDFKit to generate and send
+
+🧾 **Admin Dashboard**
+- Add/edit/delete products (CRUD)
+- Manage orders, inventory, and payments
+- Manage categories and suppliers
+- Admin-only routes with JWT + middleware
+
+📋 **Client Dashboard**
+- View/edit profile
+- View order history and wishlist
+- Resend invoice or request support
+
+🛠️ **API (Backend)**
+- Products: CRUD + search/filter
+- Auth: Register, login, logout, Google/Firebase/OTP support
+- Cart: Add/remove/update
+- Orders: Place/view/manage
+- Admin: Auth-protected routes
+- Users: Role & profile management
+
+📊 **Other**
+- Use REST API (you may later switch to GraphQL)
+- Basic SEO setup
+- Responsive design matching this reference: https://www.tekiria.co.ke/
+- Use branding colors based on the uploaded logo
+
+📌 Deliver everything in a single monorepo structure (frontend & backend), ready to deploy.I'm building an ecommerce platform called Tabison Suppliers using:
+
+Frontend: React (Vite) + Tailwind CSS
+
+Backend: Node.js + Express
+
+Database: MongoDB or PostgreSQL (recommend the better fit)
+
+Auth: Google & Apple Login, OTP via email/SMS
+
+
+🔧 Features Required:
+
+User registration + login with Google/Apple + OTP
+
+Homepage with search bar + product filters
+
+Product listing page and detail page
+
+Add to cart, wishlist, and bulk quote request feature
+
+Delivery options
+
+Inventory count management
+
+Checkout with payment integration (M-Pesa, Stripe, PayPal)
+
+Generate PDF receipts and email them
+
+Track order page (with delivery status)
+
+Admin/client login split: access control
+
+Admin CRUD dashboard:
+
+Add/edit/delete products
+
+Manage categories
+
+View/manage orders and payments
+
+
+SEO optimization (meta tags, sitemap, etc.)
+
+Settings page for profile updates
+
+Logout, sign out features
+You have provided a very detailed and well-structured vision for your Tabison Suppliers ecommerce platform, inspired by the Tekiria website’s minimalistic, focused, and visually sharp design style combined with rich and advanced ecommerce features.
+To best help, here is a synthesized guide tailored to your goals, including design principles, feature prioritization, tech stack alignment, and a recommended stepwise approach to implementation.
+
+
+Key Design Philosophy to Match Tekiria’s Look
+Minimalistic & Focused UI:
+Keep the interface clean with few but essential visible elements. Use whitespace generously.
+Modularize complex features to show only when needed (e.g., admin tools are hidden from customers).
+Visual Sharpness:
+Consistent use of clear fonts, brand colors (#1D6D73 teal, #000 black, soft grays and white), subtle animations and transitions using UI libraries (Headless UI or shadcn/ui).
+Feature-Light Surface with Deep Functionality:
+Show just what the user needs upfront (product discovery, search, quote requests), with advanced features accessed through clear flows or separate routes.
+Mobile-First & Responsive:
+Design each page to collapse gracefully on smaller devices with hamburger menus, modals, tabs, accordions, etc.
+
+
+Modular Site Architecture & Suggested Page Structure (Tekiria-Inspired)
+PageDescription
+/ homepage
+Hero section with logo, slogan, strong CTA; 2–3 featured products; short "Why Tabison" section; testimonials
+/products
+Grid product listing with image hovers, filter sidebar (category, price)
+/product/:id
+Large product images, specs, add to cart/quote buttons
+/request-quote
+Minimal quote request form (like Tekiria’s “Talk to Us")
+/login & /register
+Modal overlays instead of full pages
+/about
+Company background page
+/cart
+Optional cart page showing selected products
+/contact
+Contact form with email/phone inputs
+
+
+Core Features Overview (Grouped by Category)
+CategoryFeatures / Notes
+Authentication & Access
+Google & Apple login, OTP (Firebase), email registration, JWT sessions, role-based login (Admin vs Client), logout functionality
+Client Experience
+Product search & filters, wishlist, bulk quote requests, inventory visibility, checkout/payment (M-Pesa, Stripe, PayPal), order tracking, receipts via email as PDF, profile settings
+Admin Dashboard
+Login (JWT-based), CRUD on products/categories/suppliers/users, order and payment management, inventory control, SEO metadata management
+Backend API
+RESTful endpoints for products, cart, orders, admin functions
+System Utilities
+PDF receipt generation (PDFKit), email notifications (Nodemailer), SEO optimization, multilingual support (optional), analytics dashboard (admin)
+
+
+Suggested Tech Stack Alignment
+Frontend: React + Vite + Tailwind CSS + Headless UI/shadcn/ui
+Backend: Node.js + Express
+Database: MongoDB (recommended for product catalog flexibility and scalability)
+Authentication: Firebase Auth for OTP & social login, JWT for session management
+Other: Nodemailer + PDFKit for emails and PDFs; Cloudinary for image upload/hosting; Payment APIs for M-Pesa, Stripe, PayPal
+
+
+Brand Colors (from logo and your notes)
+UsageHex Code
+Primary Teal
+#1D6D73
+Deep Black (Text)
+#000000
+Light Gray BG
+#DCDCDC / #F4F4F4
+White (Background)
+#FFFFFF
+Use these colors consistently for headers, buttons, icons, backgrounds, and text.
+
+
+Stepwise Development Plan for You
+Step 1: Set up Project Structure and Basic Styling
+Initialize frontend with React + Vite + Tailwind CSS
+Set up Tailwind config with your brand colors
+Create core layout components: Navbar, Footer, Hero (with logo, slogan), and empty HomePage
+Responsive/mobile-first setup with burger menu on navbar
+Step 2: Build Static Page Mockups for Main Pages
+Homepage with hero banner, featured products (static data)
+Products grid page with filters sidebar UI (no data yet)
+Request Quote minimal form page
+Product detail page layout
+Step 3: Backend Setup and API Development
+Node.js + Express server with MongoDB schema models for products, users, orders, categories, suppliers
+REST API endpoints for core CRUD and queries
+Authentication APIs integrated with Firebase Auth and JWT middleware for protected routes
+Step 4: Integrate Frontend with Backend API
+Fetch products to display in product listing & detail pages
+Implement user registration/login flows
+Cart and wishlist functionalities
+Step 5: Admin Features (can be partially developed in parallel)
+Create a separate admin panel (or subdomain later)
+Admin authentication and authorization
+CRUD for products, categories, users, and orders
+Step 6: Payment, PDF, Email & Notifications
+Integrate payment gateways (M-Pesa, Stripe, PayPal)
+Generate and email PDF receipts
+Order tracking and status update emails
+Step 7: Polish UI with Animations and Accessibility
+Use UI libs for smooth transitions/animations
+Ensure mobile UX with modals, accordions, and responsive layouts
+Optimize SEO and implement sitemap/meta tags
+
+
+Additional Suggestions
+Keep the admin panel separate (subdomain) to avoid cluttering the customer-facing site
+Use environment variables for API URLs, keys, payment credentials securely
+Consider analytics to track traffic and conversions
+Optional enhancements can include multilingual support, 2FA for admins, blog/news pages
+
+
+Summary
+You have a solid feature and design roadmap that aligns well with Tekiria’s minimalistic yet functional style. Focus on modularity and user flow to keep the main site sleek while supporting all your rich feature set.
+I suggest starting by setting up your frontend project structure and static page layouts with Tailwind styled components according to your brand colors. Then gradually build backend APIs and integrate progressively.
+can I sent each document step to step to ensure the website the Tabison Suppliers to looks the same as https://www.tekiria.co.ke/   Summarize this for me
