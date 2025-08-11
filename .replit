@@ -17,6 +17,7 @@ externalPort = 4200
 exposeLocalhost = true
 
 [workflows]
+runButton = "Start Application"
 
 [[workflows.workflow]]
 name = "Check Environment"
@@ -26,3 +27,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd backend && npm run check-env"
+
+[[workflows.workflow]]
+name = "Start Application"
+author = 46232809
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
