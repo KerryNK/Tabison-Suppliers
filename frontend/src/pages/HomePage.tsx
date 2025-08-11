@@ -225,12 +225,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-<<<<<<< Current (Your changes)
-<<<<<<< Current (Your changes)
-export default HomePage
-=======
 export default HomePage;
->>>>>>> Incoming (Background Agent changes)
-=======
-export default HomePage;
->>>>>>> Incoming (Background Agent changes)
