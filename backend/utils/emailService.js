@@ -1,200 +1,204 @@
 
 const nodemailer = require('nodemailer');
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
-const path = require('path');
+const config = require('../config/env');
 
-// Email transporter configuration
+// Create transporter
 const createTransporter = () => {
   return nodemailer.createTransporter({
-    service: 'gmail',
+    host: config.EMAIL_HOST,
+    port: config.EMAIL_PORT,
+    secure: false,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD
-    }
+      user: config.EMAIL_USER,
+      pass: config.EMAIL_PASS,
+    },
   });
 };
 
-// Generate PDF receipt
-const generateReceipt = async (order) => {
-  return new Promise((resolve, reject) => {
-    const doc = new PDFDocument();
-    const filename = `receipt-${order.orderNumber}.pdf`;
-    const filepath = path.join(__dirname, '../temp', filename);
-    
-    // Ensure temp directory exists
-    const tempDir = path.dirname(filepath);
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
-    
-    doc.pipe(fs.createWriteStream(filepath));
-    
-    // Header
-    doc.fontSize(20).text('TABISON SUPPLIERS', 50, 50);
-    doc.fontSize(12).text('Quality Products, Quality Service in Kenya', 50, 80);
-    doc.text('Phone: +254 700 000 000 | Email: info@tabisonsuppliers.com', 50, 95);
-    
-    // Order details
-    doc.fontSize(16).text('ORDER RECEIPT', 50, 130);
-    doc.fontSize(12);
-    doc.text(`Order Number: ${order.orderNumber}`, 50, 160);
-    doc.text(`Date: ${order.createdAt.toLocaleDateString()}`, 50, 175);
-    doc.text(`Payment Status: ${order.payment.status.toUpperCase()}`, 50, 190);
-    
-    // Customer details
-    doc.text('BILLING ADDRESS:', 50, 220);
-    doc.text(`${order.shipping.address.street}`, 50, 235);
-    doc.text(`${order.shipping.address.city}, ${order.shipping.address.county}`, 50, 250);
-    doc.text(`${order.shipping.address.country}`, 50, 265);
-    
-    // Items table
-    let yPosition = 300;
-    doc.text('ITEMS:', 50, yPosition);
-    yPosition += 20;
-    
-    // Table headers
-    doc.text('Item', 50, yPosition);
-    doc.text('Qty', 300, yPosition);
-    doc.text('Price', 350, yPosition);
-    doc.text('Total', 450, yPosition);
-    yPosition += 15;
-    
-    // Draw line
-    doc.moveTo(50, yPosition).lineTo(550, yPosition).stroke();
-    yPosition += 10;
-    
-    // Items
-    order.items.forEach(item => {
-      doc.text(item.product.name, 50, yPosition, { width: 240 });
-      doc.text(item.quantity.toString(), 300, yPosition);
-      doc.text(`Ksh ${item.price.toLocaleString()}`, 350, yPosition);
-      doc.text(`Ksh ${(item.quantity * item.price).toLocaleString()}`, 450, yPosition);
-      yPosition += 20;
-    });
-    
-    // Totals
-    yPosition += 10;
-    doc.moveTo(50, yPosition).lineTo(550, yPosition).stroke();
-    yPosition += 15;
-    
-    doc.text(`Subtotal: Ksh ${order.payment.amount.subtotal.toLocaleString()}`, 350, yPosition);
-    yPosition += 15;
-    doc.text(`Shipping: Ksh ${order.payment.amount.shipping.toLocaleString()}`, 350, yPosition);
-    yPosition += 15;
-    doc.fontSize(14).text(`TOTAL: Ksh ${order.payment.amount.total.toLocaleString()}`, 350, yPosition);
-    
-    // Footer
-    doc.fontSize(10).text('Thank you for your business!', 50, yPosition + 50);
-    doc.text('For support, contact us at support@tabisonsuppliers.com', 50, yPosition + 65);
-    
-    doc.end();
-    
-    doc.on('end', () => {
-      resolve(filepath);
-    });
-    
-    doc.on('error', (err) => {
-      reject(err);
-    });
-  });
-};
-
-// Send receipt email
-exports.sendReceiptEmail = async (order) => {
+// Send OTP Email
+const sendOTPEmail = async (email, otp, name, subject = 'Email Verification') => {
   try {
     const transporter = createTransporter();
-    const receiptPath = await generateReceipt(order);
-    
+
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: order.customer.email,
-      subject: `Order Confirmation - ${order.orderNumber}`,
+      from: config.EMAIL_FROM,
+      to: email,
+      subject: `${subject} - Tabison Suppliers`,
       html: `
-        <h2>Thank you for your order!</h2>
-        <p>Dear ${order.customer.name || 'Valued Customer'},</p>
-        <p>Your order <strong>${order.orderNumber}</strong> has been confirmed and is being processed.</p>
-        <p><strong>Order Details:</strong></p>
-        <ul>
-          <li>Order Number: ${order.orderNumber}</li>
-          <li>Total Amount: Ksh ${order.payment.amount.total.toLocaleString()}</li>
-          <li>Payment Status: ${order.payment.status}</li>
-        </ul>
-        <p>Please find your receipt attached to this email.</p>
-        <p>You can track your order status at: <a href="${process.env.FRONTEND_URL}/orders/${order._id}">Track Order</a></p>
-        <p>Thank you for choosing Tabison Suppliers!</p>
-        <br>
-        <p>Best regards,<br>Tabison Suppliers Team</p>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Email Verification</title>
+          <style>
+            .container { max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; }
+            .header { background: #2563eb; color: white; padding: 20px; text-align: center; }
+            .content { padding: 30px; background: #f9fafb; }
+            .otp-box { background: white; border: 2px dashed #2563eb; padding: 20px; text-align: center; margin: 20px 0; }
+            .otp-code { font-size: 32px; font-weight: bold; color: #2563eb; letter-spacing: 5px; }
+            .footer { background: #1f2937; color: #9ca3af; padding: 20px; text-align: center; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Tabison Suppliers</h1>
+            </div>
+            <div class="content">
+              <h2>Hello ${name},</h2>
+              <p>Your verification code is:</p>
+              <div class="otp-box">
+                <div class="otp-code">${otp}</div>
+              </div>
+              <p>This code will expire in 10 minutes.</p>
+              <p>If you didn't request this, please ignore this email.</p>
+            </div>
+            <div class="footer">
+              <p>&copy; 2024 Tabison Suppliers. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+        </html>
       `,
-      attachments: [{
-        filename: `receipt-${order.orderNumber}.pdf`,
-        path: receiptPath
-      }]
     };
-    
+
     await transporter.sendMail(mailOptions);
-    
-    // Clean up temp file
-    fs.unlinkSync(receiptPath);
-    
-    console.log(`Receipt email sent for order ${order.orderNumber}`);
+    console.log(`✅ OTP email sent to ${email}`);
   } catch (error) {
-    console.error('Error sending receipt email:', error);
+    console.error('❌ Email sending error:', error);
+    throw error;
   }
 };
 
-// Send order status update email
-exports.sendOrderStatusUpdate = async (order, previousStatus) => {
+// Send Password Reset Email
+const sendPasswordResetEmail = async (email, resetToken, name) => {
   try {
     const transporter = createTransporter();
-    
-    let subject = '';
-    let message = '';
-    
-    switch (order.status) {
-      case 'confirmed':
-        subject = `Order Confirmed - ${order.orderNumber}`;
-        message = 'Your order has been confirmed and is being prepared for shipment.';
-        break;
-      case 'processing':
-        subject = `Order Processing - ${order.orderNumber}`;
-        message = 'Your order is currently being processed in our warehouse.';
-        break;
-      case 'shipped':
-        subject = `Order Shipped - ${order.orderNumber}`;
-        message = `Your order has been shipped! Tracking number: ${order.tracking.trackingNumber}`;
-        break;
-      case 'delivered':
-        subject = `Order Delivered - ${order.orderNumber}`;
-        message = 'Your order has been successfully delivered. Thank you for your business!';
-        break;
-      default:
-        return;
-    }
-    
+    const resetUrl = `${config.FRONTEND_URL}/reset-password/${resetToken}`;
+
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: order.customer.email,
-      subject: subject,
+      from: config.EMAIL_FROM,
+      to: email,
+      subject: 'Password Reset - Tabison Suppliers',
       html: `
-        <h2>Order Status Update</h2>
-        <p>Dear ${order.customer.name || 'Valued Customer'},</p>
-        <p>${message}</p>
-        <p><strong>Order Details:</strong></p>
-        <ul>
-          <li>Order Number: ${order.orderNumber}</li>
-          <li>Status: ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</li>
-          ${order.tracking.trackingNumber ? `<li>Tracking Number: ${order.tracking.trackingNumber}</li>` : ''}
-        </ul>
-        <p>You can track your order at: <a href="${process.env.FRONTEND_URL}/orders/${order._id}">Track Order</a></p>
-        <br>
-        <p>Best regards,<br>Tabison Suppliers Team</p>
-      `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Password Reset</title>
+          <style>
+            .container { max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; }
+            .header { background: #dc2626; color: white; padding: 20px; text-align: center; }
+            .content { padding: 30px; background: #f9fafb; }
+            .reset-button { display: inline-block; padding: 15px 30px; background: #dc2626; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .footer { background: #1f2937; color: #9ca3af; padding: 20px; text-align: center; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Password Reset Request</h1>
+            </div>
+            <div class="content">
+              <h2>Hello ${name},</h2>
+              <p>You requested a password reset. Click the button below to reset your password:</p>
+              <div style="text-align: center;">
+                <a href="${resetUrl}" class="reset-button">Reset Password</a>
+              </div>
+              <p>This link will expire in 30 minutes.</p>
+              <p>If you didn't request this, please ignore this email.</p>
+              <p><small>If the button doesn't work, copy this link: ${resetUrl}</small></p>
+            </div>
+            <div class="footer">
+              <p>&copy; 2024 Tabison Suppliers. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
     };
-    
+
     await transporter.sendMail(mailOptions);
-    console.log(`Status update email sent for order ${order.orderNumber}`);
+    console.log(`✅ Password reset email sent to ${email}`);
   } catch (error) {
-    console.error('Error sending status update email:', error);
+    console.error('❌ Password reset email error:', error);
+    throw error;
   }
+};
+
+// Send Order Confirmation Email
+const sendOrderConfirmationEmail = async (email, order, name) => {
+  try {
+    const transporter = createTransporter();
+
+    const mailOptions = {
+      from: config.EMAIL_FROM,
+      to: email,
+      subject: `Order Confirmation #${order.orderNumber} - Tabison Suppliers`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Order Confirmation</title>
+          <style>
+            .container { max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; }
+            .header { background: #059669; color: white; padding: 20px; text-align: center; }
+            .content { padding: 30px; background: #f9fafb; }
+            .order-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+            .item { border-bottom: 1px solid #e5e7eb; padding: 10px 0; }
+            .total { font-weight: bold; font-size: 18px; color: #059669; }
+            .footer { background: #1f2937; color: #9ca3af; padding: 20px; text-align: center; font-size: 14px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Order Confirmed!</h1>
+            </div>
+            <div class="content">
+              <h2>Thank you ${name}!</h2>
+              <p>Your order has been confirmed and is being processed.</p>
+              
+              <div class="order-details">
+                <h3>Order #${order.orderNumber}</h3>
+                <p><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+                <p><strong>Status:</strong> ${order.status}</p>
+                
+                <h4>Items:</h4>
+                ${order.items.map(item => `
+                  <div class="item">
+                    <strong>${item.product.name}</strong><br>
+                    Quantity: ${item.quantity} × Ksh ${item.price.toLocaleString()} = Ksh ${(item.quantity * item.price).toLocaleString()}
+                  </div>
+                `).join('')}
+                
+                <div class="total">
+                  Total: Ksh ${order.payment.amount.total.toLocaleString()}
+                </div>
+              </div>
+              
+              <p>You can track your order status at any time by visiting our website.</p>
+            </div>
+            <div class="footer">
+              <p>&copy; 2024 Tabison Suppliers. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Order confirmation email sent to ${email}`);
+  } catch (error) {
+    console.error('❌ Order confirmation email error:', error);
+    throw error;
+  }
+};
+
+module.exports = {
+  sendOTPEmail,
+  sendPasswordResetEmail,
+  sendOrderConfirmationEmail
 };

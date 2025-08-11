@@ -11,7 +11,7 @@ const config = {
 
   // Database Configuration
   MONGO_URI:
-    process.env.MONGO_URI || "mongodb+srv://kerrym:W2DDlHaNZtvbg45u@cluster0.qjjen.mongodb.net/tabison-suppliers",
+    process.env.MONGO_URI || "mongodb+srv://tabisonsuppliers:password123@cluster0.mongodb.net/suppliers-db?retryWrites=true&w=majority",
 
   // JWT Configuration
   JWT_SECRET: process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production",
