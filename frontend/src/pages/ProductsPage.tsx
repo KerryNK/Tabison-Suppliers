@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, Filter, Star, ShoppingCart, Heart, Grid3X3, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -11,22 +11,31 @@ const ProductsPage: React.FC = () => {
   const [sortBy, setSortBy] = useState("newest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
-  
+
   const api = useApi();
 
+  // Refetch when filters change — add all filter states to query key for proper cache and refetching
   const { data: productsData, isLoading } = useQuery({
-    queryKey: ["products", { search: searchTerm, category }],
-    queryFn: () => api.getProducts({ search: searchTerm, category }),
+    queryKey: ["products", { search: searchTerm, category, priceRange, sortBy }],
+    queryFn: () =>
+      api.getProducts({
+        search: searchTerm,
+        category,
+        priceRange,
+        sortBy,
+      }),
   });
 
   const products = productsData?.data?.data || [];
 
   const categories = [
     { value: "", label: "All Categories" },
-    { value: "military", label: "Military Footwear" },
-    { value: "safety", label: "Safety Footwear" },
-    { value: "official", label: "Official Footwear" },
-    { value: "industrial", label: "Industrial Footwear" },
+    { value: "military", label: "Military Boots" },
+    { value: "safety", label: "Safety Boots" },
+    { value: "gear", label: "Gear" },
+    { value: "accessories", label: "Accessories" },
+    { value: "electronics", label: "Electronics" },
+    { value: "clothing", label: "Hoodies" },
   ];
 
   const priceRanges = [
@@ -75,7 +84,7 @@ const ProductsPage: React.FC = () => {
                 </button>
               </div>
 
-              <div className={`space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+              <div className={`space-y-6 ${showFilters ? "block" : "hidden lg:block"}`}>
                 {/* Search */}
                 <div>
                   <label className="block text-sm font-medium text-brand-black mb-2">
@@ -98,9 +107,9 @@ const ProductsPage: React.FC = () => {
                   <label className="block text-sm font-medium text-brand-black mb-2">
                     Category
                   </label>
-                  <div className="space-y-2">
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
                     {categories.map((cat) => (
-                      <label key={cat.value} className="flex items-center">
+                      <label key={cat.value || "all"} className="flex items-center">
                         <input
                           type="radio"
                           name="category"
@@ -155,10 +164,12 @@ const ProductsPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <div className="text-sm text-gray-600">
                 {products.length > 0 && (
-                  <span>{products.length} product{products.length !== 1 ? 's' : ''} found</span>
+                  <span>
+                    {products.length} product{products.length !== 1 ? "s" : ""} found
+                  </span>
                 )}
               </div>
-              
+
               <div className="flex items-center gap-4">
                 {/* Sort */}
                 <select
@@ -208,11 +219,13 @@ const ProductsPage: React.FC = () => {
                 </div>
               </div>
             ) : products.length > 0 ? (
-              <div className={`${
-                viewMode === "grid" 
-                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" 
-                  : "space-y-6"
-              }`}>
+              <div
+                className={`${
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                    : "space-y-6"
+                }`}
+              >
                 {products.map((product: any) => (
                   <div
                     key={product._id}
@@ -220,9 +233,11 @@ const ProductsPage: React.FC = () => {
                       viewMode === "list" ? "flex" : ""
                     }`}
                   >
-                    <div className={`${
-                      viewMode === "list" ? "w-48 flex-shrink-0" : "aspect-square"
-                    } overflow-hidden bg-brand-gray-bg relative`}>
+                    <div
+                      className={`${
+                        viewMode === "list" ? "w-48 flex-shrink-0" : "aspect-square"
+                      } overflow-hidden bg-brand-gray-bg relative`}
+                    >
                       <img
                         src={product.images?.[0] || "/placeholder.svg?height=300&width=300"}
                         alt={product.name}
@@ -234,7 +249,7 @@ const ProductsPage: React.FC = () => {
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="p-6 flex-1">
                       <div className="flex items-center gap-1 mb-2">
                         {[...Array(5)].map((_, i) => (
@@ -247,19 +262,17 @@ const ProductsPage: React.FC = () => {
                         ))}
                         <span className="text-sm text-gray-600 ml-1">(4.0)</span>
                       </div>
-                      
+
                       <h3 className="font-semibold text-lg text-brand-black mb-2 group-hover:text-brand-teal transition-colors">
                         {product.name}
                       </h3>
-                      
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {product.description}
-                      </p>
-                      
+
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+
                       <div className="inline-block bg-brand-teal/10 text-brand-teal px-3 py-1 rounded-full text-xs font-medium mb-3">
                         {product.category}
                       </div>
-                      
+
                       <div className="flex items-center justify-between">
                         <div>
                           <span className="text-xl font-bold text-brand-black">
@@ -271,7 +284,7 @@ const ProductsPage: React.FC = () => {
                             </p>
                           )}
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                           <Link
                             to={`/products/${product._id}`}
@@ -293,12 +306,8 @@ const ProductsPage: React.FC = () => {
                 <div className="w-16 h-16 bg-brand-gray-light rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-brand-black mb-2">
-                  No products found
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Try adjusting your search criteria or browse all categories
-                </p>
+                <h3 className="text-lg font-semibold text-brand-black mb-2">No products found</h3>
+                <p className="text-gray-600 mb-6">Try adjusting your search criteria or browse all categories</p>
                 <button
                   onClick={() => {
                     setSearchTerm("");

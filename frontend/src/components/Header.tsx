@@ -1,66 +1,76 @@
-
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Button, 
-  IconButton, 
-  Menu, 
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Menu,
   MenuItem,
   Box,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Tooltip,
 } from '@mui/material'
-import { 
-  Menu as MenuIcon, 
-  Person, 
-  ShoppingCart, 
+import {
+  Menu as MenuIcon,
+  Person,
+  ShoppingCart,
   Search,
-  KeyboardArrowDown
+  KeyboardArrowDown,
 } from '@mui/icons-material'
 
 const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null)
+
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const navigate = useNavigate()
 
+  const navigationItems = [
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Products', path: '/products' },
+    { label: 'Suppliers', path: '/suppliers' },
+    { label: 'Request Quote', path: '/request-quote' }, // fixed path
+    { label: 'Contact', path: '/contact' },
+    { label: 'Blog', path: '/blog' },
+  ]
+
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
-
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMenuAnchor(event.currentTarget)
   }
-
   const handleMenuClose = () => {
     setAnchorEl(null)
     setMobileMenuAnchor(null)
   }
 
-  const navigationItems = [
-    { label: 'Products', path: '/products' },
-    { label: 'Suppliers', path: '/suppliers' },
-    { label: 'Request Quote', path: '/request-quote' },
-    { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' }
-  ]
-
   return (
-    <AppBar 
-      position="sticky" 
+    <AppBar
+      position="sticky"
       elevation={0}
-      sx={{ 
+      sx={{
         backgroundColor: '#fff',
         borderBottom: '1px solid #e0e0e0',
-        color: '#000'
+        color: '#000',
       }}
     >
-      <Toolbar sx={{ px: { xs: 2, md: 4 }, py: 1 }}>
-        {/* Logo */}
+      <Toolbar sx={{ px: { xs: 2, md: 4 }, py: 1, display: 'flex', alignItems: 'center' }}>
+        {/* Logo Image */}
+        <Box
+          component="img"
+          src="/assets/logo.jpg"
+          alt="Tabison Suppliers Logo"
+          sx={{ height: 40, width: 'auto', mr: 2, cursor: 'pointer' }}
+          onClick={() => navigate('/')}
+        />
+
+        {/* Logo Text */}
         <Typography
           variant="h5"
           component={Link}
@@ -71,10 +81,10 @@ const Header: React.FC = () => {
             color: '#1D6D73',
             textDecoration: 'none',
             mr: 4,
-            fontSize: { xs: '1.2rem', md: '1.5rem' }
+            fontSize: { xs: '1.2rem', md: '1.5rem' },
           }}
         >
-          TABISON
+          TABISON SUPPLIERS
         </Typography>
 
         {/* Desktop Navigation */}
@@ -93,8 +103,8 @@ const Header: React.FC = () => {
                   px: 2,
                   '&:hover': {
                     backgroundColor: 'rgba(29, 109, 115, 0.1)',
-                    color: '#1D6D73'
-                  }
+                    color: '#1D6D73',
+                  },
                 }}
               >
                 {item.label}
@@ -105,43 +115,42 @@ const Header: React.FC = () => {
 
         {/* Right side actions */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {/* Search Icon */}
-          <IconButton 
-            sx={{ color: '#000' }}
-            onClick={() => navigate('/products')}
-          >
-            <Search />
-          </IconButton>
+          <Tooltip title="Search">
+            <IconButton
+              sx={{ color: '#000' }}
+              onClick={() => navigate('/products')}
+              aria-label="search"
+            >
+              <Search />
+            </IconButton>
+          </Tooltip>
 
-          {/* Cart Icon */}
-          <IconButton 
-            component={Link} 
-            to="/cart"
-            sx={{ color: '#000' }}
-          >
-            <ShoppingCart />
-          </IconButton>
+          <Tooltip title="Cart">
+            <IconButton component={Link} to="/cart" sx={{ color: '#000' }} aria-label="cart">
+              <ShoppingCart />
+            </IconButton>
+          </Tooltip>
 
-          {/* Profile/Login */}
           {!isMobile ? (
             <>
               <Button
                 onClick={handleProfileMenuOpen}
                 endIcon={<KeyboardArrowDown />}
-                sx={{
-                  color: '#000',
-                  textTransform: 'none',
-                  fontWeight: 500
-                }}
+                sx={{ color: '#000', textTransform: 'none', fontWeight: 500 }}
+                aria-controls={anchorEl ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
               >
                 Account
               </Button>
               <Menu
+                id="account-menu"
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                keepMounted
               >
                 <MenuItem component={Link} to="/login" onClick={handleMenuClose}>
                   Login
@@ -155,7 +164,14 @@ const Header: React.FC = () => {
               </Menu>
             </>
           ) : (
-            <IconButton sx={{ color: '#000' }} onClick={handleProfileMenuOpen}>
+            <IconButton
+              sx={{ color: '#000' }}
+              onClick={handleProfileMenuOpen}
+              aria-label="account"
+              aria-controls={anchorEl ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+            >
               <Person />
             </IconButton>
           )}
@@ -168,23 +184,24 @@ const Header: React.FC = () => {
                 color="inherit"
                 onClick={handleMobileMenuOpen}
                 sx={{ color: '#000' }}
+                aria-label="menu"
+                aria-controls={mobileMenuAnchor ? 'mobile-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={Boolean(mobileMenuAnchor) ? 'true' : undefined}
               >
                 <MenuIcon />
               </IconButton>
               <Menu
+                id="mobile-menu"
                 anchorEl={mobileMenuAnchor}
                 open={Boolean(mobileMenuAnchor)}
                 onClose={handleMenuClose}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                keepMounted
               >
                 {navigationItems.map((item) => (
-                  <MenuItem 
-                    key={item.label}
-                    component={Link} 
-                    to={item.path} 
-                    onClick={handleMenuClose}
-                  >
+                  <MenuItem key={item.label} component={Link} to={item.path} onClick={handleMenuClose}>
                     {item.label}
                   </MenuItem>
                 ))}
