@@ -2,8 +2,11 @@ const mongoose = require("mongoose")
 
 const connectDB = async () => {
   try {
-    // MongoDB connection string
-    const mongoURI = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/suppliers-db"
+    // MongoDB connection string - prioritize cloud databases
+    const mongoURI = process.env.MONGO_URI || 
+                    process.env.MONGODB_URI || 
+                    process.env.DATABASE_URL ||
+                    "mongodb+srv://tabisonsuppliers:password123@cluster0.mongodb.net/suppliers-db?retryWrites=true&w=majority"
 
     console.log("🔄 Connecting to MongoDB...")
 

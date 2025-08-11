@@ -1,76 +1,104 @@
-const mongoose = require("mongoose")
 
-const orderItemSchema = new mongoose.Schema({
-  product: {
+const mongoose = require('mongoose');
+
+const orderSchema = new mongoose.Schema({
+  orderNumber: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  customer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-    required: true,
+    ref: 'User',
+    required: true
   },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-})
-
-const orderSchema = new mongoose.Schema(
-  {
-    user: {
+  items: [{
+    product: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+      ref: 'Product',
+      required: true
     },
-    items: [orderItemSchema],
-    shippingAddress: {
-      name: { type: String, required: true },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    specifications: {
+      size: String,
+      color: String
+    }
+  }],
+  shipping: {
+    address: {
       street: { type: String, required: true },
       city: { type: String, required: true },
       county: { type: String, required: true },
-      country: { type: String, required: true },
-      phone: { type: String, required: true },
+      postalCode: String,
+      country: { type: String, default: 'Kenya' }
     },
-    paymentMethod: {
+    method: {
       type: String,
-      required: true,
-      enum: ["mpesa", "card", "bank_transfer", "cash_on_delivery"],
+      enum: ['standard', 'express', 'pickup'],
+      required: true
     },
-    paymentStatus: {
+    cost: {
+      type: Number,
+      required: true
+    }
+  },
+  payment: {
+    method: {
       type: String,
-      enum: ["pending", "paid", "failed", "refunded"],
-      default: "pending",
+      enum: ['mpesa', 'stripe', 'paypal', 'bank-transfer'],
+      required: true
     },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"],
-      default: "pending",
+      enum: ['pending', 'processing', 'completed', 'failed', 'refunded'],
+      default: 'pending'
     },
-    subtotal: {
-      type: Number,
-      required: true,
-    },
-    tax: {
-      type: Number,
-      default: 0,
-    },
-    shipping: {
-      type: Number,
-      default: 0,
-    },
-    total: {
-      type: Number,
-      required: true,
-    },
+    transactionId: String,
+    paidAt: Date,
+    amount: {
+      subtotal: { type: Number, required: true },
+      shipping: { type: Number, required: true },
+      tax: { type: Number, default: 0 },
+      total: { type: Number, required: true }
+    }
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'],
+    default: 'pending'
+  },
+  tracking: {
     trackingNumber: String,
+    carrier: String,
     estimatedDelivery: Date,
-    deliveredAt: Date,
+    actualDelivery: Date,
+    history: [{
+      status: String,
+      location: String,
+      timestamp: { type: Date, default: Date.now },
+      note: String
+    }]
   },
-  {
-    timestamps: true,
-  },
-)
+  notes: String
+}, {
+  timestamps: true
+});
 
-module.exports = mongoose.model("Order", orderSchema)
+// Generate order number
+orderSchema.pre('save', async function(next) {
+  if (this.isNew) {
+    const count = await mongoose.model('Order').countDocuments();
+    this.orderNumber = `TS${Date.now().toString().slice(-6)}${(count + 1).toString().padStart(3, '0')}`;
+  }
+  next();
+});
+
+module.exports = mongoose.model('Order', orderSchema);

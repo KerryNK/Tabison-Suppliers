@@ -1,99 +1,81 @@
-const mongoose = require("mongoose")
 
-const productSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Please add a product name"],
-      trim: true,
-    },
-    description: {
-      type: String,
-      required: [true, "Please add a description"],
-    },
-    price: {
-      type: Number,
-      required: [true, "Please add a price"],
-    },
-    retailPrice: {
-      type: Number,
-      required: [true, "Please add a retail price"],
-    },
-    category: {
-      type: String,
-      required: [true, "Please add a category"],
-      enum: ["military", "safety", "official", "industrial", "security", "professional"],
-    },
-    type: {
-      type: String,
-      required: [true, "Please add a product type"],
-    },
-    images: [
-      {
-        type: String,
-      },
-    ],
-    inStock: {
-      type: Boolean,
-      default: true,
-    },
-    stockQuantity: {
-      type: Number,
-      default: 0,
-    },
-    specifications: {
-      type: Map,
-      of: String,
-    },
-    features: [
-      {
-        type: String,
-      },
-    ],
-    tags: [
-      {
-        type: String,
-      },
-    ],
-    supplier: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Supplier",
-    },
-    reviews: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        rating: {
-          type: Number,
-          required: true,
-          min: 1,
-          max: 5,
-        },
-        comment: {
-          type: String,
-          required: true,
-        },
-        date: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-    averageRating: {
-      type: Number,
-      default: 0,
-    },
-    numReviews: {
-      type: Number,
-      default: 0,
-    },
-  },
-  {
-    timestamps: true,
-  },
-)
+const mongoose = require('mongoose');
 
-module.exports = mongoose.model("Product", productSchema)
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  retailPrice: {
+    type: Number,
+    required: true
+  },
+  category: {
+    type: String,
+    required: true,
+    enum: ['military-boots', 'safety-footwear', 'professional-equipment', 'accessories']
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  images: [{
+    type: String,
+    required: true
+  }],
+  stock: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  specifications: {
+    size: [String],
+    color: [String],
+    material: String,
+    weight: String,
+    certification: [String]
+  },
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Supplier'
+  },
+  seo: {
+    title: String,
+    description: String,
+    keywords: [String]
+  },
+  ratings: {
+    average: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5
+    },
+    count: {
+      type: Number,
+      default: 0
+    }
+  }
+}, {
+  timestamps: true
+});
+
+// Index for search optimization
+productSchema.index({ name: 'text', description: 'text', type: 'text' });
+productSchema.index({ category: 1, isActive: 1 });
+productSchema.index({ price: 1 });
+
+module.exports = mongoose.model('Product', productSchema);
