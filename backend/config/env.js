@@ -23,12 +23,23 @@ const config = {
   // External API
   EXTERNAL_API_URL: process.env.EXTERNAL_API_KEY || "https://suppliers-7zjy.onrender.com",
 
-  // Email Configuration (if needed)
+  // Email Configuration
   EMAIL_FROM: process.env.EMAIL_FROM || "noreply@tabisonsuppliers.com",
-  EMAIL_HOST: process.env.EMAIL_HOST,
+  EMAIL_HOST: process.env.EMAIL_HOST || "smtp.gmail.com",
   EMAIL_PORT: process.env.EMAIL_PORT || 587,
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASS: process.env.EMAIL_PASS,
+
+  // Payment - M-Pesa
+  MPESA_CONSUMER_KEY: process.env.MPESA_CONSUMER_KEY,
+  MPESA_CONSUMER_SECRET: process.env.MPESA_CONSUMER_SECRET,
+  MPESA_PASSKEY: process.env.MPESA_PASSKEY,
+  MPESA_SHORTCODE: process.env.MPESA_SHORTCODE,
+  MPESA_ENVIRONMENT: process.env.MPESA_ENVIRONMENT || "sandbox",
+
+  // Payment - Stripe
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
 
   // File Upload Configuration
   MAX_FILE_SIZE: process.env.MAX_FILE_SIZE || "5mb",
@@ -56,7 +67,7 @@ const config = {
 }
 
 // Validation
-const requiredEnvVars = ["MONGO_URI"]
+const requiredEnvVars = ["MONGO_URI", "JWT_SECRET", "EMAIL_USER", "EMAIL_PASS"]
 
 const missingEnvVars = requiredEnvVars.filter((envVar) => !config[envVar])
 

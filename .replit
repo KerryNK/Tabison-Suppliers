@@ -15,3 +15,14 @@ externalPort = 80
 localPort = 5173
 externalPort = 4200
 exposeLocalhost = true
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Check Environment"
+author = 46232809
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm run check-env"
