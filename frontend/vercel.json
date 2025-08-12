@@ -46,6 +46,7 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
+  ]
   ],
   "env": {
     "REACT_APP_API_URL": "https://suppliers-7zjy.onrender.com/api",
