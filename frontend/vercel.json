@@ -20,7 +20,7 @@
   ],
   "headers": [
     {
-      "source": "/static/.*",
+      "source": "/static/:path*",
       "headers": [
         {
           "key": "cache-control",
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "source": "/.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$",
+      "source": "/:path*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$",
       "headers": [
         {
           "key": "cache-control",
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "source": "/.*",
+      "source": "/:path*",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
