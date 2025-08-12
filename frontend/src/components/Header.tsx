@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
@@ -24,17 +24,17 @@ import {
 const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null)
-
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const navigate = useNavigate()
+  const location = useLocation()
 
   const navigationItems = [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
     { label: 'Products', path: '/products' },
     { label: 'Suppliers', path: '/suppliers' },
-    { label: 'Request Quote', path: '/request-quote' }, // fixed path
+    { label: 'Request Quote', path: '/request-quote' },
     { label: 'Contact', path: '/contact' },
     { label: 'Blog', path: '/blog' },
   ]
@@ -54,11 +54,7 @@ const Header: React.FC = () => {
     <AppBar
       position="sticky"
       elevation={0}
-      sx={{
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #e0e0e0',
-        color: '#000',
-      }}
+      sx={{ backgroundColor: '#fff', borderBottom: '1px solid #e0e0e0', color: '#000' }}
     >
       <Toolbar sx={{ px: { xs: 2, md: 4 }, py: 1, display: 'flex', alignItems: 'center' }}>
         {/* Logo Image */}
@@ -66,10 +62,10 @@ const Header: React.FC = () => {
           component="img"
           src="/assets/logo.jpg"
           alt="Tabison Suppliers Logo"
+          aria-label="Go to homepage"
           sx={{ height: 40, width: 'auto', mr: 2, cursor: 'pointer' }}
           onClick={() => navigate('/')}
         />
-
         {/* Logo Text */}
         <Typography
           variant="h5"
@@ -86,7 +82,6 @@ const Header: React.FC = () => {
         >
           TABISON SUPPLIERS
         </Typography>
-
         {/* Desktop Navigation */}
         {!isMobile && (
           <Box sx={{ flexGrow: 1, display: 'flex', ml: 4 }}>
@@ -96,23 +91,25 @@ const Header: React.FC = () => {
                 component={Link}
                 to={item.path}
                 sx={{
-                  color: '#000',
+                  color: location.pathname === item.path ? '#1D6D73' : '#000',
+                  backgroundColor:
+                    location.pathname === item.path ? 'rgba(29, 109, 115, 0.1)' : 'transparent',
                   textTransform: 'none',
                   fontWeight: 500,
                   mx: 1,
                   px: 2,
                   '&:hover': {
-                    backgroundColor: 'rgba(29, 109, 115, 0.1)',
+                    backgroundColor: 'rgba(29, 109, 115, 0.15)',
                     color: '#1D6D73',
                   },
                 }}
+                aria-current={location.pathname === item.path ? 'page' : undefined}
               >
                 {item.label}
               </Button>
             ))}
           </Box>
         )}
-
         {/* Right side actions */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Tooltip title="Search">
@@ -124,7 +121,6 @@ const Header: React.FC = () => {
               <Search />
             </IconButton>
           </Tooltip>
-
           <Tooltip title="Cart">
             <IconButton component={Link} to="/cart" sx={{ color: '#000' }} aria-label="cart">
               <ShoppingCart />
@@ -140,6 +136,7 @@ const Header: React.FC = () => {
                 aria-controls={anchorEl ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+                aria-label="account options"
               >
                 Account
               </Button>
@@ -167,7 +164,7 @@ const Header: React.FC = () => {
             <IconButton
               sx={{ color: '#000' }}
               onClick={handleProfileMenuOpen}
-              aria-label="account"
+              aria-label="account options"
               aria-controls={anchorEl ? 'account-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
@@ -184,7 +181,7 @@ const Header: React.FC = () => {
                 color="inherit"
                 onClick={handleMobileMenuOpen}
                 sx={{ color: '#000' }}
-                aria-label="menu"
+                aria-label="main menu"
                 aria-controls={mobileMenuAnchor ? 'mobile-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={Boolean(mobileMenuAnchor) ? 'true' : undefined}
