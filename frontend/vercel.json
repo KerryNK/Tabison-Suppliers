@@ -10,17 +10,17 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/.*",
       "destination": "https://suppliers-7zjy.onrender.com/api/$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/.*",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/static/(.*)",
+      "source": "/static/.*",
       "headers": [
         {
           "key": "cache-control",
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "source": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))",
+      "source": "/.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$",
       "headers": [
         {
           "key": "cache-control",
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "/.*",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
