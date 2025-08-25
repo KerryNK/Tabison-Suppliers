@@ -105,7 +105,7 @@
     "autoprefixer": "^10.4.21",
     "concurrently": "^8.2.0",
     "init": "^0.1.2",
-    "npx": "^10.2.2",
+    "npx": "^3.0.0",
     "postcss": "^8.5.6",
     "tailwind": "^2.3.1",
     "tailwindcss": "^4.1.11",
