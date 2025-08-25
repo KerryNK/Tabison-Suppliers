@@ -44,6 +44,7 @@ router.post('/verify-otp-email', async (req, res) => {
 });
 
 // Protected routes
+router.post('/someEndpoint', someControllerFunction);
 router.post('/enable-2fa', protect, admin, enable2FA);
 router.post('/confirm-2fa', protect, admin, confirm2FA);
 
