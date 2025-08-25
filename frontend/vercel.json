@@ -8,16 +8,16 @@
       "config": { "distDir": "build" }
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/.*",
-      "destination": "https://suppliers-7zjy.onrender.com/api/$1"
-    },
-    {
-      "source": "/.*",
-      "destination": "/index.html"
-    }
-  ],
+    "rewrites": [
+  {
+    "source": "/api/:path*",
+    "destination": "https://suppliers-7zjy.onrender.com/api/:path*"
+  },
+  {
+    "source": "/:path*",
+    "destination": "/index.html"
+  }
+],
   "headers": [
     {
       "source": "/static/:path*",
