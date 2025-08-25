@@ -59,6 +59,63 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 - **Wholesale Price**: KSh 2,300
 - **Retail Price**: KSh 2,500
 
+## 🚀 Deployment Instructions
+
+### Backend Deployment (Render)
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Use the following settings:
+   - Name: tabison-suppliers-api
+   - Environment: Node
+   - Build Command: `cd backend && npm install`
+   - Start Command: `cd backend && npm start`
+   - Root Directory: ./
+
+4. Add the following environment variables in Render:
+
+   ```env
+   NODE_ENV=production
+   MONGODB_URI=your_mongodb_uri
+   JWT_SECRET=your_jwt_secret
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   MPESA_CONSUMER_KEY=your_mpesa_consumer_key
+   MPESA_CONSUMER_SECRET=your_mpesa_consumer_secret
+   MPESA_PASSKEY=your_mpesa_passkey
+   MPESA_SHORTCODE=your_mpesa_shortcode
+   ```
+
+### Frontend Deployment (Vercel)
+
+1. Create a new project on Vercel
+2. Connect your GitHub repository
+3. Use the following settings:
+   - Framework Preset: Vite
+   - Root Directory: ./frontend
+   - Build Command: `npm run build`
+   - Output Directory: dist
+
+4. Add the following environment variables in Vercel:
+
+   ```env
+   VITE_API_URL=https://tabison-suppliers-api.onrender.com
+   ```
+
+### After Deployment
+
+1. Update the API URL in the frontend to point to your Render backend URL
+2. Test all API endpoints through the frontend to ensure connectivity
+3. Monitor the application logs on both Render and Vercel for any issues
+
+### Notes
+
+- The backend API is hosted at `https://tabison-suppliers-api.onrender.com`
+- The frontend is hosted at `https://tabisonsuppliers.vercel.app`
+- Make sure all environment variables are properly set in both platforms
+- The frontend is configured to proxy API requests to the backend
+
 #### PVC, Hooks, P-Shine
 - **Wholesale Price**: KSh 2,200
 - **Retail Price**: KSh 2,400
