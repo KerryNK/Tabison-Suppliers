@@ -180,7 +180,13 @@ const Header: React.FC = () => {
                 edge="end"
                 color="inherit"
                 onClick={handleMobileMenuOpen}
-                sx={{ color: '#000' }}
+                sx={{
+                  color: '#000',
+                  transition: 'transform 0.2s ease-in-out',
+                  '&:hover': {
+                    transform: 'scale(1.1)',
+                  },
+                }}
                 aria-label="main menu"
                 aria-controls={mobileMenuAnchor ? 'mobile-menu' : undefined}
                 aria-haspopup="true"

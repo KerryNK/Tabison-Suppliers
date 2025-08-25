@@ -43,16 +43,32 @@ const App: React.FC = () => {
             <AuthProvider>
               <Layout>
                 <Routes>
+                  {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/suppliers" element={<SuppliersPage />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/payment" element={<PaymentPage />} />
-                  <Route path="/orders" element={<OrdersPage />} />
-                  <Route path="/favorites" element={<FavoritesPage />} />
-                  <Route path="/track-order" element={<TrackOrderPage />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/suppliers" element={<SuppliersPage />} />
+                  <Route path="/login" element={<AuthPage mode="login" />} />
+                  <Route path="/register" element={<AuthPage mode="register" />} />
+                  <Route path="/forgot-password" element={<AuthPage mode="forgot-password" />} />
+                  
+                  {/* Protected Routes */}
+                  <Route element={<AuthGuard />}>
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/payment" element={<PaymentPage />} />
+                    <Route path="/orders" element={<OrdersPage />} />
+                    <Route path="/orders/:id" element={<OrderDetailPage />} />
+                    <Route path="/favorites" element={<FavoritesPage />} />
+                    <Route path="/track-order" element={<TrackOrderPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                  </Route>
+
+                  {/* Admin Routes */}
+                  <Route path="/admin/*" element={<AdminRoutes />} />
+
+                  {/* 404 Route */}
+                  <Route path="*" element={<NotFoundPage />} />
                   <Route path="/admin/products" element={<AdminProductsPage />} />
                   <Route path="/request-quote" element={<RequestQuotePage />} />
                   <Route path="*" element={<Navigate to="/" />} />
