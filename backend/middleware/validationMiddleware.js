@@ -1,22 +1,38 @@
 import { body, validationResult } from 'express-validator';
 
-/**
- * Middleware to handle validation errors from express-validator.
- */
+// Middleware to handle validation errors from express-validator
 export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    // Format errors by field
+    const formattedErrors = {};
+    errors.array().forEach(error => {
+      if (!formattedErrors[error.param]) {
+        formattedErrors[error.param] = [];
+      }
+      formattedErrors[error.param].push(error.msg);
+    });
+    return res.status(400).json({
+      success: false,
+      message: 'Validation failed',
+      errors: formattedErrors,
+    });
   }
   next();
 };
 
-/**
- * Validation rules for the supplier registration route.
- */
+// Validation rules for supplier registration route
 export const validateSupplierRegistration = [
-  body('name').notEmpty().withMessage('Company name is required').trim(),
-  body('email').isEmail().withMessage('Please provide a valid email').normalizeEmail(),
+  body('name')
+    .notEmpty()
+    .withMessage('Company name is required')
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('Company name must be between 2 and 50 characters'),
+  body('email')
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
   body('phone').notEmpty().withMessage('Phone number is required'),
   body('category').notEmpty().withMessage('A primary category is required'),
   body('businessType').notEmpty().withMessage('Business type is required'),
@@ -35,5 +51,5 @@ export const validateSupplierRegistration = [
   body('contactPerson.email')
     .isEmail()
     .withMessage('Please provide a valid contact person email'),
-  // Add more validation for other fields as needed
+  // Add more validations as needed
 ];
