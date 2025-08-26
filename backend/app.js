@@ -43,19 +43,43 @@ const __dirname = path.dirname(__filename)
 
 // --- Global Middleware ---
 
+// Import Security Monitor
+import { securityMonitor, loginLimiter, trackLoginAttempts } from './middleware/securityMonitor.js';
+
+// Apply security monitoring
+app.use(securityMonitor);
+
 // Set security HTTP headers
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:", "https:", "blob:"],
-        scriptSrc: ["'self'"],
-        connectSrc: ["'self'", "https://api.vercel.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://*.cloudflare.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        imgSrc: ["'self'", "data:", "https:", "blob:", "https://*.cloudinary.com"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://*.google.com",
+          "https://*.googleapis.com",
+          "https://*.cloudflare.com"
+        ],
+        connectSrc: [
+          "'self'",
+          "https://api.vercel.com",
+          "https://*.mongodb.net",
+          "https://*.cloudinary.com",
+          process.env.FRONTEND_URL,
+          "https://api.mpesa.com"
+        ],
+        frameSrc: ["'self'", "https://*.google.com"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null,
       },
     },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 )
 
@@ -76,7 +100,28 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
-app.use(cookieParser())
+// Configure cookie parser with secure options
+app.use(cookieParser(process.env.JWT_SECRET))
+
+// Configure secure session settings
+app.use(session({
+  secret: process.env.JWT_SECRET,
+  name: 'sessionId', // Change default cookie name
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    path: '/',
+    domain: process.env.NODE_ENV === 'production' ? '.tabisonsuppliers.com' : undefined
+  },
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    touchAfter: 24 * 3600 // time period in seconds
+  })
+}))
 app.use(mongoSanitize())
 app.use(compression())
 
@@ -88,14 +133,45 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Rate limiting to prevent abuse
-const limiter = rateLimit({
+const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 200, // Limit each IP to 200 requests per window
-  message: "Too many requests from this IP, please try again later.",
-  standardHeaders: true,
-  legacyHeaders: false,
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
-app.use("/api", limiter) // Apply to all API routes
+
+// Apply general rate limiting to all API routes
+app.use('/api/', apiLimiter)
+
+// Apply stricter rate limiting to authentication routes
+app.use('/api/auth/login', loginLimiter)
+app.use('/api/auth/register', loginLimiter)
+app.use('/api/auth', trackLoginAttempts)
+
+// Security headers for production
+if (process.env.NODE_ENV === 'production') {
+  // Enable HSTS
+  app.use((req, res, next) => {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
+    next()
+  })
+
+  // Prevent clickjacking
+  app.use((req, res, next) => {
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN')
+    next()
+  })
+
+  // Additional security headers
+  app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff')
+    res.setHeader('X-XSS-Protection', '1; mode=block')
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+    next()
+  })
+}
 
 // Health check endpoint
 app.get("/health", (req, res) => {

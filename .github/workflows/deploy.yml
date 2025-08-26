@@ -7,7 +7,20 @@ on:
   workflow_dispatch:
 
 jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Security Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run SAST Analysis
+        uses: github/codeql-action/analyze@v2
+
   deploy-backend:
+    needs: security-checks
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,10 +45,18 @@ jobs:
           NODE_ENV: test
           MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          EMAIL_USER: ${{ secrets.TEST_EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.TEST_EMAIL_PASS }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.TEST_CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.TEST_CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.TEST_CLOUDINARY_API_SECRET }}
 
       - name: Deploy to Render
-        run: |
-          curl -s "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+        uses: JorgeLNJunior/render-deploy@v1.4.3
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -59,11 +80,21 @@ jobs:
 
       - name: Run tests
         run: npm test
+        env:
+          VITE_API_URL: ${{ secrets.TEST_API_URL }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.TEST_GOOGLE_CLIENT_ID }}
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.PROD_API_URL }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.PROD_GOOGLE_CLIENT_ID }}
 
       - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          npx vercel --token ${VERCEL_TOKEN} --yes
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+          vercel-args: '--prod'

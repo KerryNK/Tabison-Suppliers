@@ -61,11 +61,12 @@
     "dotenv": "latest",
     "express": "latest",
     "express-async-errors": "latest",
-    "express-mongo-sanitize": "latest",
-    "express-rate-limit": "latest",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.0.1",
     "express-validator": "latest",
     "fs": "latest",
-    "helmet": "latest",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
     "jiti": "latest",
     "joi": "^18.0.1",
     "jsonwebtoken": "latest",
@@ -95,6 +96,7 @@
     "tsx": "latest",
     "url": "latest",
     "vite": "latest",
+    "xss-clean": "^0.1.4",
     "yaml": "latest"
   },
   "devDependencies": {
