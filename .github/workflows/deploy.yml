@@ -16,8 +16,15 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run SAST Analysis
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-backend:
     needs: security-checks
@@ -43,13 +50,13 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
-          MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          EMAIL_USER: ${{ secrets.TEST_EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.TEST_EMAIL_PASS }}
-          CLOUDINARY_CLOUD_NAME: ${{ secrets.TEST_CLOUDINARY_CLOUD_NAME }}
-          CLOUDINARY_API_KEY: ${{ secrets.TEST_CLOUDINARY_API_KEY }}
-          CLOUDINARY_API_SECRET: ${{ secrets.TEST_CLOUDINARY_API_SECRET }}
+          MONGODB_URI: ${{ secrets.MONGODB_TEST_URI }}
+          JWT_SECRET: ${{ secrets.JWT_TEST_SECRET }}
+          EMAIL_USER: ${{ secrets.SMTP_TEST_USER }}
+          EMAIL_PASS: ${{ secrets.SMTP_TEST_PASSWORD }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_TEST_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_TEST_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_TEST_SECRET }}
 
       - name: Deploy to Render
         uses: JorgeLNJunior/render-deploy@v1.4.3
