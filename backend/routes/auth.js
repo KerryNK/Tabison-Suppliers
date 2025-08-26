@@ -13,7 +13,11 @@ const { protect, admin } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Public routes
+// Middleware to parse JSON bodies (if not set globally)
+router.use(express.json());
+
+// Public routes - no auth middleware needed
+
 router.post('/register', registerUser);
 router.post('/verify-otp', verifyOTP);
 router.post('/resend-otp', resendOTP);
@@ -21,7 +25,7 @@ router.post('/login', loginUser);
 router.post('/request-password-reset', requestPasswordReset);
 router.post('/reset-password/:token', resetPassword);
 
-// Send OTP Email - placeholder implementation
+// Placeholder OTP email routes - consider moving these to controllers for clarity
 router.post('/send-otp-email', async (req, res) => {
   try {
     const { email } = req.body;
@@ -32,7 +36,6 @@ router.post('/send-otp-email', async (req, res) => {
   }
 });
 
-// Verify OTP Email - placeholder implementation
 router.post('/verify-otp-email', async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -43,7 +46,7 @@ router.post('/verify-otp-email', async (req, res) => {
   }
 });
 
-// Protected routes
+// Protected routes - auth middleware applied in correct order
 router.post('/enable-2fa', protect, admin, enable2FA);
 router.post('/confirm-2fa', protect, admin, confirm2FA);
 
