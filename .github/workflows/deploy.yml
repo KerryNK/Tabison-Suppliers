@@ -6,13 +6,23 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  # Principle of least privilege: default to read-only permissions
+  contents: read
+
 jobs:
   security-checks:
     runs-on: ubuntu-latest
+    permissions:
+      # Give this job only the permissions it needs
+      contents: read
+      security-events: write
     steps:
       - uses: actions/checkout@v3
+
       - name: Run Security Scan
-        uses: snyk/actions/node@master
+        # Pin to a stable Snyk action version (replace with latest stable)
+        uses: snyk/actions/node@v1.878.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -32,10 +42,11 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
-
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -71,10 +82,11 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
-
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -98,6 +110,7 @@ jobs:
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.PROD_GOOGLE_CLIENT_ID }}
 
       - name: Deploy to Vercel
+        # Pin vercel action to a specific version or commit SHA if possible
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
