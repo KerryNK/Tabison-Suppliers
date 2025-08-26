@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 // Header-based bearer auth (not used by default, but kept for integrations)
-export function authenticate(req, res, next) {
+function protect(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'No token provided' });
@@ -12,7 +12,12 @@ export function authenticate(req, res, next) {
   });
 }
 
-export function isAdmin(req, res, next) {
+function admin(req, res, next) {
   if (req.user && req.user.role === 'admin') return next();
   return res.status(403).json({ message: 'Admin access required' });
 }
+
+module.exports = {
+  protect,
+  admin,
+};
