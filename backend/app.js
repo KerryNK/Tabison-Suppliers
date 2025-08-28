@@ -27,12 +27,8 @@ import quoteRoutes from './routes/quotes.js'
 import otpRoutes from './routes/otp.js'
 import deliveryRoutes from './routes/delivery.js'
 
-// Load environment variables from .env file
-dotenv.config()
-
-// Set MongoDB URI
-process.env.MONGO_URI =
-  process.env.MONGO_URI || "mongodb+srv://kerrym:W2DDlHaNZtvbg45u@cluster0.qjjen.mongodb.net/tabison-suppliers"
+// Load configuration
+import config from './config/config.js';
 
 // Initialize Express app
 const app = express()
