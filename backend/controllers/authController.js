@@ -8,12 +8,12 @@ const { sendOTPEmail, sendPasswordResetEmail } = require('../utils/emailService'
 
 // Generate JWT
 const generateToken = (id) =>
-  jwt.sign({ id }, process.env.JWT\_SECRET, { expiresIn: '30d' });
+  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
 
 // Generate OTP
 const generateOTP = () =>
-  Math.floor(100000 + Math.random() \* 900000).toString();
+  Math.floor(100000 + Math.random() * 900000).toString();
 
 
 // Validation schemas with Joi
