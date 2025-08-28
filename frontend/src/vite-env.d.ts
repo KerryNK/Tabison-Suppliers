@@ -1,9 +1,11 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_API_BASE_URL: https://suppliers-7zjy.onrender.com
+  readonly VITE_API_BASE_URL: string;
+  readonly VITE_SUPPLIER_ID: string;
+  readonly VITE_SUPPLIER_NAME: string;
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv
+  readonly env: ImportMetaEnv;
 }
