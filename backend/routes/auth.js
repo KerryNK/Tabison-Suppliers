@@ -9,7 +9,7 @@ const {
   enable2FA,
   confirm2FA,
   someControllerFunction, // optional if defined
-} = require('../controllers/authController');
+const { something }= require('../controllers/authController');
 
 const { validateSchema } = require('../middleware/validationMiddleware');
 const {
