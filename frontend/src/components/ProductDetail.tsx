@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
-import { QuoteRequestModal } from './QuoteRequestModal';
+import QuoteRequestModal from "./QuoteRequestModal";
 
 interface ProductDetailProps {
   product: {

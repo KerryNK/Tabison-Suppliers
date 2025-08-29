@@ -17,6 +17,13 @@ export interface Product {
   updatedAt: string
 }
 
+interface ProductsResponse {
+  products: Product[];
+  total: number;
+  page: number;
+  pages: number;
+}
+
 export interface Review {
   _id: string
   user: string
@@ -32,6 +39,15 @@ export interface Cart {
   totalAmount: number
   createdAt: string
   updatedAt: string
+}
+
+interface CartResponse {
+  _id: string;
+  user: string;
+  items: CartItem[];
+  totalAmount: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CartItem {

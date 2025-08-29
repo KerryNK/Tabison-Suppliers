@@ -1,72 +1,17 @@
 {
   "version": 2,
-  "name": "tabison-suppliers-frontend",
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "use": "@vercel/static-build"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/:path*",
-      "destination": "https://tabison-suppliers-api.onrender.com/api/:path*"
-    },
-    {
-      "source": "/:path*",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
-  "headers": [
-    {
-      "source": "/static/:path*",
-      "headers": [
-        {
-          "key": "cache-control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/:path*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$",
-      "headers": [
-        {
-          "key": "cache-control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/:path*",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ],
-  "env": {
-    "REACT_APP_API_URL": "https://suppliers-7zjy.onrender.com/api",
-    "REACT_APP_FRONTEND_URL": "https://tabisonsuppliers.vercel.app"
-  },
-  "build": {
-    "env": {
-      "REACT_APP_API_URL": "https://suppliers-7zjy.onrender.com/api",
-      "REACT_APP_FRONTEND_URL": "https://tabisonsuppliers.vercel.app"
-    }
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }

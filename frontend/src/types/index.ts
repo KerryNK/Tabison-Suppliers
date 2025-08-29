@@ -83,8 +83,8 @@ export interface UserResponse {
 
 export interface UserProfile {
   id: string;
-  email: string;
   name: string;
+  email: string;
   phone?: string;
   avatar?: string;
   role: UserRole;
@@ -92,6 +92,21 @@ export interface UserProfile {
   preferences: UserPreferences;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Cart{
+   _id: string;
+  user: string;
+  items: CartItem[];
+  totalAmount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+  price: number;
 }
 
 export type UserRole = 'admin' | 'client';
@@ -108,7 +123,7 @@ export interface UserPreferences {
 }
 
 export interface Product {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -144,7 +159,8 @@ export interface SEOData {
 }
 
 export interface Order {
-  id: string;
+  _id: string;
+  orderNumber: string;
   userId: string;
   items: OrderItem[];
   subtotal: number;
@@ -213,4 +229,22 @@ export interface OrderQueryParams extends BaseQueryParams {
   startDate?: string;
   endDate?: string;
   userId?: string;
+}
+
+export interface Supplier {
+  _id: string;
+  name: string;
+  logo?: string;
+  phone: string;
+  category: string;
+  city: string;
+  county: string;
+}
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
 }

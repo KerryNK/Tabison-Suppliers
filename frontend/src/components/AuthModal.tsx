@@ -136,7 +136,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMode = 'l
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <X size={20} />
+            <X classname="w-4 h-4" size={20} />
           </button>
         </div>
 
@@ -290,7 +290,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMode = 'l
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      {showPassword ? <EyeOff classname="w-4 h-4" size={16} /> : <Eye classname="w-4 h-4" size={16} />}
                     </button>
                   </div>
                 </div>

@@ -1,3 +1,5 @@
+// Remove these non-existent components or import them properly
+// import { AuthPage, AuthGuard, OrderDetailPage, ProfilePage, AdminRoutes, NotFoundPage } from './pages';
 import * as React from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
