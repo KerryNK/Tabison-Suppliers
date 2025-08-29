@@ -1,4 +1,5 @@
 const express = require('express');
+const express = require('express');
 const {
   registerUser,
   verifyOTP,
@@ -7,9 +8,20 @@ const {
   requestPasswordReset,
   resetPassword,
   enable2FA,
-  confirm2FA,
-  someControllerFunction, // optional if defined
-const { something }= require('../controllers/authController');
+  confirm2FA
+} = require('../controllers/authController'); // ✅ Fixed!
+
+const { validateSchema } = require('../middleware/validationMiddleware');
+const {
+  registerSchema,
+  verifyOTPSchema,
+  resendOTPSchema,
+  loginSchema,
+} = require('../validation/schemas');
+
+const { protect, admin } = require('../middleware/auth');
+
+const router = express.Router();
 
 const { validateSchema } = require('../middleware/validationMiddleware');
 const {
