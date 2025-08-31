@@ -1,13 +1,12 @@
 {
   "name": "tabison-suppliers-frontend",
   "version": "1.0.0",
-  "description": "Frontend for Tabison Suppliers",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directories --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "react": "^18.2.0",
