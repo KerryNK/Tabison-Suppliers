@@ -1,2 +1,11 @@
-# Disable automatic platform detection
-disableAutoDetection: true
+services:
+  - type: web
+    name: tabison-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
