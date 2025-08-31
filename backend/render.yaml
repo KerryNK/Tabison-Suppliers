@@ -1,0 +1,2 @@
+# Disable automatic platform detection
+disableAutoDetection: true
