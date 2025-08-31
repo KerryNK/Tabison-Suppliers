@@ -10,6 +10,8 @@ import cookieParser from "cookie-parser"
 import { rateLimit } from "express-rate-limit"
 import compression from "compression"
 import mongoSanitize from "express-mongo-sanitize"
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 // Import Error Middleware
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
@@ -238,5 +240,20 @@ process.on("SIGINT", () => {
   console.log("SIGINT received. Shutting down gracefully...")
   process.exit(0)
 })
+
+// --- Serve Frontend in Production ---
+if (process.env.NODE_ENV === "production") {
+  // Define the path to the frontend build directory
+  const frontendBuildPath = path.resolve(__dirname, "../frontend/build")
+
+  // Serve static files from the React app build directory
+  app.use(express.static(frontendBuildPath))
+
+  // For any other GET request that doesn't match an API route,
+  // send back the React app's index.html file.
+  app.get("*", (req, res) => res.sendFile(path.resolve(frontendBuildPath, "index.html")))
+} else {
+  // ... keep the else part if you want
+}
 
 export default app
