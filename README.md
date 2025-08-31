@@ -14,19 +14,23 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 ### Military Boots (Long) - 22cm Height, 8 Inches
 
 #### PVC Material, 10 Eyelets
+
 - **Wholesale Price**: KSh 1,800
 - **Retail Price**: KSh 2,000
 
 #### Rubber Material, 10 Eyelets
+
 - **Wholesale Price**: KSh 2,000
 - **Retail Price**: KSh 2,200
 
 ### Safety Boots
+
 - **Factory Price**: KSh 1,500 - 1,800
 - **Wholesale Price**: KSh 2,100
 - **Retail Price**: KSh 2,500
 
 ### Official Men Permanent Shine
+
 - **Factory Price**: KSh 1,250 - 1,600
 - **Wholesale Price**: KSh 1,800
 - **Retail Price**: KSh 2,000
@@ -34,14 +38,17 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 ### Military Boots (Short) - 14cm Height, 6 Inches
 
 #### PVC, 7 Eyelets (Without Thread)
+
 - **Wholesale Price**: KSh 1,200
 - **Retail Price**: KSh 1,300
 
 #### PVC, 7 Eyelets (With Thread)
+
 - **Wholesale Price**: KSh 1,300
 - **Retail Price**: KSh 1,400
 
 #### Rubber, 7 Eyelets (With Thread)
+
 - **Wholesale Price**: KSh 1,400 - 1,450
 - **Retail Price**: KSh 1,500
 
@@ -263,6 +270,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 **Tabison Suppliers**
+
 - Website: [tabisonsuppliers.vercel.app](https://tabisonsuppliers.vercel.app)
 - Email: info@tabisonsuppliers.com
 - Phone: +254 XXX XXX XXX
