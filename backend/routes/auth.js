@@ -16,7 +16,7 @@ import {
   verifyOTPSchema,
   resendOTPSchema,
   loginSchema,
-} from '../validation/schemas.js';
+} from '../validation/schema.js';
 
 import { protect, admin } from '../middleware/auth.js';
 
