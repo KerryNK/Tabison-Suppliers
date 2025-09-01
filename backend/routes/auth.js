@@ -22,7 +22,7 @@ const { protect, admin } = require('../middleware/auth');
 
 const router = express.Router();
 
-const { validateSchema } = require('../middleware/validationMiddleware');
+import { validateSchema } from '../middleware/validationMiddleware.js';
 const {
   registerSchema,
   verifyOTPSchema,
