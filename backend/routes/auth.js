@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   registerUser,
   verifyOTP,
   resendOTP,
@@ -8,36 +8,24 @@ const {
   resetPassword,
   enable2FA,
   confirm2FA
-} = require('../controllers/authController'); // ✅ Fixed!
-
-const { validateSchema } = require('../middleware/validationMiddleware');
-const {
-  registerSchema,
-  verifyOTPSchema,
-  resendOTPSchema,
-  loginSchema,
-} = require('../validation/schemas');
-
-const { protect, admin } = require('../middleware/auth');
-
-const router = express.Router();
+} from '../controllers/authController.js';
 
 import { validateSchema } from '../middleware/validationMiddleware.js';
-const {
+import {
   registerSchema,
   verifyOTPSchema,
   resendOTPSchema,
   loginSchema,
-} = require('../validation/schemas'); // Joi schemas
+} from '../validation/schemas.js';
 
-const { protect, admin } = require('../middleware/auth');
+import { protect, admin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Middleware to parse JSON bodies (remove if already applied globally in app)
+// Middleware to parse JSON bodies
 router.use(express.json());
 
-// Public routes with validation middleware where applicable
+// Public routes with validation middleware
 router.post('/register', validateSchema(registerSchema), registerUser);
 router.post('/verify-otp', validateSchema(verifyOTPSchema), verifyOTP);
 router.post('/resend-otp', validateSchema(resendOTPSchema), resendOTP);
@@ -45,28 +33,27 @@ router.post('/login', validateSchema(loginSchema), loginUser);
 router.post('/request-password-reset', requestPasswordReset);
 router.post('/reset-password/:token', resetPassword);
 
-// Placeholder OTP email routes - move these to controllers for cleaner code
+// Placeholder OTP email routes
 router.post('/send-otp-email', async (req, res) => {
   try {
     const { email } = req.body;
-    // Implement actual OTP sending logic here
     res.json({ success: true, message: 'OTP sent successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 router.post('/verify-otp-email', async (req, res) => {
   try {
     const { email, otp } = req.body;
-    // Implement actual OTP verification logic here
     res.json({ success: true, message: 'OTP verified successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Protected routes with auth middleware in correct order
+// Protected routes
 router.post('/enable-2fa', protect, admin, enable2FA);
 router.post('/confirm-2fa', protect, admin, confirm2FA);
 
-module.exports = router;
+export default router;
