@@ -197,7 +197,7 @@ const sendOrderConfirmationEmail = async (email, order, name) => {
   }
 };
 
-module.exports = {
+export {
   sendOTPEmail,
   sendPasswordResetEmail,
   sendOrderConfirmationEmail

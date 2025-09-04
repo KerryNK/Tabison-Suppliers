@@ -222,7 +222,7 @@ const getStats = async (req, res) => {
   })
 }
 
-module.exports = {
+export {
   registerSupplier,
   createSupplier,
   getAllSuppliers,

@@ -1,10 +1,10 @@
-const User = require('../models/userModel');
-const OTP = require('../models/otpModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const Joi = require('joi'); // for validation
-const { sendOTPEmail, sendPasswordResetEmail } = require('../utils/emailService');
+import User from '../models/userModel.js';
+import OTP from '../models/otpModel.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import Joi from 'joi'; // for validation
+import { sendOTPEmail, sendPasswordResetEmail } from '../utils/emailService.js';
 
 // Generate JWT
 const generateToken = (id) =>
@@ -390,7 +390,7 @@ const confirm2FA = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   registerUser,
   verifyOTP,
   resendOTP,

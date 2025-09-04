@@ -21,6 +21,21 @@ export const handleValidationErrors = (req, res, next) => {
   next();
 };
 
+// Middleware to validate using Joi schemas
+export const validateSchema = (schema) => {
+  return (req, res, next) => {
+    const { error, value } = schema.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: error.details[0].message,
+      });
+    }
+    req.body = value; // Replace req.body with validated value
+    next();
+  };
+};
+
 // Validation rules for supplier registration route
 export const validateSupplierRegistration = [
   body('name')
