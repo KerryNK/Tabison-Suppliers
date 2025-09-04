@@ -1,132 +1,132 @@
-const express = require("express")
-const router = express.Router()
+import express from 'express';
+const router = express.Router();
 
 // Sample orders data
 const sampleOrders = [
   {
-    _id: "1",
-    userId: "1",
+    _id: '1',
+    userId: '1',
     items: [
       {
-        productId: "1",
-        name: "Military Combat Boots",
+        productId: '1',
+        name: 'Military Combat Boots',
         price: 12500,
         quantity: 1,
       },
     ],
     totalAmount: 12500,
-    status: "pending",
+    status: 'pending',
     shippingAddress: {
-      street: "123 Main St",
-      city: "Nairobi",
-      country: "Kenya",
+      street: '123 Main St',
+      city: 'Nairobi',
+      country: 'Kenya',
     },
     createdAt: new Date().toISOString(),
   },
-]
+];
 
 // @desc    Get user orders
 // @route   GET /api/orders
 // @access  Private
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     // In production, filter by user ID from token
-    const userOrders = sampleOrders
+    const userOrders = sampleOrders;
 
     res.status(200).json({
       success: true,
       count: userOrders.length,
       data: userOrders,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: 'Server error',
       error: error.message,
-    })
+    });
   }
-})
+});
 
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const { items, shippingAddress, paymentMethod } = req.body
+    const { items, shippingAddress, paymentMethod } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "No items in order",
-      })
+        message: 'No items in order',
+      });
     }
 
     // Calculate total
-    const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0)
+    const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
     const newOrder = {
       _id: String(sampleOrders.length + 1),
-      userId: "1", // In production, get from token
+      userId: '1', // In production, get from token
       items,
       totalAmount,
-      status: "pending",
+      status: 'pending',
       shippingAddress,
       paymentMethod,
       createdAt: new Date().toISOString(),
-    }
+    };
 
-    sampleOrders.push(newOrder)
+    sampleOrders.push(newOrder);
 
     res.status(201).json({
       success: true,
-      message: "Order created successfully",
+      message: 'Order created successfully',
       data: newOrder,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: 'Server error',
       error: error.message,
-    })
+    });
   }
-})
+});
 
 // @desc    Public tracking by order number (mock)
 // @route   GET /api/orders/track/:orderNumber
 // @access  Public
 router.get('/track/:orderNumber', async (req, res) => {
-  const order = sampleOrders.find((o) => o._id === req.params.orderNumber)
+  const order = sampleOrders.find((o) => o._id === req.params.orderNumber);
   if (!order) {
-    return res.status(404).json({ message: 'Order not found' })
+    return res.status(404).json({ message: 'Order not found' });
   }
-  res.json({ orderNumber: order._id, status: order.status, createdAt: order.createdAt })
-})
+  res.json({ orderNumber: order._id, status: order.status, createdAt: order.createdAt });
+});
 
 // @desc    Get single order
 // @route   GET /api/orders/:id
 // @access  Private
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const order = sampleOrders.find((order) => order._id === req.params.id)
+    const order = sampleOrders.find((order) => order._id === req.params.id);
 
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: "Order not found",
-      })
+        message: 'Order not found',
+      });
     }
 
     res.status(200).json({
       success: true,
       data: order,
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: 'Server error',
       error: error.message,
-    })
+    });
   }
-})
+});
 
-module.exports = router
+export default router;
