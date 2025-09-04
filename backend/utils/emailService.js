@@ -1,10 +1,9 @@
-
-const nodemailer = require('nodemailer');
-const config = require('../config/env');
+import nodemailer from 'nodemailer';
+import config from '../config/env.js';
 
 // Create transporter
 const createTransporter = () => {
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     host: config.EMAIL_HOST,
     port: config.EMAIL_PORT,
     secure: false,
@@ -159,12 +158,12 @@ const sendOrderConfirmationEmail = async (email, order, name) => {
             <div class="content">
               <h2>Thank you ${name}!</h2>
               <p>Your order has been confirmed and is being processed.</p>
-              
+
               <div class="order-details">
                 <h3>Order #${order.orderNumber}</h3>
                 <p><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
                 <p><strong>Status:</strong> ${order.status}</p>
-                
+
                 <h4>Items:</h4>
                 ${order.items.map(item => `
                   <div class="item">
@@ -172,12 +171,12 @@ const sendOrderConfirmationEmail = async (email, order, name) => {
                     Quantity: ${item.quantity} × Ksh ${item.price.toLocaleString()} = Ksh ${(item.quantity * item.price).toLocaleString()}
                   </div>
                 `).join('')}
-                
+
                 <div class="total">
                   Total: Ksh ${order.payment.amount.total.toLocaleString()}
                 </div>
               </div>
-              
+
               <p>You can track your order status at any time by visiting our website.</p>
             </div>
             <div class="footer">
