@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from 'mongoose';
 
 const cartItemSchema = new mongoose.Schema({
   product: {
@@ -16,7 +16,7 @@ const cartItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-})
+});
 
 const cartSchema = new mongoose.Schema({
   user: {
@@ -37,24 +37,24 @@ const cartSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-})
+});
 
 // Update the updatedAt field before saving
 cartSchema.pre("save", function (next) {
-  this.updatedAt = Date.now()
-  next()
-})
+  this.updatedAt = Date.now();
+  next();
+});
 
 // Calculate total before saving
 cartSchema.pre("save", async function (next) {
   if (this.items && this.items.length > 0) {
     this.total = this.items.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
+      return total + item.price * item.quantity;
+    }, 0);
   } else {
-    this.total = 0
+    this.total = 0;
   }
-  next()
-})
+  next();
+});
 
-module.exports = mongoose.model("Cart", cartSchema)
+export default mongoose.model("Cart", cartSchema);
