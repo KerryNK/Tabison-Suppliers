@@ -1,14 +1,12 @@
-// Import the functions you need from the SDKs you need
+// src/firebase.ts
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v9-compat and later, measurementId is optional
 const firebaseConfig = {
-  // Add your Firebase config here
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "your-api-key",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "your-actual-api-key",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "tabison-suppliers.firebaseapp.com",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "tabison-suppliers",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "tabison-suppliers.appspot.com",
@@ -37,7 +35,6 @@ googleProvider.setCustomParameters({
 
 export const appleProvider = new OAuthProvider('apple.com');
 appleProvider.setCustomParameters({
-  // Locale the OAuth flow to the user's preferred language.
   locale: 'en'
 });
 

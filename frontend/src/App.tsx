@@ -12,6 +12,7 @@ import Layout from "./components/Layout"
 
 // Pages
 import HomePage from "./pages/HomePage"
+import AuthPage from "./pages/AuthPage"
 import SuppliersPage from "./pages/SuppliersPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
@@ -50,7 +51,6 @@ const App: React.FC = () => {
               <Layout>
                 <Routes>
                   {/* Public Routes */}
-                  import AuthPage from "./pages/AuthPage"
                   <Route path="/" element={<HomePage />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
@@ -58,7 +58,7 @@ const App: React.FC = () => {
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/register" element={<AuthPage mode="register" />} />
                   <Route path="/forgot-password" element={<AuthPage mode="forgot-password" />} />
-                  
+                  <Route path="/reset-password" element={<AuthPage mode="reset-password" />} />
                   {/* Protected Routes */}
                   <Route element={<AuthGuard />}>
                     <Route path="/cart" element={<CartPage />} />
@@ -78,7 +78,6 @@ const App: React.FC = () => {
                   <Route path="*" element={<NotFoundPage />} />
                   <Route path="/admin/products" element={<AdminProductsPage />} />
                   <Route path="/request-quote" element={<RequestQuotePage />} />
-                  <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </Layout>
             </AuthProvider>
