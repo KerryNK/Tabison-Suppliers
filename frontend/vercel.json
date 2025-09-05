@@ -16,6 +16,14 @@
       "destination": "/index.html"
     }
   ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": {
+        "Cache-Control": "max-age=0, s-maxage=86400"
+      }
+    }
+  ],
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
 }
