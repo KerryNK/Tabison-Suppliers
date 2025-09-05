@@ -6,12 +6,14 @@
       "use": "@vercel/static-build"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
+  "rewrites": [
+  {
+    "source": "/(.*)",
+    "destination": "/index.html"
+  },
+  {
+    "source": "/api/.*",
+    "destination": "https://tabison-suppliers.onrender.com",
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
 }
