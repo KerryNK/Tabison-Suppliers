@@ -13,6 +13,7 @@ import Layout from "./components/Layout"
 
 // Pages
 import HomePage from "./pages/HomePage"
+import AuthPage from "./path/to/AuthPage"
 import SuppliersPage from "./pages/SuppliersPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
