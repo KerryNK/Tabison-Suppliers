@@ -8,12 +8,10 @@ import { HelmetProvider } from "react-helmet-async"
 import { CustomThemeProvider } from "./context/ThemeContext"
 import { CartProvider } from "./context/CartContext"
 import { AuthProvider } from "./context/AuthContext"
-
 import Layout from "./components/Layout"
 
 // Pages
 import HomePage from "./pages/HomePage"
-import AuthPage from "./pages/AuthPage"
 import SuppliersPage from "./pages/SuppliersPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
@@ -25,6 +23,11 @@ import AdminProductsPage from "./pages/AdminProductsPage"
 import TrackOrderPage from "./pages/TrackOrderPage"
 import SettingsPage from "./pages/SettingsPage"
 import RequestQuotePage from "./pages/RequestQuotePage"
+import AuthGuard from "./components/AuthGuard"
+import OrderDetailPage from "./pages/OrderDetailPage"
+import ProfilePage from "./pages/ProfilePage"
+import AdminRoutes from "./routes/AdminRoutes"
+import NotFoundPage from "./pages/NotFoundPage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +50,7 @@ const App: React.FC = () => {
               <Layout>
                 <Routes>
                   {/* Public Routes */}
+                  import AuthPage from "./pages/AuthPage"
                   <Route path="/" element={<HomePage />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
