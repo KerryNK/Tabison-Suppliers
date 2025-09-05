@@ -30,6 +30,42 @@ import ProfilePage from "./pages/ProfilePage"
 import AdminRoutes from "./routes/AdminRoutes"
 import NotFoundPage from "./pages/NotFoundPage"
 
+// Add this component to test API connectivity
+import React, { useEffect, useState } from 'react';
+import { productApi } from './api';
+
+const ConnectionTest: React.FC = () => {
+  const [status, setStatus] = useState<string>('Testing...');
+
+  useEffect(() => {
+    const testConnection = async () => {
+      try {
+        const result = await productApi.getAll();
+        if (result.success) {
+          setStatus('Connected to API successfully!');
+        } else {
+          setStatus(`API Error: ${result.error}`);
+        }
+      } catch (error) {
+        setStatus(`Connection failed: ${error}`);
+      }
+    };
+
+    testConnection();
+  }, []);
+
+  return (
+    <div style={{ padding: '20px', textAlign: 'center' }}>
+      <h1>Tabison Suppliers</h1>
+      <p>Connection Status: {status}</p>
+      <p>API URL: {import.meta.env.VITE_API_URL || 'Not set'}</p>
+    </div>
+  );
+};
+
+// Use this temporarily in your App component
+// return <ConnectionTest />;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -87,7 +123,6 @@ const App: React.FC = () => {
     </QueryClientProvider>
   )
 }
-
 export default App
 
 
