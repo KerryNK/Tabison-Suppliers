@@ -7,14 +7,8 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://tabison-suppliers.onrender.com/api/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/:path*", "destination": "https://tabison-suppliers.onrender.com/api/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
