@@ -7,9 +7,9 @@ interface AuthPageProps {
 
 const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
   return (
-    <div>
-      <h2>Authentication Page - {mode}</h2>
-      <p>This is a placeholder for the {mode} page.</p>
+    <div style={{ padding: '50px', textAlign: 'center' }}>
+      <h2>Authentication - {mode}</h2>
+      <p>This is a placeholder for the {mode} functionality.</p>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 // Remove these non-existent components or import them properly
 // import { AuthPage, AuthGuard, OrderDetailPage, ProfilePage, AdminRoutes, NotFoundPage } from './pages';
 import * as React from "react"
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { HelmetProvider } from "react-helmet-async"
 
@@ -29,42 +29,6 @@ import OrderDetailPage from "./pages/OrderDetailPage"
 import ProfilePage from "./pages/ProfilePage"
 import AdminRoutes from "./routes/AdminRoutes"
 import NotFoundPage from "./pages/NotFoundPage"
-
-// Add this component to test API connectivity
-import React, { useEffect, useState } from 'react';
-import { productApi } from './api';
-
-const ConnectionTest: React.FC = () => {
-  const [status, setStatus] = useState<string>('Testing...');
-
-  useEffect(() => {
-    const testConnection = async () => {
-      try {
-        const result = await productApi.getAll();
-        if (result.success) {
-          setStatus('Connected to API successfully!');
-        } else {
-          setStatus(`API Error: ${result.error}`);
-        }
-      } catch (error) {
-        setStatus(`Connection failed: ${error}`);
-      }
-    };
-
-    testConnection();
-  }, []);
-
-  return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>Tabison Suppliers</h1>
-      <p>Connection Status: {status}</p>
-      <p>API URL: {import.meta.env.VITE_API_URL || 'Not set'}</p>
-    </div>
-  );
-};
-
-// Use this temporarily in your App component
-// return <ConnectionTest />;
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -94,7 +58,7 @@ const App: React.FC = () => {
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/register" element={<AuthPage mode="register" />} />
                   <Route path="/forgot-password" element={<AuthPage mode="forgot-password" />} />
-                  <Route path="/reset-password" element={<AuthPage mode="reset-password" />} />
+                  
                   {/* Protected Routes */}
                   <Route element={<AuthGuard />}>
                     <Route path="/cart" element={<CartPage />} />
@@ -109,11 +73,13 @@ const App: React.FC = () => {
 
                   {/* Admin Routes */}
                   <Route path="/admin/*" element={<AdminRoutes />} />
-
-                  {/* 404 Route */}
-                  <Route path="*" element={<NotFoundPage />} />
                   <Route path="/admin/products" element={<AdminProductsPage />} />
+
+                  {/* Other Routes */}
                   <Route path="/request-quote" element={<RequestQuotePage />} />
+
+                  {/* 404 Route - MUST BE LAST */}
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </Layout>
             </AuthProvider>
@@ -123,6 +89,5 @@ const App: React.FC = () => {
     </QueryClientProvider>
   )
 }
+
 export default App
-
-
