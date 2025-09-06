@@ -2,7 +2,7 @@
 import React from 'react';
 
 interface AuthPageProps {
-  mode: 'login' | 'register' | 'forgot-password';
+  mode: 'login' | 'register' | 'forgot-password' |'reset-password';
 }
 
 const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
