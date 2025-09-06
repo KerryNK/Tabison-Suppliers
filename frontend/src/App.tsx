@@ -9,6 +9,8 @@ import { CustomThemeProvider } from "./context/ThemeContext"
 import { CartProvider } from "./context/CartContext"
 import { AuthProvider } from "./context/AuthContext"
 import Layout from "./components/Layout"
+import AuthGuard from "./components/AuthGuard"
+import AdminRoutes from "./routes/AdminRoutes"
 
 // Pages
 import HomePage from "./pages/HomePage"
@@ -24,10 +26,8 @@ import AdminProductsPage from "./pages/AdminProductsPage"
 import TrackOrderPage from "./pages/TrackOrderPage"
 import SettingsPage from "./pages/SettingsPage"
 import RequestQuotePage from "./pages/RequestQuotePage"
-import AuthGuard from "./components/AuthGuard"
 import OrderDetailPage from "./pages/OrderDetailPage"
 import ProfilePage from "./pages/ProfilePage"
-import AdminRoutes from "./routes/AdminRoutes"
 import NotFoundPage from "./pages/NotFoundPage"
 
 const queryClient = new QueryClient({

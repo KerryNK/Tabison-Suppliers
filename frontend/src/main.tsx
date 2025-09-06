@@ -7,6 +7,12 @@ import { ThemeProvider, CssBaseline } from "@mui/material"
 import theme from "./theme"
 import { HelmetProvider } from "react-helmet-async"
 import { Toaster } from "react-hot-toast"
+import ErrorBoundary from "./ErrorBoundary.tsx"
+
+// ...in your render:
+<React.StrictMode>
+<ErrorBoundary>
+ <ThemeProvider theme={theme}>
 
 const rootElement = document.getElementById("root")
 if (!rootElement) {
@@ -50,3 +56,28 @@ root.render(
     </ThemeProvider>
   </React.StrictMode>,
 )
+
+//Simple test component
+const TestApp = () => {
+  return (
+    <div style ={{ padding: "50px", textAlign: "center" }}>
+      <h1>✅ React is working!</h1>
+      <p>If you see this, the basic setup is correct.</p>
+    </div>
+  )
+}
+
+const rootElement = document.getElementById("root")
+if (!rootElement) {
+  throw new Error("Root element not found")
+}
+
+const root = ReactDOM.createRoot(rootElement)
+root.render(
+  <React.StrictMode>
+    <TestApp />
+  </React.StrictMode>,
+)
+</ThemeProvider>
+</ErrorBoundary>
+</React.StrictMode>
