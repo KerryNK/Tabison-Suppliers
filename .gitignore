@@ -43,3 +43,4 @@ frontend/build/
 # Temporary files
 *.tmp
 *.temp
+.env
