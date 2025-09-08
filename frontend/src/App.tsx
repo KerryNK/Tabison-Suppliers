@@ -28,6 +28,9 @@ import SettingsPage from "./pages/SettingsPage"
 import RequestQuotePage from "./pages/RequestQuotePage"
 import OrderDetailPage from "./pages/OrderDetailPage"
 import ProfilePage from "./pages/ProfilePage"
+import AboutPage from "./pages/AboutPage"
+import ContactPage from "./pages/ContactPage"
+import BlogPage from "./pages/BlogPage"
 import NotFoundPage from "./pages/NotFoundPage"
 
 const queryClient = new QueryClient({
@@ -52,6 +55,9 @@ const App: React.FC = () => {
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
                   <Route path="/suppliers" element={<SuppliersPage />} />

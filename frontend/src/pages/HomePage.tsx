@@ -14,18 +14,18 @@ const HomePage: React.FC = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="hero-banner relative h-screen">
-        <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center flex flex-col justify-center items-center px-4 text-center">
+      <section className="hero-banner relative h-screen bg-gradient-to-r from-teal-600 to-blue-600">
+        <div className="absolute inset-0 flex flex-col justify-center items-center px-4 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 max-w-xl">
             Delivering Tomorrow,{" "}
-            <span className="text-brand-gray-light">Today</span>
+            <span className="text-gray-200">Today</span>
           </h1>
           <p className="text-lg text-white mb-8 max-w-md font-light leading-relaxed">
             Welcome to the future of Logistics.
           </p>
           <Link
             to="/products"
-            className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded font-semibold transition"
+            className="px-6 py-3 bg-white hover:bg-gray-100 text-teal-600 rounded font-semibold transition"
           >
             Shop Now
           </Link>
