@@ -4,7 +4,12 @@ services:
     env: node
     plan: free
     rootDir: backend
-    buildCommand: npm install
+    buildCommand: |
+      npm install &&
+      cd ../frontend &&
+      npm install &&
+      npm run build &&
+      cp -r dist ../backend/public
     startCommand: npm start
     envVars:
       - key: NODE_ENV
@@ -12,8 +17,6 @@ services:
       - key: PORT
         value: 10000
       - fromGroup: mongodb
-    ignorePaths:
-      - frontend/**  # Ignore frontend completely
 
 # If you're using MongoDB, add this:
 envVarGroups:
