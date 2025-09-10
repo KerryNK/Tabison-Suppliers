@@ -26,8 +26,12 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' });
+  app.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    message: "Tabison Suppliers API is running",
+    docs: "/api/health"
+  });
 });
 
 // No wildcard `app.get('*')` here
