@@ -1,0 +1,7 @@
+- [ ] Implement login form in AuthPage.tsx with email, password inputs, submit handler, and links to register/forgot-password
+- [ ] Implement register form in AuthPage.tsx with email, password, confirm password, display name inputs, submit handler, and link to login
+- [ ] Implement forgot-password form in AuthPage.tsx with email input, submit handler, and link to login
+- [ ] Add form submission handlers using useAuth methods (signInWithEmail, signUpWithEmail, resetPassword)
+- [ ] Add navigation with useNavigate for redirects after successful authentication
+- [ ] Add basic inline styling for layout and responsiveness
+- [ ] Ensure forms are accessible with labels and proper input types
