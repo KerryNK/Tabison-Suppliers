@@ -1,8 +1,7 @@
 // src/pages/AuthPage.tsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import toast from "react-hot-toast";
+import { useNavigate, Link } from "react-router-dom";
 
 interface AuthPageProps {
   mode: "login" | "register" | "forgot-password" | "reset-password";
@@ -12,21 +11,25 @@ const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
   const navigate = useNavigate();
   const auth = useAuth();
 
+  // Common state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Error state
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
     try {
       await auth.signInWithEmail(email, password);
-      toast.success("Logged in successfully");
       navigate("/");
-    } catch (error: any) {
-      toast.error(error.message || "Login failed");
+    } catch (err: any) {
+      setError(err.message || "Failed to login");
     } finally {
       setLoading(false);
     }
@@ -34,17 +37,17 @@ const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
     setLoading(true);
     try {
       await auth.signUpWithEmail(email, password, displayName);
-      toast.success("Registered successfully");
       navigate("/");
-    } catch (error: any) {
-      toast.error(error.message || "Registration failed");
+    } catch (err: any) {
+      setError(err.message || "Failed to register");
     } finally {
       setLoading(false);
     }
@@ -52,54 +55,53 @@ const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
     try {
       await auth.resetPassword(email);
-      toast.success("Password reset email sent");
+      alert("Password reset email sent");
       navigate("/login");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to send reset email");
+    } catch (err: any) {
+      setError(err.message || "Failed to send reset email");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "50px auto", padding: 20, border: "1px solid #ccc", borderRadius: 8 }}>
+    <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
       {mode === "login" && (
         <>
           <h2>Login</h2>
           <form onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="email">Email:</label><br />
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password:</label><br />
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <button type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>
           </form>
-          <p style={{ marginTop: 10 }}>
-            <a href="/register">Register</a> | <a href="/forgot-password">Forgot Password?</a>
+          <p>
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
+          <p>
+            Forgot your password? <Link to="/forgot-password">Reset Password</Link>
           </p>
         </>
       )}
@@ -108,92 +110,75 @@ const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
         <>
           <h2>Register</h2>
           <form onSubmit={handleRegister}>
-            <div>
-              <label htmlFor="displayName">Display Name:</label><br />
-              <input
-                id="displayName"
-                type="text"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email:</label><br />
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password:</label><br />
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword">Confirm Password:</label><br />
-              <input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>
+            <label htmlFor="displayName">Display Name</label>
+            <input
+              id="displayName"
+              type="text"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              required
+              autoComplete="name"
+            />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <button type="submit" disabled={loading}>
               {loading ? "Registering..." : "Register"}
             </button>
           </form>
-          <p style={{ marginTop: 10 }}>
-            <a href="/login">Login</a>
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
           </p>
         </>
       )}
 
       {mode === "forgot-password" && (
         <>
-          <h2>Forgot Password</h2>
+          <h2>Reset Password</h2>
           <form onSubmit={handleForgotPassword}>
-            <div>
-              <label htmlFor="email">Email:</label><br />
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
-                style={{ width: "100%", padding: 8, marginBottom: 10 }}
-              />
-            </div>
-            <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <button type="submit" disabled={loading}>
               {loading ? "Sending..." : "Send Reset Email"}
             </button>
           </form>
-          <p style={{ marginTop: 10 }}>
-            <a href="/login">Login</a>
+          <p>
+            Remembered your password? <Link to="/login">Login</Link>
           </p>
         </>
-      )}
-
-      {mode === "reset-password" && (
-        <p>Reset password functionality is not implemented yet.</p>
       )}
     </div>
   );

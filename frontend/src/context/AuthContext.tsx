@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  confirmPasswordReset,
   RecaptchaVerifier,
   signInWithPhoneNumber,
   updateProfile,
@@ -46,6 +47,7 @@ interface AuthContextType {
   sendOTP: (phoneNumber: string, recaptchaVerifier: RecaptchaVerifier) => Promise<ConfirmationResult>;
   verifyOTP: (otp: string) => Promise<FirebaseUser>;
   resetPassword: (email: string) => Promise<void>;
+  confirmPasswordReset: (oobCode: string, newPassword: string) => Promise<void>;
   logout: () => Promise<void>;
   
   // Legacy methods (for compatibility)
