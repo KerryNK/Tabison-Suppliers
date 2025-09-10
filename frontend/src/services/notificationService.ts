@@ -1,4 +1,4 @@
-import api from '../api/client';
+import api from '../config/api';
 
 export type NotificationType = 'email' | 'sms' | 'push';
 export type NotificationTemplate = 

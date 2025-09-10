@@ -1,4 +1,4 @@
-import api from '../api/client';
+import api from '../config/api';
 import { Order } from '../types';
 
 interface DocumentOptions {
