@@ -1,15 +1,13 @@
-// src/App.tsx
+// Remove these non-existent components or import them properly
+// import { AuthPage, AuthGuard, OrderDetailPage, ProfilePage, AdminRoutes, NotFoundPage } from './pages';
 import * as React from "react"
 import { Routes, Route } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { HelmetProvider } from "react-helmet-async"
 
-// Contexts
 import { CustomThemeProvider } from "./context/ThemeContext"
 import { CartProvider } from "./context/CartContext"
 import { AuthProvider } from "./context/AuthContext"
-
-// Layout & Guards
 import Layout from "./components/Layout"
 import AuthGuard from "./components/AuthGuard"
 import AdminRoutes from "./routes/AdminRoutes"
@@ -53,15 +51,9 @@ const App: React.FC = () => {
         <CustomThemeProvider>
           <CartProvider>
             <AuthProvider>
-              <Routes>
-                {/* Auth routes (standalone, no Layout) */}
-                <Route path="/login" element={<AuthPage mode="login" />} />
-                <Route path="/register" element={<AuthPage mode="register" />} />
-                <Route path="/forgot-password" element={<AuthPage mode="forgot-password" />} />
-
-                {/* Main app routes wrapped with Layout */}
-                <Route element={<Layout />}>
-                  {/* Public */}
+              <Layout>
+                <Routes>
+                  {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/contact" element={<ContactPage />} />
@@ -69,9 +61,11 @@ const App: React.FC = () => {
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
                   <Route path="/suppliers" element={<SuppliersPage />} />
-                  <Route path="/request-quote" element={<RequestQuotePage />} />
-
-                  {/* Protected */}
+                  <Route path="/login" element={<AuthPage mode="login" />} />
+                  <Route path="/register" element={<AuthPage mode="register" />} />
+                  <Route path="/forgot-password" element={<AuthPage mode="forgot-password" />} />
+                  
+                  {/* Protected Routes */}
                   <Route element={<AuthGuard />}>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/payment" element={<PaymentPage />} />
@@ -83,14 +77,17 @@ const App: React.FC = () => {
                     <Route path="/settings" element={<SettingsPage />} />
                   </Route>
 
-                  {/* Admin */}
+                  {/* Admin Routes */}
                   <Route path="/admin/*" element={<AdminRoutes />} />
                   <Route path="/admin/products" element={<AdminProductsPage />} />
 
-                  {/* 404 */}
+                  {/* Other Routes */}
+                  <Route path="/request-quote" element={<RequestQuotePage />} />
+
+                  {/* 404 Route - MUST BE LAST */}
                   <Route path="*" element={<NotFoundPage />} />
-                </Route>
-              </Routes>
+                </Routes>
+              </Layout>
             </AuthProvider>
           </CartProvider>
         </CustomThemeProvider>
