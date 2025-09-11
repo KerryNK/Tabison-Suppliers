@@ -1,4 +1,4 @@
-import api from '../config/api';
+import api from '../api/client';
 
 export interface LoginCredentials {
   email: string;

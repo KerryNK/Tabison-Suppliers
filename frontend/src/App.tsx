@@ -1,20 +1,18 @@
 // Remove these non-existent components or import them properly
 // import { AuthPage, AuthGuard, OrderDetailPage, ProfilePage, AdminRoutes, NotFoundPage } from './pages';
 import * as React from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { HelmetProvider } from "react-helmet-async"
 
 import { CustomThemeProvider } from "./context/ThemeContext"
 import { CartProvider } from "./context/CartContext"
 import { AuthProvider } from "./context/AuthContext"
+
 import Layout from "./components/Layout"
-import AuthGuard from "./components/AuthGuard"
-import AdminRoutes from "./routes/AdminRoutes"
 
 // Pages
 import HomePage from "./pages/HomePage"
-import AuthPage from "./pages/AuthPage"
 import SuppliersPage from "./pages/SuppliersPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProductDetailPage from "./pages/ProductDetailPage"
@@ -26,12 +24,6 @@ import AdminProductsPage from "./pages/AdminProductsPage"
 import TrackOrderPage from "./pages/TrackOrderPage"
 import SettingsPage from "./pages/SettingsPage"
 import RequestQuotePage from "./pages/RequestQuotePage"
-import OrderDetailPage from "./pages/OrderDetailPage"
-import ProfilePage from "./pages/ProfilePage"
-import AboutPage from "./pages/AboutPage"
-import ContactPage from "./pages/ContactPage"
-import BlogPage from "./pages/BlogPage"
-import NotFoundPage from "./pages/NotFoundPage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,9 +47,6 @@ const App: React.FC = () => {
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/blog" element={<BlogPage />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
                   <Route path="/suppliers" element={<SuppliersPage />} />
@@ -79,13 +68,12 @@ const App: React.FC = () => {
 
                   {/* Admin Routes */}
                   <Route path="/admin/*" element={<AdminRoutes />} />
-                  <Route path="/admin/products" element={<AdminProductsPage />} />
 
-                  {/* Other Routes */}
-                  <Route path="/request-quote" element={<RequestQuotePage />} />
-
-                  {/* 404 Route - MUST BE LAST */}
+                  {/* 404 Route */}
                   <Route path="*" element={<NotFoundPage />} />
+                  <Route path="/admin/products" element={<AdminProductsPage />} />
+                  <Route path="/request-quote" element={<RequestQuotePage />} />
+                  <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </Layout>
             </AuthProvider>
@@ -97,3 +85,5 @@ const App: React.FC = () => {
 }
 
 export default App
+
+
