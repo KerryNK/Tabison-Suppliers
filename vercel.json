@@ -1,6 +1,5 @@
 {
-  "version": 2,
-  "builds": [],
-  "functions": {},
-  "routes": []
+"rewrites":[
+  { "source": "/(.*)", "destination": "/" }
+]
 }
