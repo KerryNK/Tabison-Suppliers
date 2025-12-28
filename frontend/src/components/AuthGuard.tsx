@@ -1,12 +1,21 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const AuthGuard: React.FC = () => {
-  // For now, always allow access to protected routes
-  // You can implement proper authentication logic here later
-  const isAuthenticated = true; // Placeholder - replace with actual auth check
+  const { user, loading } = useAuth();
 
-  if (!isAuthenticated) {
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 

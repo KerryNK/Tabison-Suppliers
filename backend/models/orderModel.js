@@ -7,6 +7,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    orderNumber: {
+      type: String,
+      unique: true,
+    },
     orderItems: [
       {
         name: { type: String, required: true },
@@ -21,13 +25,26 @@ const orderSchema = new mongoose.Schema(
       },
     ],
     shippingAddress: {
+      fullName: { type: String, required: true },
+      phone: { type: String, required: true },
+      email: { type: String, required: true },
       address: { type: String, required: true },
       city: { type: String, required: true },
-      postalCode: { type: String, required: true },
       county: { type: String, required: true },
+      postalCode: { type: String },
+    },
+    billingAddress: {
+      fullName: { type: String, required: true },
+      phone: { type: String, required: true },
+      email: { type: String, required: true },
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      county: { type: String, required: true },
+      postalCode: { type: String },
     },
     paymentMethod: {
       type: String,
+      enum: ['card', 'mpesa', 'airtel', 'paypal'],
       required: true,
     },
     paymentResult: {
@@ -77,11 +94,23 @@ const orderSchema = new mongoose.Schema(
       enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
       default: 'Pending',
     },
+    trackingNumber: { type: String },
+    estimatedDelivery: { type: Date },
+    customerNotes: { type: String },
   },
   {
     timestamps: true,
   }
 );
+
+// Generate order number before saving
+orderSchema.pre('save', async function (next) {
+  if (!this.orderNumber) {
+    const count = await mongoose.model('Order').countDocuments();
+    this.orderNumber = `TS${String(count + 1).padStart(6, '0')}`;
+  }
+  next();
+});
 
 const Order = mongoose.model('Order', orderSchema);
 

@@ -19,7 +19,10 @@ import {
   ShoppingCart,
   Search,
   KeyboardArrowDown,
+  Favorite,
 } from '@mui/icons-material'
+import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
 
 const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -28,6 +31,12 @@ const Header: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const navigate = useNavigate()
   const location = useLocation()
+
+  // Get cart and wishlist counts
+  const { items: cartItems } = useCart()
+  const { items: wishlistItems } = useWishlist()
+  const cartCount = cartItems?.length || 0
+  const wishlistCount = wishlistItems?.length || 0
 
   const navigationItems = [
     { label: 'Home', path: '/' },
@@ -121,9 +130,70 @@ const Header: React.FC = () => {
               <Search />
             </IconButton>
           </Tooltip>
+
+          {/* Wishlist with badge */}
+          <Tooltip title="Wishlist">
+            <IconButton
+              component={Link}
+              to="/favorites"
+              sx={{ color: '#000', position: 'relative' }}
+              aria-label="wishlist"
+            >
+              <Favorite />
+              {wishlistCount > 0 && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 4,
+                    right: 4,
+                    backgroundColor: '#1D6D73',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: 18,
+                    height: 18,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {wishlistCount}
+                </Box>
+              )}
+            </IconButton>
+          </Tooltip>
+
+          {/* Cart with badge */}
           <Tooltip title="Cart">
-            <IconButton component={Link} to="/cart" sx={{ color: '#000' }} aria-label="cart">
+            <IconButton
+              component={Link}
+              to="/cart"
+              sx={{ color: '#000', position: 'relative' }}
+              aria-label="cart"
+            >
               <ShoppingCart />
+              {cartCount > 0 && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 4,
+                    right: 4,
+                    backgroundColor: '#1D6D73',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: 18,
+                    height: 18,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {cartCount}
+                </Box>
+              )}
             </IconButton>
           </Tooltip>
 

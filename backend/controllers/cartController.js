@@ -68,7 +68,7 @@ export const clearCart = async (req, res) => {
   if (!cart) return res.json({ items: [], total: 0 });
   cart.items = [];
   await cart.save();
-  res.status(204).send();
+  res.json({ items: [], total: 0 });
 };
 
 

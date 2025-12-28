@@ -120,12 +120,12 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password") || !this.password) {
     return next()
   }
-  
+
   // Don't hash if using external auth
   if (this.authProvider !== "email") {
     return next()
   }
-  
+
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
   next()
@@ -145,8 +145,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password)
 }
 
-<<<<<<< Current (Your changes)
-=======
 // Generate OTP
 userSchema.methods.generateOTP = function () {
   const otp = Math.floor(100000 + Math.random() * 900000).toString()
@@ -163,7 +161,7 @@ userSchema.methods.verifyOTP = function (enteredOTP) {
   if (!this.otp || !this.otp.code) return false
   if (this.otp.expiresAt < new Date()) return false
   if (this.otp.verified) return false
-  
+
   if (this.otp.code === enteredOTP) {
     this.otp.verified = true
     this.phoneVerified = true
@@ -175,16 +173,15 @@ userSchema.methods.verifyOTP = function (enteredOTP) {
 // Generate password reset token
 userSchema.methods.getResetPasswordToken = function () {
   const resetToken = require("crypto").randomBytes(20).toString("hex")
-  
+
   this.resetPasswordToken = require("crypto")
     .createHash("sha256")
     .update(resetToken)
     .digest("hex")
-  
+
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000 // 10 minutes
-  
+
   return resetToken
 }
 
->>>>>>> Incoming (Background Agent changes)
 module.exports = mongoose.model("User", userSchema)

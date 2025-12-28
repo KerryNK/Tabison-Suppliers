@@ -28,6 +28,7 @@ import wishlistRoutes from './routes/wishlist.js'
 import quoteRoutes from './routes/quotes.js'
 import otpRoutes from './routes/otp.js'
 import deliveryRoutes from './routes/delivery.js'
+import dashboardRoutes from './routes/dashboardRoutes.js'
 
 // Load configuration
 import config from './config/config.js';
@@ -197,6 +198,7 @@ app.use('/api/wishlist', wishlistRoutes)
 app.use('/api/quotes', quoteRoutes)
 app.use('/api/otp', otpRoutes)
 app.use('/api/delivery', deliveryRoutes)
+app.use('/api/dashboard', dashboardRoutes)
 
 // --- Serve Frontend in Production ---
 if (process.env.NODE_ENV === "production") {

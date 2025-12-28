@@ -11,6 +11,8 @@ const Orders = lazy(() => import('../pages/admin/Orders'));
 const Users = lazy(() => import('../pages/admin/Users'));
 const Settings = lazy(() => import('../pages/admin/Settings'));
 const Analytics = lazy(() => import('../pages/admin/Analytics'));
+const QuotesPage = lazy(() => import('../pages/admin/QuotesPage'));
+const MessagesPage = lazy(() => import('../pages/admin/MessagesPage'));
 
 const AdminRoutes = () => {
   return (
@@ -23,6 +25,8 @@ const AdminRoutes = () => {
             <Route path="products/*" element={<Products />} />
             <Route path="orders/*" element={<Orders />} />
             <Route path="users/*" element={<Users />} />
+            <Route path="quotes" element={<QuotesPage />} />
+            <Route path="messages" element={<MessagesPage />} />
             <Route path="settings" element={<Settings />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="*" element={<Navigate to="dashboard" replace />} />

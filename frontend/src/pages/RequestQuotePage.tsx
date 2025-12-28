@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { ArrowRight, Package, Mail, Phone, Building, User } from "lucide-react";
+import { useApi } from "../api/client";
 
 const RequestQuotePage: React.FC = () => {
+  const api = useApi();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,6 +16,7 @@ const RequestQuotePage: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -28,13 +31,53 @@ const RequestQuotePage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await api.post("/quotes", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        productType: formData.productType,
+        quantity: parseInt(formData.quantity),
+        message: formData.message,
+      });
       setIsSubmitted(true);
-    }, 2000);
+    } catch (err: any) {
+      setError(err.message || "Failed to submit quote request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-brand-gray-bg flex items-center justify-center px-4">
+        <div className="max-w-md mx-auto text-center bg-brand-white rounded-2xl p-8 shadow-sm">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Package className="w-8 h-8 text-red-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-brand-black mb-4">
+            Submission Failed
+          </h2>
+          <p className="text-gray-600 mb-6">
+            {error}
+          </p>
+          <button
+            onClick={() => {
+              setError(null);
+              setIsSubmitting(false);
+            }}
+            className="bg-brand-teal text-brand-white px-6 py-3 rounded-lg font-medium hover:bg-brand-teal-dark transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (

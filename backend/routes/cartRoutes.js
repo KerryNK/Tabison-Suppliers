@@ -7,13 +7,10 @@ const router = express.Router();
 router.use(protect);
 router.get('/', getCart);
 router.post('/add', addItem);
-router.post('/remove', async (req, res) => {
-  const { productId } = req.body;
-  req.params.productId = productId;
-  return removeItem(req, res);
-});
-router.patch('/:productId', updateQuantity);
+router.delete('/items/:productId', removeItem);
+router.put('/items/:productId', updateQuantity);
 router.delete('/clear', clearCart);
+router.delete('/', clearCart);
 
 export default router;
 
