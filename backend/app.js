@@ -243,19 +243,4 @@ process.on("SIGINT", () => {
   process.exit(0)
 })
 
-// --- Serve Frontend in Production ---
-if (process.env.NODE_ENV === "production") {
-  // Define the path to the frontend build directory
-  const frontendBuildPath = path.resolve(__dirname, "../frontend/build")
-
-  // Serve static files from the React app build directory
-  app.use(express.static(frontendBuildPath))
-
-  // For any other GET request that doesn't match an API route,
-  // send back the React app's index.html file.
-  app.get("*", (req, res) => res.sendFile(path.resolve(frontendBuildPath, "index.html")))
-} else {
-  // ... keep the else part if you want
-}
-
 export default app

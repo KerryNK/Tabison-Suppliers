@@ -60,9 +60,6 @@ const App: React.FC = () => {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/products/:id" element={<ProductDetailPage />} />
-                    <Route path="/cart" element={<CartPage />} />
-                    <Route path="/checkout" element={<CheckoutPage />} />
-                    <Route path="/favorites" element={<FavoritesPage />} />
                     <Route path="/suppliers" element={<SuppliersPage />} />
                     <Route path="/request-quote" element={<RequestQuotePage />} />
                     <Route path="/login" element={<AuthPage mode="login" />} />
@@ -72,6 +69,7 @@ const App: React.FC = () => {
                     {/* Protected Routes */}
                     <Route element={<AuthGuard />}>
                       <Route path="/cart" element={<CartPage />} />
+                      <Route path="/checkout" element={<CheckoutPage />} />
                       <Route path="/payment" element={<PaymentPage />} />
                       <Route path="/orders" element={<OrdersPage />} />
                       <Route path="/orders/:id" element={<OrderConfirmationPage />} />

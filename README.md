@@ -2,14 +2,14 @@
 
 A comprehensive supplier management system for military, safety, and official footwear products.
 
-## 🏢 Company Overview
+## Company Overview
 
 Tabison Suppliers specializes in manufacturing and supplying high-quality boots for:
  - Military applications
  - Safety and industrial use
  - Official and formal wear
 
-## 📦 Product Catalog
+## Product Catalog
 
 ### Military Boots (Long) - 22cm Height, 8 Inches
 
@@ -74,7 +74,7 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 - **Wholesale Price**: KSh 2,200
 - **Retail Price**: KSh 2,400
 
-## 🚀 Technology Stack
+## Technology Stack
 
 - **Frontend**: React 18 + TypeScript + Vite + MUI + Tailwind CSS
 - **Backend**: Node.js + Express.js
@@ -85,7 +85,7 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 - **Emails & PDFs**: Nodemailer + PDFKit
 - **Deployment**: Vercel (Frontend) + Render (Backend)
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -143,7 +143,7 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
    npm run dev
    \`\`\`
 
-## 🚀 Deployment
+## Deployment
 
 ### Backend (Render)
 
@@ -157,21 +157,21 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 2. Set build command: `cd frontend && npm run build`
 3. Set output directory: `frontend/dist`
 
-## 📊 Features
+## Features
 
-- ✅ Comprehensive product management
-- ✅ Supplier information system
-- ✅ Order tracking and management
-- ✅ Inventory management
-- ✅ Price management (wholesale/retail)
-- ✅ Product categorization
-- ✅ User authentication & authorization
-- ✅ Shopping cart functionality
-- ✅ Responsive design
-- ✅ Search and filtering
-- ✅ Admin dashboard
+- Comprehensive product management
+- Supplier information system
+- Order tracking and management
+- Inventory management
+- Price management (wholesale/retail)
+- Product categorization
+- User authentication & authorization
+- Shopping cart functionality
+- Responsive design
+- Search and filtering
+- Admin dashboard
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -179,7 +179,7 @@ Tabison Suppliers specializes in manufacturing and supplying high-quality boots 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -191,6 +191,3 @@ Tabison Suppliers
 - Email: info@tabisonsuppliers.com
 - Phone: +254 XXX XXX XXX
 
----
-
-Made with ❤️ by the Tabison Suppliers Team
